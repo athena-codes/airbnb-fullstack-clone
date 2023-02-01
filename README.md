@@ -296,7 +296,7 @@ Returns all the spots owned (created) by the current user.
 * Require Authentication: true
 * Request
   * Method: GET
-  * URL: /spots/:userId
+  * URL: /spots/
   * Body: none
 
 * Successful Response
@@ -1301,7 +1301,7 @@ Delete an existing booking.
   Spot must belong to the current user
 * Request
   * Method: DELETE
-  * URL: /spots/:spotId/booking
+  * URL: /spots/:spotId/bookings/:bookingId
   * Body: none
 
 * Successful Response
