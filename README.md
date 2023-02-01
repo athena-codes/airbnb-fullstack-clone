@@ -842,7 +842,7 @@ Create and return a new image for a review specified by id.
 * Require proper authorization: Review must belong to the current user
 * Request
   * Method: POST
-  * URL: /spots/:spotId/reviews/:reviewId
+  * URL: /reviews/:reviewId
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -901,7 +901,7 @@ Update and return an existing review.
 * Require proper authorization: Review must belong to the current user
 * Request
   * Method: PUT
-  * URL: spots/:spotId/reviews/:reviewId
+  * URL: /reviews/:reviewId
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -969,7 +969,7 @@ Delete an existing review.
 * Require proper authorization: Review must belong to the current user
 * Request
   * Method: DELETE
-  * URL: /spots/:spotId/reviews/:reviewId
+  * URL: /reviews/:reviewId
   * Body: none
 
 * Successful Response
@@ -1203,7 +1203,7 @@ Update and return an existing booking.
 * Require proper authorization: Booking must belong to the current user
 * Request
   * Method: PUT
-  * URL: /spots/:spotId/bookings
+  * URL: /spots/:spotId/bookings/:bookingId
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -1353,7 +1353,7 @@ Delete an existing image for a Spot.
 * Require proper authorization: Spot must belong to the current user
 * Request
   * Method: DELETE
-  * URL: /spots/:spotId/?image=<imagepath>
+  * URL: /spots/:spotId/
   * Body: none
 
 * Successful Response
@@ -1390,7 +1390,7 @@ Delete an existing image for a Review.
 * Require proper authorization: Review must belong to the current user
 * Request
   * Method: DELETE
-  * URL: /spots/:spotId/reviews/:reviewId/?img=<imagepath>
+  * URL: /reviews/:reviewId/
   * Body: none
 
 * Successful Response
@@ -1426,7 +1426,7 @@ Return spots filtered by query parameters.
 * Require Authentication: false
 * Request
   * Method: GET
-  * URL: /spots/?page=1&size=10&minLat=1&minLng=2&minPrice=100.99&maxPrice=299.99
+  * URL: /spots
   * Query Parameters
     * page: integer, minimum: 0, maximum: 10, default: 0
     * size: integer, minimum: 0, maximum: 20, default: 20
