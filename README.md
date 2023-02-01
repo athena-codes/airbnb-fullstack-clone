@@ -296,7 +296,7 @@ Returns all the spots owned (created) by the current user.
 * Require Authentication: true
 * Request
   * Method: GET
-  * URL: /spots/
+  * URL: /spots
   * Body: none
 
 * Successful Response
@@ -477,7 +477,7 @@ Create and return a new image for a spot specified by id.
 * Require proper authorization: Spot must belong to the current user
 * Request
   * Method: POST
-  * URL: /spots/:spotId/?spot_owner=current_user
+  * URL: /spots/:spotId
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -649,7 +649,7 @@ Returns all the reviews written by the current user.
 * Require Authentication: true
 * Request
   * Method: GET
-  * URL: spots/spot:id/reviews/:userId
+  * URL: /reviews/:userId
   * Body: none
 
 * Successful Response
@@ -1353,7 +1353,7 @@ Delete an existing image for a Spot.
 * Require proper authorization: Spot must belong to the current user
 * Request
   * Method: DELETE
-  * URL: /spots/:spotId/
+  * URL: /spots/:spotId
   * Body: none
 
 * Successful Response
