@@ -1,7 +1,8 @@
 # AirBnB Clone
 
 ## Database Schema Design
-<img width="997" alt="Screen Shot 2023-02-02 at 11 01 54 AM" src="https://user-images.githubusercontent.com/107880032/216376467-9f231675-cc8f-4def-be55-d6e03104a2ce.png">
+
+<img width="808" alt="Screen Shot 2023-02-02 at 4 31 45 PM" src="https://user-images.githubusercontent.com/107880032/216454315-f09e48a1-78ee-4a91-9cbf-305574fc643c.png">
 
 <!-- [airbnb-dbdiagram]: ../assets/airbnb_dbdiagram.png -->
 
