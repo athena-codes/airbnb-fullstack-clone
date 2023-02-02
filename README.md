@@ -3,9 +3,10 @@
 ## Database Schema Design
 
 ![airbnb-dbdiagram]
+![Screen Shot 2023-02-01 at 8 36 38 PM](https://user-images.githubusercontent.com/107880032/216210780-7503818e-a035-4de8-a80d-e3ea4c166515.png)
 
 [airbnb-dbdiagram]: ../assets/airbnb_dbdiagram.png
-airbnb_dbdiagram.png
+
 
 ## API Documentation
 
