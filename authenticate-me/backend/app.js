@@ -6,6 +6,7 @@ const cors = require('cors')
 const csurf = require('csurf')
 const helmet = require('helmet')
 const cookieParser = require('cookie-parser')
+const routes = require('./routes')
 
 // variable will be true if the environment is in production or not
 // by checking the environment key in the configuration file -->
@@ -15,6 +16,8 @@ const isProduction = environment === 'production'
 // Initialize application
 const app = express()
 
+// Import routes:
+
 // Connect morgan middleware for logging information about requests and responses
 app.use(morgan('dev'))
 
@@ -22,7 +25,6 @@ app.use(morgan('dev'))
 // for parsing JSON request bodies with Content-Type of "application/json" -->
 app.use(cookieParser())
 app.use(express.json())
-
 
 // Security Middleware
 if (!isProduction) {
@@ -54,3 +56,7 @@ app.use(
 // The XSRF-TOKEN cookie value needs to be sent in the header of any request with all HTTP
 // verbs besides GET. This header will be used to validate the _csrf cookie to confirm that
 // the request comes from your site and not an unauthorized site.
+
+app.use(routes) // Connect all the routes
+
+module.exports = app
