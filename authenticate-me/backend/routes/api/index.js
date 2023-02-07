@@ -1,4 +1,3 @@
-// backend/routes/api/index.js
 const router = require('express').Router()
 
 // Test Route:
