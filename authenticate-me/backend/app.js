@@ -16,8 +16,6 @@ const isProduction = environment === 'production'
 // Initialize application
 const app = express()
 
-// Import routes:
-
 // Connect morgan middleware for logging information about requests and responses
 app.use(morgan('dev'))
 

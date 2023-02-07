@@ -1,4 +1,3 @@
-// backend/config/database.js
 const config = require('./index')
 
 module.exports = {
@@ -24,4 +23,3 @@ module.exports = {
     }
   }
 }
-
