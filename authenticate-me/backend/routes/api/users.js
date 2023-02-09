@@ -30,13 +30,7 @@ const validateSignup = [
 // Sign up
 router.post('/', validateSignup, async (req, res) => {
   const { email, password, username, firstName, lastName } = req.body
-  const user = await User.signup({
-    email,
-    username,
-    password,
-    firstName,
-    lastName
-  })
+  const user = await User.signup({ email, username, password, firstName, lastName })
 
   await setTokenCookie(res, user)
 
@@ -45,4 +39,28 @@ router.post('/', validateSignup, async (req, res) => {
   })
 })
 
+
+
+
 module.exports = router
+
+
+// Use http://localhost:8000/api/csrf/restore to make signup requests
+
+// SIGN UP FETCH REQUEST
+// fetch('/api/users', {
+//   method: 'POST',
+//   headers: {
+//     'Content-Type': 'application/json',
+//     'XSRF-TOKEN': `<value of XSRF-TOKEN cookie>`
+//   },
+//   body: JSON.stringify({
+//     email: '<user>@email.com',
+//     username: 'username',
+//     firstName: 'firstName',
+//     lastName: 'lastName',
+//     password: 'password'
+//   })
+// })
+//   .then(res => res.json())
+//   .then(data => console.log(data))
