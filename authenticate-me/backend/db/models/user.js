@@ -39,17 +39,18 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     // signup
-    static async signup ({ username, email, password }) {
+    static async signup ({ username, email, password, firstName, lastName }) {
       const hashedPassword = bcrypt.hashSync(password)
       const user = await User.create({
         username,
         email,
+        firstName,
+        lastName,
         hashedPassword
       })
       return await User.scope('currentUser').findByPk(user.id)
     }
 
-    
     static associate (models) {
       // define association here
     }
@@ -68,6 +69,12 @@ module.exports = (sequelize, DataTypes) => {
             }
           }
         }
+      },
+      firstName: {
+        type: DataTypes.STRING,
+      },
+      lastName: {
+        type: DataTypes.STRING,
       },
       email: {
         type: DataTypes.STRING,
