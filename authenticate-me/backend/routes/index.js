@@ -7,10 +7,11 @@ router.use('/api', apiRouter)
 
 
 // Test Route:
-// router.get('/hello/world', function (req, res) {
-//   res.cookie('XSRF-TOKEN', req.csrfToken())
-//   res.send('Hello World!')
-// })
+router.get('/hello/world', function (req, res) {
+  res.cookie('XSRF-TOKEN', req.csrfToken())
+  res.send('Hello World!')
+})
+
 
 router.get('/api/csrf/restore', (req, res) => {
   const csrfToken = req.csrfToken()
