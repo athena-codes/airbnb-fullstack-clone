@@ -2,6 +2,8 @@ const config = require('./index')
 
 module.exports = {
   development: {
+    // load the database configuration environment variables from the
+    // .env file into the config/index.js (key is dbFile)
     storage: config.dbFile,
     dialect: 'sqlite',
     seederStorage: 'sequelize',
@@ -18,6 +20,7 @@ module.exports = {
         rejectUnauthorized: false
       }
     },
+    // define the global schema for the project.
     define: {
       schema: process.env.SCHEMA
     }

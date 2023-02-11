@@ -7,10 +7,9 @@ const csurf = require('csurf')
 const helmet = require('helmet')
 const cookieParser = require('cookie-parser')
 const routes = require('./routes')
-const { ValidationError } = require('sequelize')
 
-// variable will be true if the environment is in production or not
-// by checking the environment key in the configuration file -->
+// Variable will be true if the environment is in production
+// by checking the environment key in the config file -->
 const { environment } = require('./config')
 const isProduction = environment === 'production'
 
@@ -69,6 +68,8 @@ app.use((_req, _res, next) => {
   err.status = 404
   next(err)
 })
+
+const { ValidationError } = require('sequelize')
 
 // Process sequelize errors
 app.use((err, _req, _res, next) => {
