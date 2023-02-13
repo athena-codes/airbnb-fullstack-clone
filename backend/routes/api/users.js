@@ -29,9 +29,13 @@ const validateSignup = [
 
 // Sign up
 router.post('/', validateSignup, async (req, res) => {
+  // The API signup route will be hit with a request body
+  // holding a username, email, and password
   const { email, password, username, firstName, lastName } = req.body
   const user = await User.signup({ email, username, password, firstName, lastName })
 
+  // If the creation is successful, the API signup route should send back
+  // a JWT in an HTTP-only cookie and a response body
   await setTokenCookie(res, user)
 
   return res.json({

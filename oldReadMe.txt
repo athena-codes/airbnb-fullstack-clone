@@ -1491,3 +1491,4 @@ Return spots filtered by query parameters.
       ]
     }
     ```
+

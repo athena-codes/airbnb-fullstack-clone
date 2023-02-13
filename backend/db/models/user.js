@@ -1,6 +1,6 @@
+'use strict'
 const bcrypt = require('bcryptjs')
 
-;('use strict')
 const { Model, Validator } = require('sequelize')
 
 module.exports = (sequelize, DataTypes) => {
@@ -102,7 +102,7 @@ module.exports = (sequelize, DataTypes) => {
         }
       },
       scopes: {
-        // scope for currentUser that will exclude only the hashedPassword field
+        // scope for currentUser that will exclude the hashedPassword field
         currentUser: {
           attributes: { exclude: ['hashedPassword'] }
         },
