@@ -1,13 +1,10 @@
-
-// #!/usr/bin/env node
-// backend/bin/www
-
 // Import environment variables
 require('dotenv').config();
 
+// from index.js -->
 const { port } = require('../config');
 
-const app = require('../app');
+const app = require('../app.js');
 const db = require('../db/models');
 
 // Check the database connection before starting the app

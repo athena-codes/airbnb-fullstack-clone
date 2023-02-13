@@ -9,6 +9,7 @@ if (process.env.NODE_ENV === 'production') {
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     options.tableName = 'Users'
+    // Test data for verification
     return queryInterface.bulkInsert(
       options,
       [

@@ -21,8 +21,11 @@ const validateLogin = [
 
 // Log in
 router.post('/', validateLogin, async (req, res, next) => {
+  // API login route will be hit with a request body holding a valid
+  // credential (either username or email) and password combo
   const { credential, password } = req.body
 
+  // login handler will look for a User with the input credential
   const user = await User.login({ credential, password })
 
   if (!user) {
@@ -33,20 +36,24 @@ router.post('/', validateLogin, async (req, res, next) => {
     return next(err)
   }
 
+  // the login route should send back a JWT in an
+  // HTTP-only cookie and a response body
   await setTokenCookie(res, user)
-  // can also do this instead of await
-  //     }).then(() => {
-  //   setTokenCookie(res, user)
-  // })
 
   return res.json({
     user: user
   })
+  // can also do this instead of await
+  //     }).then(() => {
+  //   setTokenCookie(res, user)
+  // })
 })
 
 
 // Log out
 router.delete('/', (_req, res) => {
+  // The API logout handler will remove the JWT cookie set by the
+  // login or signup API routes and return a JSON success message
   res.clearCookie('token')
   return res.json({ message: 'success' })
 })
