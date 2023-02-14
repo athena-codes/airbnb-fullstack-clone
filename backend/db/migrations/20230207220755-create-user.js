@@ -1,5 +1,4 @@
 'use strict'
-
 // *** include this in every migration 1/2:
 let options = {}
 if (process.env.NODE_ENV === 'production') {
