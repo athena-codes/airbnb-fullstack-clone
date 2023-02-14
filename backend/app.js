@@ -9,28 +9,31 @@ const cookieParser = require('cookie-parser')
 const routes = require('./routes')
 
 // Variable will be true if the environment is in production
-// by checking the environment key in the config file -->
+// by checking the environment key in the config file
 const { environment } = require('./config')
 const isProduction = environment === 'production'
 
 // Initialize application
 const app = express()
 
-// Connect morgan middleware for logging information about requests and responses
+// ********* GLOBAL MIDDLEWARE ********
+// Connect morgan middleware for logging info about requests and responses in terminal
 app.use(morgan('dev'))
 
 // Add cookie-parser middleware for parsing cookies and express.json middleware
-// for parsing JSON request bodies with Content-Type of "application/json" -->
+// For parsing JSON request bodies with Content-Type of "application/json" -->
 app.use(cookieParser())
 app.use(express.json())
+// **************************************
 
-// Security Middleware
+// ********* WEB SECURITY MIDDLEWARE **********
+
+// Enable cors only in development
 if (!isProduction) {
-  // enable cors only in development
   app.use(cors())
 }
 
-// helmet helps set a variety of headers to better secure your app
+// Helmet helps set a variety of headers to better secure your app
 app.use(
   helmet.crossOriginResourcePolicy({
     policy: 'cross-origin'
@@ -38,7 +41,7 @@ app.use(
 )
 
 // Set the _csrf token and create req.csrfToken method
-// cokie is HTTP-only, cannot be read by JS
+// cookie is HTTP-only, cannot be read by JS
 // req.csrfToken will be set to another cookie (XSRF-TOKEN) later on
 app.use(
   csurf({
@@ -55,12 +58,14 @@ app.use(
 // verbs besides GET. This header will be used to validate the _csrf cookie to confirm that
 // the request comes from your site and not an unauthorized site.
 
-app.use(routes) // Connect all the routes\
+// Connect all the routes
+app.use(routes)
+// **************************************
+
 
 // ****** ERROR HANDLING MIDDLEWWARE *******
 
 // Catch unhandled requests and forward to error handler.
-
 app.use((_req, _res, next) => {
   const err = new Error("The requested resource couldn't be found.")
   err.title = 'Resource Not Found'
@@ -92,6 +97,7 @@ app.use((err, _req, res, _next) => {
     stack: isProduction ? null : err.stack
   })
 })
+// **************************************
 
 
 
