@@ -13,7 +13,7 @@ const routes = require('./routes')
 const { environment } = require('./config')
 const isProduction = environment === 'production'
 
-// Initialize application
+// Initialize app
 const app = express()
 
 // ********* GLOBAL MIDDLEWARE ********
