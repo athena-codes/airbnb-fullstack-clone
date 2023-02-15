@@ -42,7 +42,7 @@ CREATING NEW TABLES FOR DATABASE:
   - Create associations
    - ReviewImage belongsTo Review (review_id)✅
 
--- Unseed test data 
-  > npx dotenv db:seed:undo:all
+-- Unseed test data
+  > npx dotenv sequelize db:seed:undo:all
 -- Undo all migrations
- > npx dotenv db:migrate:undo:all
+ > npx dotenv sequelize db:migrate:undo:all
