@@ -16,21 +16,21 @@ CREATING NEW TABLES FOR DATABASE:
 
 --> Confirm all of the appropiate constraints and columns have been added to Users✅
  --> Add associations to USERS:
-  - User hasMany Spot (ownerId)
-  - User hasMany Booking (userId)
+  - User hasMany Spot (ownerId)✅
+  - User hasMany Booking (userId)✅
   - User hasMany Review (userId)
 
  --> Create associations for all TABLES
     SPOT:
-   - Spot belongsTo User (ownerId)
+   - Spot belongsTo User (ownerId)✅
    - Spot hasMany Review (spotId)
-   - Spot hasMany SpotImage (spotId)
-   - Spot hasMany Booking (spotId)
+   - Spot hasMany SpotImage (spotId)✅
+   - Spot hasMany Booking (spotId)✅
    SPOTIMAGE:
-   - SpotImage belongsTo Spot (spotId)
+   - SpotImage belongsTo Spot (spotId)✅
    BOOKING:
-   - Booking belongsTo Spot (spotId)
-   - Booking belongsTo User (userId)
+   - Booking belongsTo Spot (spotId)✅
+   - Booking belongsTo User (userId)✅
 
 
 *** ERROR CREATING REVIEWS/REVIEWIMAGES ****
