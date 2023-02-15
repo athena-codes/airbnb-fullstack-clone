@@ -1,5 +1,5 @@
 'use strict'
-
+// *** include this in every migration 1/2:
 let options = {}
 if (process.env.NODE_ENV === 'production') {
   options.schema = process.env.SCHEMA // define your schema in options object
@@ -49,6 +49,7 @@ module.exports = {
           defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
         }
       },
+      // *** include this in every migration 2/2 :
       options
     )
   },
