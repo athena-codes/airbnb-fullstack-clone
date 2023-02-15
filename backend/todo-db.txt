@@ -34,28 +34,20 @@ CREATING NEW TABLES FOR DATABASE:
 
 
 *** ERROR CREATING REVIEWS/REVIEWIMAGES ****
-<<<<<<< HEAD
--- Create Reviews table ❌
-=======
 -- Create Reviews table ✅
->>>>>>> dev
    > npx sequelize model:generate --name Review --attributes "userId:integer,spotId:integer,stars:integer,review:string"
   - Create associations
-   - Review belongsTo User (userId)
-   - Review belongsTo Spot (spotId)
-   - Review hasMany ReviewImage (reviewId)
- -- MIGRATE!
+   - Review belongsTo User (userId)✅
+   - Review belongsTo Spot (spotId)✅
+   - Review hasMany ReviewImage (reviewId)✅
+ -- MIGRATE!✅
 
 -- Create ReviewImages table
     > npx sequelize model:generate --name ReviewImage --attributes "url:string, review_id:integer"
   - Create associations
    - ReviewImage belongsTo Review (reviewId)
 
-<<<<<<< HEAD
-** COMMANDS ** 
-=======
 ** COMMANDS **
->>>>>>> dev
 -- Unseed test data
   > npx dotenv sequelize db:seed:undo:all
 -- Undo all migrations
