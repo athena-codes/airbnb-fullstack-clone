@@ -1,46 +1,51 @@
 CREATING NEW TABLES FOR DATABASE:
 
--- Add associations to Users table ->
- - User hasMany Spot (owner_id)✅
- - User hasMany Booking (user_id)✅
- - User hasMany Review (user_id)✅
--- Confirm all of the appropiate constraints and columns have been added.✅
-
 -- Create Spots table✅
     > npx sequelize model:generate --name Spot --attributes "ownerId:integer,address:string,city:string,state:string,country:string,lat:integer,lng:integer,name:string,price:integer,previewImage:text,description:text,avgStarRating:integer"
   - Add necessary constraints in model and migration files✅
-  - Create associations ->
-   - Spot belongsTo User (ownerId)✅
-   - Spot hasMany Review (spot_id)✅
-   - Spot hasMany SpotImage (spot_id)✅
-   - Spot hasMany Booking (spot_id)✅
  -- MIGRATE!✅
 
 -- Create SpotImages table✅
       > npx sequelize model:generate --name SpotImage --attributes "url:string, preview:boolean, spotId:integer"
-  - Create associations ->
-   - SpotImage belongsTo Spot (spot_id)✅
  -- MIGRATE!✅
 
 -- Create Bookings table✅
     > npx sequelize model:generate --name Booking --attributes "spotId:integer,userId:integer,startDate:string,endDate:string"
-  - Create associations
-   - Booking belongsTo Spot (spot_id)✅
-   - Booking belongsTo User (user_id)✅
  -- MIGRATE!✅
 
--- Create Reviews table✅
+
+--> Confirm all of the appropiate constraints and columns have been added to Users✅
+ --> Add associations to USERS:
+  - User hasMany Spot (ownerId)
+  - User hasMany Booking (userId)
+  - User hasMany Review (userId)
+
+ --> Create associations for all TABLES
+    SPOT:
+   - Spot belongsTo User (ownerId)
+   - Spot hasMany Review (spotId)
+   - Spot hasMany SpotImage (spotId)
+   - Spot hasMany Booking (spotId)
+   SPOTIMAGE:
+   - SpotImage belongsTo Spot (spotId)
+   BOOKING:
+   - Booking belongsTo Spot (spotId)
+   - Booking belongsTo User (userId)
+
+
+*** ERROR CREATING REVIEWS/REVIEWIMAGES ****
+-- Create Reviews table
    > npx sequelize model:generate --name Review --attributes "userId:integer,spotId:integer,stars:integer,review:string"
   - Create associations
-   - Review belongsTo User (user_id)✅
-   - Review belongsTo Spot (spot_id)✅
-   - Review hasMany ReviewImage (review_id)✅
- -- MIGRATE!✅
+   - Review belongsTo User (userId)
+   - Review belongsTo Spot (spotId)
+   - Review hasMany ReviewImage (reviewId)
+ -- MIGRATE!
 
--- Create ReviewImages table✅
+-- Create ReviewImages table
     > npx sequelize model:generate --name ReviewImage --attributes "url:string, review_id:integer"
   - Create associations
-   - ReviewImage belongsTo Review (review_id)✅
+   - ReviewImage belongsTo Review (reviewId)
 
 -- Unseed test data
   > npx dotenv sequelize db:seed:undo:all
