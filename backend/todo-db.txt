@@ -42,10 +42,26 @@ CREATING NEW TABLES FOR DATABASE:
    - Review hasMany ReviewImage (reviewId)✅
  -- MIGRATE!✅
 
--- Create ReviewImages table
+-- Create ReviewImages table✅
     > npx sequelize model:generate --name ReviewImage --attributes "url:string, review_id:integer"
   - Create associations
-   - ReviewImage belongsTo Review (reviewId)
+   - ReviewImage belongsTo Review (reviewId)✅
+
+
+-- Generate seeder files
+  - Demo User✅
+   - npx sequelize-cli seed:generate --name demo-user
+  - Demo Spot✅
+   - npx sequelize-cli seed:generate --name demo-spot
+  - Demo SpotImage✅
+   - npx sequelize-cli seed:generate --name demo-spotimage
+  - Demo Booking✅
+   - npx sequelize-cli seed:generate --name demo-booking
+  - Demo Review
+   - npx sequelize-cli seed:generate --name demo-review
+  - Demo ReviewImage
+   - npx sequelize-cli seed:generate --name demo-reviewimage
+
 
 ** COMMANDS **
 -- Unseed test data
