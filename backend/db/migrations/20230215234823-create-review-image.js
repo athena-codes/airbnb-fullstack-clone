@@ -20,7 +20,7 @@ module.exports = {
           type: Sequelize.STRING,
           allowNull: false
         },
-        review_id: {
+        reviewId: {
           type: Sequelize.INTEGER,
           allowNull: false,
           references: {

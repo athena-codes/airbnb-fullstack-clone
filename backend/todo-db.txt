@@ -57,9 +57,9 @@ CREATING NEW TABLES FOR DATABASE:
    - npx sequelize-cli seed:generate --name demo-spotimage
   - Demo Booking✅
    - npx sequelize-cli seed:generate --name demo-booking
-  - Demo Review
+  - Demo Review✅
    - npx sequelize-cli seed:generate --name demo-review
-  - Demo ReviewImage
+  - Demo ReviewImage✅
    - npx sequelize-cli seed:generate --name demo-reviewimage
 
 
