@@ -6,7 +6,6 @@ const { User } = require('../../db/models')
 const { check } = require('express-validator')
 const { handleValidationErrors } = require('../../utils/validation')
 
-
 const validateLogin = [
   check('credential')
     .exists({ checkFalsy: true })
@@ -18,6 +17,15 @@ const validateLogin = [
   handleValidationErrors
 ]
 
+// Get the current user
+router.get('/', restoreUser, (req, res) => {
+  const { user } = req
+  if (user) {
+    return res.json({
+      user: user.toSafeObject()
+    })
+  } else return res.json({ user: null })
+})
 
 // Log in
 router.post('/', validateLogin, async (req, res, next) => {
@@ -38,17 +46,18 @@ router.post('/', validateLogin, async (req, res, next) => {
 
   // the login route should send back a JWT in an
   // HTTP-only cookie and a response body
-  await setTokenCookie(res, user)
+  const token = await setTokenCookie(res, user)
+  // user.token = token
 
   return res.json({
-    user: user
+    user: user.toSafeObject(),
+    token: token
   })
   // can also do this instead of await
   //     }).then(() => {
   //   setTokenCookie(res, user)
   // })
 })
-
 
 // Log out
 router.delete('/', (_req, res) => {
@@ -57,18 +66,6 @@ router.delete('/', (_req, res) => {
   res.clearCookie('token')
   return res.json({ message: 'success' })
 })
-
-// Restore session user
-router.get('/', restoreUser, (req, res) => {
-  const { user } = req
-  if (user) {
-    return res.json({
-      user: user.toSafeObject()
-    })
-  } else return res.json({ user: null })
-})
-
-
 
 
 module.exports = router
@@ -86,7 +83,6 @@ module.exports = router
 // })
 //   .then(res => res.json())
 //   .then(data => console.log(data))
-
 
 // LOGOUT FETCH REQUEST
 // fetch('/api/session', {
