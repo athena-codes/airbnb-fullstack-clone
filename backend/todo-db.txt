@@ -11,6 +11,8 @@ CREATING NEW TABLES FOR DATABASE:
 
 -- Create Bookings table✅
     > npx sequelize model:generate --name Booking --attributes "spotId:integer,userId:integer,startDate:string,endDate:string"
+    > npx sequelize model:generate --name Test --attributes "spotId:integer,userId:integer,startDate:string,endDate:string"
+
  -- MIGRATE!✅
 
 
