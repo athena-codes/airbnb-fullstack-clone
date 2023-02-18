@@ -8,8 +8,8 @@ module.exports = (sequelize, DataTypes) => {
     // returns an object with only the User instance information that
     // is safe to save to a JWT -->
     toSafeObject () {
-      const { id, username, email } = this // context will be the User instance
-      return { id, username, email }
+      const { id, username, email, firstName, lastName } = this // context will be the User instance
+      return { id, username, email, firstName, lastName }
     }
 
     // validate password
@@ -77,15 +77,15 @@ module.exports = (sequelize, DataTypes) => {
       firstName: {
         type: DataTypes.STRING,
         allowNull: false,
-         validate: {
-          len: [1, 50],
+        validate: {
+          len: [1, 50]
         }
       },
       lastName: {
         type: DataTypes.STRING,
         allowNull: false,
-         validate: {
-          len: [1, 50],
+        validate: {
+          len: [1, 50]
         }
       },
       email: {
@@ -116,7 +116,7 @@ module.exports = (sequelize, DataTypes) => {
       scopes: {
         // scope for currentUser that will exclude the hashedPassword field
         currentUser: {
-          attributes: { exclude: ['hashedPassword'] }
+          attributes: { exclude: ['hashedPassword', 'createdAt', 'updatedAt'] }
         },
         // scope for including all the fields
         // should only be used when checking the login credentials of a user

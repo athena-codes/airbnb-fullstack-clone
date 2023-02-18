@@ -7,49 +7,81 @@ const { check } = require('express-validator')
 const { handleValidationErrors } = require('../../utils/validation')
 
 const validateSignup = [
-  // require email
-  // - email exists and is a valid email,
   check('email')
-  .exists({ checkFalsy: true })
-  .isEmail()
-  .withMessage('Please provide a valid email.'),
-  // require username
-  // - username is a minimum length of 4 and is not an email
+    .exists({ checkFalsy: true })
+    .isEmail()
+    .withMessage('Invalid email'),
   check('username')
-  .exists({ checkFalsy: true })
-  .isLength({ min: 4 })
-  .withMessage('Please provide a username with at least 4 characters.'),
+    .exists({ checkFalsy: true })
+    .isLength({ min: 4 })
+    .withMessage('Please provide a username with at least 4 characters.'),
   check('username').not().isEmail().withMessage('Username cannot be an email.'),
-  // require password
-  // - password is not empty and has a min length of 6.
   check('password')
     .exists({ checkFalsy: true })
     .isLength({ min: 6 })
     .withMessage('Password must be 6 characters or more.'),
+  check('firstName')
+    .exists({ checkFalsy: true })
+    .withMessage('First name is required'),
+  check('lastName')
+    .exists({ checkFalsy: true })
+    .withMessage('Last name is required'),
+
   handleValidationErrors
 ]
 
 // Sign up
-router.post('/', validateSignup, async (req, res) => {
-  // The API signup route will be hit with a request body
-  // holding a username, email, and password
+router.post('/', validateSignup, async (req, res, next) => {
   const { email, password, username, firstName, lastName } = req.body
-  const user = await User.signup({ email, username, password, firstName, lastName })
 
-  // If the creation is successful, the API signup route should send back
-  // a JWT in an HTTP-only cookie and a response body
-  await setTokenCookie(res, user)
+  const existingEmail = await User.findOne({
+    where: { email }
+  })
+
+  const existingUsername = await User.findOne({
+    where: { username }
+  })
+
+  if (existingEmail) {
+    res.status(403)
+    return res.json({
+      message: 'User already exists',
+      statusCode: 403,
+      errors: ['User with that email already exists']
+    })
+  }
+
+  if (existingUsername) {
+    res.status(403)
+    return res.json({
+      message: 'User already exists',
+      statusCode: 403,
+      errors: ['User with that username already exists']
+    })
+  }
+  const user = await User.signup({
+    firstName,
+    lastName,
+    email,
+    username,
+    password
+  })
+
+  let token = await setTokenCookie(res, user)
 
   return res.json({
-    user: user
+    user: {
+      id: user.id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      username: user.username,
+      token: token
+    }
   })
 })
 
-
-
-
 module.exports = router
-
 
 // Use http://localhost:8000/api/csrf/restore to make signup requests
 
@@ -60,13 +92,13 @@ module.exports = router
 //     'Content-Type': 'application/json',
 //     'XSRF-TOKEN': `<value of XSRF-TOKEN cookie>`
 //   },
-  // body: JSON.stringify({
-  //   email: '<user>@email.com',
-  //   username: 'username',
-  //   firstName: 'firstName',
-  //   lastName: 'lastName',
-  //   password: 'password'
-  // })
+// body: JSON.stringify({
+//   email: '<user>@email.com',
+//   username: 'username',
+//   firstName: 'firstName',
+//   lastName: 'lastName',
+//   password: 'password'
+// })
 // })
 //   .then(res => res.json())
 //   .then(data => console.log(data))
