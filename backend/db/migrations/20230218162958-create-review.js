@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 /** @type {import('sequelize-cli').Migration} */
 
 let options = {}
@@ -9,7 +9,7 @@ if (process.env.NODE_ENV === 'production') {
 module.exports = {
   async up (queryInterface, Sequelize) {
     await queryInterface.createTable(
-      'SpotImages',
+      'Reviews',
       {
         id: {
           allowNull: false,
@@ -17,21 +17,28 @@ module.exports = {
           primaryKey: true,
           type: Sequelize.INTEGER
         },
-        url: {
-          type: Sequelize.STRING,
-          allowNull: false
-        },
-        preview: {
-          type: Sequelize.BOOLEAN,
-          allowNull: false
+        userId: {
+          type: Sequelize.INTEGER,
+          references: {
+            model: 'Users'
+          },
+          allowNull: false,
+          onDelete: 'CASCADE'
         },
         spotId: {
           type: Sequelize.INTEGER,
-          allowNull: false,
           references: {
             model: 'Spots'
           },
+          allowNull: false,
           onDelete: 'CASCADE'
+        },
+        stars: {
+          type: Sequelize.INTEGER,
+          allowNull: false
+        },
+        review: {
+          type: Sequelize.STRING
         },
         createdAt: {
           allowNull: false,
@@ -48,7 +55,7 @@ module.exports = {
     )
   },
   async down (queryInterface, Sequelize) {
-    options.tableName = 'SpotImages'
+    options.tableName = 'Reviews'
     await queryInterface.dropTable(options)
   }
 }

@@ -1,5 +1,11 @@
 CREATING NEW TABLES FOR DATABASE:
+<<<<<<< HEAD
     > npx sequelize model:generate --name User --attributes "spotId:integer,userId:integer,startDate:string,endDate:string"
+=======
+-- User
+npx sequelize model:generate --name User --attributes "ownerId:integer,address:string,city:string,state:string,country:string,lat:integer,lng:integer,name:string,price:integer,previewImage:text,description:text,avgStarRating:integer"
+  - Add necessary constraints in model and migration files✅
+>>>>>>> dev
 
 -- Create Spots table✅
     > npx sequelize model:generate --name Spot --attributes "ownerId:integer,address:string,city:string,state:string,country:string,lat:integer,lng:integer,name:string,price:integer,previewImage:text,description:text,avgStarRating:integer"
@@ -45,7 +51,7 @@ CREATING NEW TABLES FOR DATABASE:
  -- MIGRATE!✅
 
 -- Create ReviewImages table✅
-    > npx sequelize model:generate --name ReviewImage --attributes "url:string, review_id:integer"
+    > npx sequelize model:generate --name ReviewImage --attributes "url:string, reviewId:integer"
   - Create associations
    - ReviewImage belongsTo Review (reviewId)✅
 
