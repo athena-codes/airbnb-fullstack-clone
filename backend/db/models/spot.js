@@ -57,9 +57,6 @@ module.exports = (sequelize, DataTypes) => {
       description: {
         type: DataTypes.TEXT,
         allowNull: false
-      },
-      avgStarRating: {
-        type: DataTypes.INTEGER
       }
     },
     {
