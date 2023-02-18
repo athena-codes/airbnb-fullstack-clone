@@ -8,32 +8,29 @@ if (process.env.NODE_ENV === 'production') {
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    options.tableName = 'Reviews'
+    options.tableName = 'SpotImages'
 
     return queryInterface.bulkInsert(options, [
       {
-        userId: 1,
-        spotId: 1,
-        review: 'Nice stay! :D',
-        stars: 5
+        url: 'https://images.pexels.com/photos/1428348/pexels-photo-1428348.jpeg?auto=compress&cs=tinysrgb&w=600',
+        preview: true,
+        spotId: 1
       },
-        {
-        userId: 2,
-        spotId: 2,
-        review: 'Ok stay :$',
-        stars: 3
+      {
+        url: 'https://images.pexels.com/photos/1428348/pexels-photo-1428348.jpeg?auto=compress&cs=tinysrgb&w=600',
+        preview: true,
+        spotId: 2
       },
-     {
-        userId: 3,
-        spotId: 3,
-        review: 'Awful stay >:[',
-        stars: 1
+      {
+        url: 'https://images.pexels.com/photos/1428348/pexels-photo-1428348.jpeg?auto=compress&cs=tinysrgb&w=600',
+        preview: false,
+        spotId: 3
       }
     ])
   },
 
   down: async (queryInterface, Sequelize) => {
-    options.tableName = 'Reviews'
+    options.tableName = 'SpotImages'
     const Op = Sequelize.Op
     return queryInterface.bulkDelete(
       options,

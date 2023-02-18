@@ -57,6 +57,22 @@ module.exports = {
         description:
           'This is a luxury condo with a rooftop deck and a hot tub.',
         avgStarRating: 4
+      },
+       {
+        ownerId: 1,
+        address: '100 Some St',
+        city: 'Mycity',
+        state: 'CT',
+        country: 'USA',
+        lat: 37.7749,
+        lng: -122.4194,
+        name: 'Luxury Condo',
+        price: 399.99,
+        previewImage:
+          'https://images.pexels.com/photos/584399/living-room-couch-interior-room-584399.jpeg?auto=compress&cs=tinysrgb&w=600',
+        description:
+          'Ajhadslhdhasdjhksafdhufhwoh',
+        avgStarRating: 3
       }
     ])
   },
