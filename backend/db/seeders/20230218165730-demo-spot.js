@@ -24,7 +24,6 @@ module.exports = {
         previewImage:
           'https://images.pexels.com/photos/1428348/pexels-photo-1428348.jpeg?auto=compress&cs=tinysrgb&w=600',
         description: 'This is a cozy cottage with a lovely garden.',
-        avgStarRating: 4
       },
       {
         ownerId: 2,
@@ -40,7 +39,6 @@ module.exports = {
           'https://images.pexels.com/photos/4031013/pexels-photo-4031013.jpeg?auto=compress&cs=tinysrgb&w=600',
         description:
           'This is a spacious villa with a pool and a view of the ocean.',
-        avgStarRating: 5
       },
       {
         ownerId: 3,
@@ -56,7 +54,6 @@ module.exports = {
           'https://images.pexels.com/photos/584399/living-room-couch-interior-room-584399.jpeg?auto=compress&cs=tinysrgb&w=600',
         description:
           'This is a luxury condo with a rooftop deck and a hot tub.',
-        avgStarRating: 4
       },
        {
         ownerId: 1,
@@ -72,7 +69,7 @@ module.exports = {
           'https://images.pexels.com/photos/584399/living-room-couch-interior-room-584399.jpeg?auto=compress&cs=tinysrgb&w=600',
         description:
           'Ajhadslhdhasdjhksafdhufhwoh',
-        avgStarRating: 3
+
       }
     ])
   },
