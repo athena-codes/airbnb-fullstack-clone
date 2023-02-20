@@ -40,9 +40,7 @@ const restoreUser = (req, res, next) => {
 
     try {
       const { id } = jwtPayload.data
-      console.log('*** THIS IS THE ID -----> ' , id)
       req.user = await User.scope('currentUser').findByPk(id)
-      console.log(req.user)
     } catch (e) {
       res.clearCookie('token')
       return next()
@@ -58,7 +56,6 @@ const restoreUser = (req, res, next) => {
 // If there is no current user, return an error
 // Protects route from user who is not logged in
 const requireAuth = function (req, _res, next) {
-  console.log('*** THIS IS REQ.USER ---> ', req.user)
   if (req.user) return next()
 
 
