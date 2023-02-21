@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken')
 const { jwtConfig } = require('../config')
-const { User } = require('../db/models')
+const { User, Spot } = require('../db/models')
 
 const { secret, expiresIn } = jwtConfig
 
@@ -52,19 +52,46 @@ const restoreUser = (req, res, next) => {
   })
 }
 
-// ******* REQUIRE AUTH MIDDLEWARE ********
+// ******* Authorization Middleware Function ********
 // If there is no current user, return an error
 // Protects route from user who is not logged in
-const requireAuth = function (req, _res, next) {
-  if (req.user) return next()
+const requireAuth = function (req, res, next) {
+  if (req.user) {
+    return next()
+  }
 
+  const err = {
+    message: 'Authentication required',
+    statusCode: 401
+  }
 
-  const err = new Error('Authentication required')
-  err.title = 'Authentication required'
-  err.errors = ['Authentication required']
-  err.status = 401
-  return next(err)
+  res.status(401).json(err)
 }
 
 
-module.exports = { setTokenCookie, restoreUser, requireAuth }
+// ******* Authentication Middleware Function ********
+const authMiddleware = async (req, res, next) => {
+  try {
+    const spot = await Spot.findByPk(req.params.spotId)
+    if (!spot) {
+      return res.status(404).json({
+        message: 'Spot not found',
+        statusCode: 404
+      })
+    }
+    if (spot.ownerId !== req.user.id) {
+      return res.status(403).json({
+        message: 'Forbidden',
+        statusCode: 403
+      })
+    }
+    next()
+  } catch (err) {
+    err.status = err.status || 500
+    next(err)
+  }
+}
+
+
+
+module.exports = { setTokenCookie, restoreUser, requireAuth, authMiddleware }

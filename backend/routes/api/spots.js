@@ -3,7 +3,12 @@ const express = require('express')
 const router = express.Router()
 
 const { Sequelize } = require('sequelize')
-const { setTokenCookie, requireAuth, restoreUser } = require('../../utils/auth')
+const {
+  setTokenCookie,
+  requireAuth,
+  restoreUser,
+  authMiddleware
+} = require('../../utils/auth')
 const { check } = require('express-validator')
 const { handleValidationErrors } = require('../../utils/validation')
 const {
@@ -55,29 +60,6 @@ const validateSpot = [
   handleValidationErrors
 ]
 
-// ******* Authentication Middleware Function ********
-const authMiddleware = async (req, res, next) => {
-  try {
-    const spot = await Spot.findByPk(req.params.spotId)
-    if (!spot) {
-      return res.status(404).json({
-        message: 'Spot not found',
-        statusCode: 404
-      })
-    }
-    if (spot.ownerId !== req.user.id) {
-      return res.status(403).json({
-        message: 'Forbidden',
-        statusCode: 403
-      })
-    }
-    next()
-  } catch (err) {
-    err.status = err.status || 500
-    next(err)
-  }
-}
-
 // ******** Get all spots *********
 // Require auth: false
 router.get('/', async (req, res, next) => {
@@ -121,7 +103,6 @@ router.get('/', async (req, res, next) => {
       }
       allSpots.push(spotList)
     }
-
     return res.json({
       Spots: allSpots
     })
@@ -295,11 +276,10 @@ router.get('/:spotId', async (req, res, next) => {
     const spot = await Spot.findByPk(req.params.spotId)
 
     if (!spot) {
-      const err = new Error()
-      err.title = 'Not found'
-      err.status = 404
-      err.message = [{ message: "Spot couldn't be found", statusCode: 404 }]
-      return next(err)
+      return res.status(404).json({
+        message: 'Spot not found',
+        statusCode: 404
+      })
     }
   }
 })
@@ -329,6 +309,7 @@ router.post(
 )
 
 // ******** Edit a Spot ********
+// Require Authentication: true
 router.put(
   '/:spotId',
   requireAuth,
@@ -366,6 +347,24 @@ router.put(
     } catch (err) {
       next(err)
     }
+  }
+)
+
+// ********* Delete a Spot ***********
+// Require Authentication: true
+router.delete(
+  '/:spotId',
+  requireAuth,
+  authMiddleware,
+  async (req, res, next) => {
+    const spotId = req.params.spotId
+    const spot = await Spot.findByPk(spotId)
+
+    spot.destroy()
+    return res.status(200).json({
+      message: 'Successfully deleted',
+      statusCode: 200
+    })
   }
 )
 
