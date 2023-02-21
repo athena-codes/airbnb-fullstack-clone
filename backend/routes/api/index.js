@@ -1,6 +1,7 @@
 const router = require('express').Router()
 const sessionRouter = require('./session.js')
 const usersRouter = require('./users.js')
+const reviewsRouter = require('./reviews.js')
 const { requireAuth, restoreUser } = require('../../utils/auth.js');
 // Import route handlers for routes
 const spotRouter = require('./spots.js')
@@ -11,6 +12,8 @@ router.use(restoreUser)
 router.use('/session', sessionRouter)
 router.use('/users', usersRouter)
 router.use('/spots', spotRouter)
+router.use('/reviews', reviewsRouter)
+
 
 
 // Test Route:

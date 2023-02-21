@@ -20,6 +20,19 @@ const {
   ReviewImage
 } = require('../../db/models')
 
+// ********** Validate a Review **********
+const validateReviews = [
+  check('stars')
+    .exists({ checkFalsy: true })
+    .isInt({ min: 1, max: 5 })
+    .withMessage('Stars must be an integer from 1 to 5'),
+  check('review')
+    .exists({ checkFalsy: true })
+    .withMessage('Review text is required'),
+  handleValidationErrors
+]
+
+
 // ********** Validate a Spot **********
 const validateSpot = [
   check('address')
@@ -69,7 +82,7 @@ router.get('/', async (req, res, next) => {
     const allSpots = []
     for (let spot of spots) {
       // -- extract properties from the spot object
-      const { id, name, description, address, latitude, longitude, price } =
+      const { ownerId, id, name, description, address, latitude, longitude, price } =
         spot
 
       // -- get avg review star rating and assign column name for it avgRating
@@ -88,10 +101,10 @@ router.get('/', async (req, res, next) => {
         },
         attributes: ['url']
       })
-
-      // create an object with the spot's details and the avgRating & previewImage
+      // -- create an object with the spot's details and the avgRating & previewImage
       const spotList = {
         id,
+        ownerId,
         name,
         description,
         address,
@@ -285,6 +298,8 @@ router.get('/:spotId', async (req, res, next) => {
 })
 
 // ******* Add an image to a spot based on spotId ********
+// --> Created new instance of a SpotImage in the DB
+// Require authentication: false
 router.post(
   '/:spotId/images',
   requireAuth,
@@ -367,5 +382,52 @@ router.delete(
     })
   }
 )
+
+// ****** Create a Review **********
+router.post('/:spotId/reviews',requireAuth, validateReviews, async (req, res, next) => {
+    const spotId = req.params.spotId
+    const spot = await Spot.findByPk(spotId)
+    const { review, stars } = req.body
+
+    if (!spot) {
+      return res.status(404).json({
+        message: 'Spot not found',
+        statusCode: 404
+      })
+    }
+
+    const reviews = await Review.findAll({
+      where: {
+        spotId: spotId
+      }
+    })
+
+    for (let review of reviews) {
+      if (review.userId === req.user.id) {
+        const err = new Error('User already has a review for this spot')
+        err.status = 403
+        return next(err)
+      }
+    }
+
+    const newReview = await Review.create({
+      userId: req.user.id,
+      spotId: spotId,
+      review: review,
+      stars: stars
+    })
+    return res.status(201).json(newReview)
+  }
+)
+
+
+
+
+
+
+
+
+
+
 
 module.exports = router
