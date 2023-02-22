@@ -304,30 +304,33 @@ router.get('/:spotId', async (req, res, next) => {
   }
 })
 
-// 📍 ADD TRY/CATCH BLOCK
 // ******* Add an image to a spot based on spotId ********
 // --> Created new instance of a SpotImage in the DB
-// Require authentication: false
+// Require authentication: true
 router.post(
   '/:spotId/images',
   requireAuth,
   authMiddlewareSpot,
   async (req, res, next) => {
-    const spotId = req.params.spotId
-    const spot = await Spot.findByPk(spotId)
-    const { url, preview } = req.body
+    try {
+      const spotId = req.params.spotId
+      const spot = await Spot.findByPk(spotId)
+      const { url, preview } = req.body
 
-    const newSpotImage = await SpotImage.create({
-      spotId: spotId,
-      url: url,
-      preview: preview
-    })
+      const newSpotImage = await SpotImage.create({
+        spotId: spotId,
+        url: url,
+        preview: preview
+      })
 
-    res.status(200).json({
-      id: newSpotImage.id,
-      url: newSpotImage.url,
-      preview: newSpotImage.preview
-    })
+      res.status(200).json({
+        id: newSpotImage.id,
+        url: newSpotImage.url,
+        preview: newSpotImage.preview
+      })
+    } catch (err) {
+      next(err)
+    }
   }
 )
 
@@ -373,7 +376,6 @@ router.put(
   }
 )
 
-// 📍 ADD TRY/CATCH BLOCK
 // ********* Delete a Spot ***********
 // Require Authentication: true
 router.delete(
@@ -381,56 +383,64 @@ router.delete(
   requireAuth,
   authMiddlewareSpot,
   async (req, res, next) => {
-    const spotId = req.params.spotId
-    const spot = await Spot.findByPk(spotId)
+    try {
+      const spotId = req.params.spotId
+      const spot = await Spot.findByPk(spotId)
 
-    spot.destroy()
-    return res.status(200).json({
-      message: 'Successfully deleted',
-      statusCode: 200
-    })
+      await spot.destroy()
+      return res.status(200).json({
+        message: 'Successfully deleted',
+        statusCode: 200
+      })
+    } catch(err) {
+      next(err)
+    }
   }
 )
 
-// 📍 ADD TRY/CATCH BLOCK
 // ****** Create a Review **********
 router.post(
   '/:spotId/reviews',
   requireAuth,
   validateReviews,
   async (req, res, next) => {
-    const spotId = req.params.spotId
-    const spot = await Spot.findByPk(spotId)
-    const { review, stars } = req.body
+    try {
+      const spotId = req.params.spotId
+      const spot = await Spot.findByPk(spotId)
+      const { review, stars } = req.body
 
-    if (!spot) {
-      return res.status(404).json({
-        message: 'Spot not found',
-        statusCode: 404
+      if (!spot) {
+        return res.status(404).json({
+          message: 'Spot not found',
+          statusCode: 404
+        })
+      }
+
+      const reviews = await Review.findAll({
+        where: {
+          spotId: spotId
+        }
       })
-    }
 
-    const reviews = await Review.findAll({
-      where: {
-        spotId: spotId
+      for (let review of reviews) {
+        if (review.userId === req.user.id) {
+          return res.status(403).json({
+            message: 'User already has a review for this spot',
+            statusCode: 403
+          })
+        }
       }
-    })
 
-    for (let review of reviews) {
-      if (review.userId === req.user.id) {
-        const err = new Error('User already has a review for this spot')
-        err.status = 403
-        return next(err)
-      }
+      const newReview = await Review.create({
+        userId: req.user.id,
+        spotId: spotId,
+        review: review,
+        stars: stars
+      })
+      return res.status(201).json(newReview)
+    } catch (err) {
+      next(err)
     }
-
-    const newReview = await Review.create({
-      userId: req.user.id,
-      spotId: spotId,
-      review: review,
-      stars: stars
-    })
-    return res.status(201).json(newReview)
   }
 )
 
