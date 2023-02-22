@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken')
 const { jwtConfig } = require('../config')
-const { User, Spot } = require('../db/models')
+const { User, Spot, Review } = require('../db/models')
 
 const { secret, expiresIn } = jwtConfig
 
@@ -52,7 +52,7 @@ const restoreUser = (req, res, next) => {
   })
 }
 
-// ******* Authorization Middleware Function ********
+// ******* Authentication Middleware Function ********
 // If there is no current user, return an error
 // Protects route from user who is not logged in
 const requireAuth = function (req, res, next) {
@@ -69,8 +69,8 @@ const requireAuth = function (req, res, next) {
 }
 
 
-// ******* Authentication Middleware Function ********
-const authMiddleware = async (req, res, next) => {
+// ******* Authorization Middleware Function ********
+const authMiddlewareSpot = async (req, res, next) => {
   try {
     const spot = await Spot.findByPk(req.params.spotId)
     if (!spot) {
@@ -92,6 +92,28 @@ const authMiddleware = async (req, res, next) => {
   }
 }
 
+const authMiddlewareReview = async (req, res, next) => {
+  try {
+    const review = await Review.findByPk(req.params.reviewId)
+    if (!review) {
+      return res.status(404).json({
+        message: 'Review not found',
+        statusCode: 404
+      })
+    }
+    if (review.userId !== req.user.id) {
+      return res.status(403).json({
+        message: 'Forbidden',
+        statusCode: 403
+      })
+    }
+    next()
+  } catch (err) {
+    err.status = err.status || 500
+    next(err)
+  }
+}
 
 
-module.exports = { setTokenCookie, restoreUser, requireAuth, authMiddleware }
+
+module.exports = { setTokenCookie, restoreUser, requireAuth, authMiddlewareSpot, authMiddlewareReview }

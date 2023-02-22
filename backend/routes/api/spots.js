@@ -7,7 +7,7 @@ const {
   setTokenCookie,
   requireAuth,
   restoreUser,
-  authMiddleware
+  authMiddlewareSpot
 } = require('../../utils/auth')
 const { check } = require('express-validator')
 const { handleValidationErrors } = require('../../utils/validation')
@@ -31,7 +31,6 @@ const validateReviews = [
     .withMessage('Review text is required'),
   handleValidationErrors
 ]
-
 
 // ********** Validate a Spot **********
 const validateSpot = [
@@ -82,8 +81,16 @@ router.get('/', async (req, res, next) => {
     const allSpots = []
     for (let spot of spots) {
       // -- extract properties from the spot object
-      const { ownerId, id, name, description, address, latitude, longitude, price } =
-        spot
+      const {
+        ownerId,
+        id,
+        name,
+        description,
+        address,
+        latitude,
+        longitude,
+        price
+      } = spot
 
       // -- get avg review star rating and assign column name for it avgRating
       const review = await Review.findOne({
@@ -102,7 +109,7 @@ router.get('/', async (req, res, next) => {
         attributes: ['url']
       })
       // -- create an object with the spot's details and the avgRating & previewImage
-      const spotList = {
+      const spotsObj = {
         id,
         ownerId,
         name,
@@ -114,7 +121,7 @@ router.get('/', async (req, res, next) => {
         avgRating: review.dataValues.avgRating,
         previewImage: previewImage
       }
-      allSpots.push(spotList)
+      allSpots.push(spotsObj)
     }
     return res.json({
       Spots: allSpots
@@ -203,7 +210,7 @@ router.get('/current', requireAuth, async (req, res, next) => {
         attributes: ['url']
       })
 
-      const spotList = {
+      const spotsObj = {
         id,
         ownerId,
         address,
@@ -220,7 +227,7 @@ router.get('/current', requireAuth, async (req, res, next) => {
         avgRating: review[0].dataValues.avgRating,
         previewImage: previewImage
       }
-      allSpots.push(spotList)
+      allSpots.push(spotsObj)
     }
     return res.status(200).json({ Spots: allSpots })
   } catch (err) {
@@ -297,13 +304,14 @@ router.get('/:spotId', async (req, res, next) => {
   }
 })
 
+// 📍 ADD TRY/CATCH BLOCK
 // ******* Add an image to a spot based on spotId ********
 // --> Created new instance of a SpotImage in the DB
 // Require authentication: false
 router.post(
   '/:spotId/images',
   requireAuth,
-  authMiddleware,
+  authMiddlewareSpot,
   async (req, res, next) => {
     const spotId = req.params.spotId
     const spot = await Spot.findByPk(spotId)
@@ -329,7 +337,7 @@ router.put(
   '/:spotId',
   requireAuth,
   validateSpot,
-  authMiddleware,
+  authMiddlewareSpot,
   async (req, res) => {
     try {
       const {
@@ -365,12 +373,13 @@ router.put(
   }
 )
 
+// 📍 ADD TRY/CATCH BLOCK
 // ********* Delete a Spot ***********
 // Require Authentication: true
 router.delete(
   '/:spotId',
   requireAuth,
-  authMiddleware,
+  authMiddlewareSpot,
   async (req, res, next) => {
     const spotId = req.params.spotId
     const spot = await Spot.findByPk(spotId)
@@ -383,8 +392,13 @@ router.delete(
   }
 )
 
+// 📍 ADD TRY/CATCH BLOCK
 // ****** Create a Review **********
-router.post('/:spotId/reviews',requireAuth, validateReviews, async (req, res, next) => {
+router.post(
+  '/:spotId/reviews',
+  requireAuth,
+  validateReviews,
+  async (req, res, next) => {
     const spotId = req.params.spotId
     const spot = await Spot.findByPk(spotId)
     const { review, stars } = req.body
@@ -420,14 +434,71 @@ router.post('/:spotId/reviews',requireAuth, validateReviews, async (req, res, ne
   }
 )
 
+// ***** Get all Reviews by a Spot's id *******
+// Require Authentication: false
+router.get('/:spotId/reviews', async (req, res, next) => {
+  try {
+    const spotId = req.params.spotId
+    const spot = await Spot.findByPk(spotId)
 
+    const allReviews = []
 
+    if (spot) {
+      const reviews = await Review.findAll({
+        where: {
+          spotId: spotId
+        },
+        attributes: [
+          'id',
+          'userId',
+          'spotId',
+          'review',
+          'stars',
+          'createdAt',
+          'updatedAt'
+        ]
+      })
+      for (let rev of reviews) {
+        const { id, spotId, userId, review, stars, createdAt, updatedAt } = rev
 
+        const user = await User.findOne({
+          where: {
+            id: rev.userId
+          },
+          attributes: ['id', 'firstName', 'lastName']
+        })
 
+        const reviewImage = await ReviewImage.findAll({
+          where: {
+            reviewId: id
+          },
+          attributes: ['id', 'url']
+        })
 
+        const reviewsObj = {
+          id,
+          userId,
+          spotId,
+          review,
+          stars,
+          createdAt,
+          updatedAt,
+          User: user,
+          ReviewImages: reviewImage
+        }
 
-
-
-
+        allReviews.push(reviewsObj)
+      }
+      return res.status(200).json({ Reviews: allReviews })
+    } else {
+      return res.status(404).json({
+        message: 'Spot not found',
+        statusCode: 404
+      })
+    }
+  } catch (err) {
+    next(err)
+  }
+})
 
 module.exports = router

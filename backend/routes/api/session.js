@@ -19,15 +19,14 @@ const validateLogin = [
 
 // Get the current user
 router.get('/', restoreUser, (req, res) => {
-      const { user } = req
+  const { user } = req
 
-      if (user) {
-        return res.json({
-          user: user.toSafeObject()
-        })
-      } else return res.json({user: null})
-    }
-  )
+  if (user) {
+    return res.json({
+      user: user.toSafeObject()
+    })
+  } else return res.json({ user: null })
+})
 
 // Log in
 router.post('/', validateLogin, async (req, res, next) => {
@@ -39,12 +38,10 @@ router.post('/', validateLogin, async (req, res, next) => {
   const user = await User.login({ credential, password })
 
   if (!user) {
-    const err = new Error('Invalid credentials')
-    err.status = 401
-    err.title = 'Login failed'
-    err.errors = ['The provided credentials were invalid.']
-
-    return next(err)
+    return res.status(400).json({
+      message: 'Invalid credentials',
+      statusCode: 401
+    })
   }
 
   // the login route should send back a JWT in an

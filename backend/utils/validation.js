@@ -1,27 +1,25 @@
 // **** HANDLE VALIDATIONS MIDDLEWARE ****
 // format custom errors from express-validator middleware
-const { validationResult } = require('express-validator');
+const { validationResult } = require('express-validator')
 
 // middleware for formatting errors from express-validator middleware
 // (to customize, see express-validator's documentation)
-const handleValidationErrors = (req, _res, next) => {
-  const validationErrors = validationResult(req);
+const handleValidationErrors = (req, res, next) => {
+  const validationErrors = validationResult(req)
 
   if (!validationErrors.isEmpty()) {
-    const errors = {};
-    validationErrors
-      .array()
-      .forEach(error => errors[error.param] = error.msg);
+    const errors = {}
+    validationErrors.array().forEach(error => (errors[error.param] = error.msg))
 
-    const err = Error("Validation Error");
-    err.errors = errors;
-    err.status = 400;
-    err.title = "Bad request.";
-    next(err);
+    return res.status(403).json({
+      message: 'Validation error',
+      statusCode: 400,
+      errors: errors
+    })
   }
-  next();
-};
+  next()
+}
 
 module.exports = {
   handleValidationErrors
-};
+}
