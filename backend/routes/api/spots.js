@@ -102,9 +102,11 @@ router.get('/', async (req, res, next) => {
         name,
         description,
         address,
-        latitude,
-        longitude,
-        price
+        lat,
+        lng,
+        price,
+        createdAt,
+        updatedAt
       } = spot
 
       // -- get avg review star rating and assign column name for it avgRating
@@ -130,9 +132,11 @@ router.get('/', async (req, res, next) => {
         name,
         description,
         address,
-        latitude,
-        longitude,
+        lat,
+        lng,
         price,
+        createdAt,
+        updatedAt,
         avgRating: review.dataValues.avgRating,
         previewImage: previewImage
       }

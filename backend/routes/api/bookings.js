@@ -23,7 +23,6 @@ const {
 // Require Authentication: true
 router.get('/current', requireAuth, async (req, res, next) => {
     try {
-
         const currentUserId = req.user.id
 
         const allBookings = await Booking.findAll({
