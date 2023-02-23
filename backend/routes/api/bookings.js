@@ -19,6 +19,21 @@ const {
   ReviewImage
 } = require('../../db/models')
 
+// ****** Validate a Booking ********
+const validateBooking = [
+  check('startDate')
+    .exists({ checkFalsy: true })
+    .notEmpty()
+    .isISO8601()
+    .withMessage('The start date is not a valid date.'),
+  check('endDate')
+    .exists({ checkFalsy: true })
+    .notEmpty()
+    .isISO8601()
+    .withMessage('The end date is not a valid date.'),
+  handleValidationErrors
+]
+
 // ****** Get all of the Current User's Bookings *******
 // Require Authentication: true
 router.get('/current', requireAuth, async (req, res, next) => {
@@ -66,6 +81,92 @@ router.get('/current', requireAuth, async (req, res, next) => {
     next(err)
   }
 })
+
+// Edit a Booking
+// Require Authentication: true
+router.put(
+  '/:bookingId',
+  requireAuth,
+  validateBooking,
+  async (req, res, next) => {
+    try {
+      let { startDate, endDate } = req.body
+      startDate = new Date(startDate)
+      endDate = new Date(endDate)
+      const bookingId = req.params.bookingId
+      let bookingToUpdate = await Booking.findByPk(bookingId)
+      const userId = await Booking.findByPk(bookingId, {
+        attributes: ['userId']
+      })
+
+      if (!bookingToUpdate) {
+        return res.status(404).json({
+          message: 'Booking not found',
+          statusCode: 404
+        })
+      }
+
+      if (req.user.id === userId.dataValues.userId) {
+        if (endDate <= startDate) {
+          return res.status(400).json({
+            message: 'Validation error',
+            statusCode: 400,
+            errors: {
+              endDate: 'endDate cannot be on or before startDate'
+            }
+          })
+        }
+
+        const conflictingBooking = await Booking.findOne({
+          where: {
+            id: bookingId,
+            [Op.or]: [
+              { startDate: { [Op.between]: [startDate, endDate] } },
+              { endDate: { [Op.between]: [startDate, endDate] } },
+              {
+                startDate: { [Op.lte]: startDate },
+                endDate: { [Op.gte]: endDate }
+              }
+            ]
+          }
+        })
+
+        if (conflictingBooking) {
+          const errors = {}
+
+          if (
+            startDate >= new Date(conflictingBooking.startDate) &&
+            startDate <= new Date(conflictingBooking.endDate)
+          ) {
+            errors.startDate = 'Start date conflicts with an existing booking'
+          }
+
+          if (
+            endDate >= new Date(conflictingBooking.startDate) &&
+            endDate <= new Date(conflictingBooking.endDate)
+          ) {
+            errors.endDate = 'End date conflicts with an existing booking'
+          }
+
+          return res.status(403).json({
+            message:
+              'Sorry, this spot is already booked for the specified dates',
+            statusCode: 403,
+            errors: errors
+          })
+        }
+
+        bookingToUpdate.update({
+          startDate,
+          endDate
+        })
+      }
+      return res.status(200).json(bookingToUpdate)
+    } catch (err) {
+      next(err)
+    }
+  }
+)
 
 // ****** Delete a Booking *******
 // Require Authentication: true
