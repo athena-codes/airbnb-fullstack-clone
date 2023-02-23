@@ -51,7 +51,8 @@ router.get('/current', requireAuth, async (req, res, next) => {
           'previewImage'
         ]
       })
-      booking.Spot = spot
+      booking.dataValues.Spot = spot
+      console.log('THIS IS THE BOOKING -->', booking)
     }
     return res.status(200).json({ Bookings: allBookings })
   } catch (err) {
