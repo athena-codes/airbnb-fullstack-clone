@@ -28,7 +28,7 @@ router.get('/current', requireAuth, async (req, res, next) => {
     let bookingsObj
     //fix ordering
     for (let b of allBookings) {
-      const allBookings = await bookingsObj.findOne({
+      const allBookings = await bookingsObj.findAll({
         where: {
           ownerId: currentUserId
         },
@@ -46,14 +46,14 @@ router.get('/current', requireAuth, async (req, res, next) => {
           'previewImage'
         ]
       })
-       bookingsObj = {[
+       bookingsObj = {
         Bookings: allBookings,
         userId: req.user.id,
         startDate: allBookings.startDate,
         endDate: allBookings.endDate,
         createdAt: allBookings.createdAt,
         updatedAt: allBookings.updatedAt
-      ]}
+      }
     }
     res.status(200).json(bookingsObj)
   } catch (err) {
