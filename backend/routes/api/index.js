@@ -5,8 +5,10 @@ const usersRouter = require('./users.js')
 const spotRouter = require('./spots.js')
 const reviewsRouter = require('./reviews.js')
 const bookingsRouter = require('./bookings.js')
+const spotImagesRouter = require('./spot-images.js')
+const reviewImagesRouter = require('./review-images.js')
 
-const { requireAuth, restoreUser } = require('../../utils/auth.js');
+const { requireAuth, restoreUser } = require('../../utils/auth.js')
 
 router.use(restoreUser)
 router.use('/session', sessionRouter)
@@ -14,17 +16,17 @@ router.use('/users', usersRouter)
 router.use('/spots', spotRouter)
 router.use('/reviews', reviewsRouter)
 router.use('/bookings', bookingsRouter)
-
+router.use('/spot-images', spotImagesRouter)
+router.use('/review-images', reviewImagesRouter)
 
 // Test Route:
 router.get('/test', requireAuth, (req, res) => {
-  res.json({ message: 'success'})
+  res.json({ message: 'success' })
 })
 
 router.post('/test', function (req, res) {
   res.json({ requestBody: req.body })
 })
-
 
 // Other test routes:
 
@@ -39,7 +41,6 @@ router.post('/test', function (req, res) {
 //   }
 // );
 
-
 // const { setTokenCookie } = require('../../utils/auth.js')
 // const { User } = require('../../db/models')
 // // GET /api/set-token-cookie
@@ -52,6 +53,5 @@ router.post('/test', function (req, res) {
 //   setTokenCookie(res, user)
 //   return res.json({ user: user })
 // })
-
 
 module.exports = router
