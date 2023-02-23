@@ -137,7 +137,7 @@ router.get('/', async (req, res, next) => {
         address,
         city,
         state,
-        county,
+        country,
         lat,
         lng,
         price,
