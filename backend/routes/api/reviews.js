@@ -190,14 +190,18 @@ router.delete(
   requireAuth,
   authMiddlewareReview,
   async (req, res, next) => {
-    const reviewId = req.params.reviewId
-    const review = await Review.findByPk(reviewId)
+    try {
+        const reviewId = req.params.reviewId
+        const review = await Review.findByPk(reviewId)
 
-    await review.destroy()
-    return res.status(200).json({
-      message: 'Successfully deleted',
-      statusCode: 200
-    })
+        await review.destroy()
+        return res.status(200).json({
+          message: 'Successfully deleted',
+          statusCode: 200
+        })
+    } catch (err) {
+        next(err)
+    }
   }
 )
 
