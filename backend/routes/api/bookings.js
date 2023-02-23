@@ -22,43 +22,44 @@ const {
 // ****** Get all of the Current User's Bookings *******
 // Require Authentication: true
 router.get('/current', requireAuth, async (req, res, next) => {
-  try {
-    const currentUserId = req.user.id
+    try {
+        const currentUserId = req.user.id
 
-    let bookingsObj
-    //fix ordering
-    for (let b of allBookings) {
-      const allBookings = await bookingsObj.findAll({
-        where: {
-          ownerId: currentUserId
-        },
-        attributes: [
-          'id',
-          'ownerId',
-          'address',
-          'city',
-          'state',
-          'country',
-          'lat',
-          'lng',
-          'name',
-          'price',
-          'previewImage'
-        ]
-      })
-       bookingsObj = {
-        Bookings: allBookings,
-        userId: req.user.id,
-        startDate: allBookings.startDate,
-        endDate: allBookings.endDate,
-        createdAt: allBookings.createdAt,
-        updatedAt: allBookings.updatedAt
-      }
+        const allBookings = await Booking.findAll({
+          where: {
+            userId: currentUserId
+          }
+        })
+        let bookingsObj
+        //fix ordering
+        for (let booking of allBookings) {
+          const spot = await Spot.findOne({
+            where: {
+              ownerId: currentUserId
+            },
+            attributes: [
+              'id',
+              'ownerId',
+              'address',
+              'city',
+              'state',
+              'country',
+              'lat',
+              'lng',
+              'name',
+              'price',
+              'previewImage'
+            ]
+          })
+          bookingsObj = {
+              Bookings: allBookings,
+              Spot: spot
+          }
+        }
+        res.status(200).json(bookingsObj)
+    } catch (err) {
+        next(err)
     }
-    res.status(200).json(bookingsObj)
-  } catch (err) {
-    next(err)
-  }
 })
 
 module.exports = router
