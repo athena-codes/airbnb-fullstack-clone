@@ -53,7 +53,7 @@ router.get('/current', requireAuth, async (req, res, next) => {
       })
       booking.Spot = spot
     }
-    return res.status(200).json(bookingsObj)
+    return res.status(200).json({ Bookings: allBookings })
   } catch (err) {
     next(err)
   }
