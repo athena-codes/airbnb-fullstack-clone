@@ -659,7 +659,6 @@ router.get('/:spotId/bookings', requireAuth, async (req, res, next) => {
 
     if (req.user.id === spot.ownerId) {
       const bookings = await Booking.findAll({
-        //fix ordering
         include: [
           {
             model: User,
@@ -670,7 +669,7 @@ router.get('/:spotId/bookings', requireAuth, async (req, res, next) => {
           spotId: req.params.spotId
         }
       })
-      res.json({ Booking: bookings })
+      return res.status(200).json({ Bookings: bookings })
     } else {
       const bookings = await Booking.findAll({
         where: {
@@ -678,19 +677,10 @@ router.get('/:spotId/bookings', requireAuth, async (req, res, next) => {
         },
         attributes: ['spotId', 'startDate', 'endDate']
       })
-      const user = await User.findAll({
-        where: {
-          id: spot.ownerId
-        },
-        attributes: ['id', 'firstName', 'lastName']
-      })
-
       const response = {
-        Bookings: bookings,
-        User: user
+        Bookings: bookings
       }
-
-      res.status(200).json(response)
+     return res.status(200).json(response)
     }
   } catch (err) {
     next(err)
