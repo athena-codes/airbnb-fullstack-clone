@@ -141,7 +141,10 @@ router.post(
           url: imageURL
         })
 
-        return res.status(200).json({ newReviewImage })
+        return res.status(200).json({
+            id: newReviewImage.id,
+            url: newReviewImage.url
+        })
       }
     } catch (err) {
       next(err)
