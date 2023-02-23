@@ -33,7 +33,7 @@ router.get('/current', requireAuth, async (req, res, next) => {
         let bookingsObj
         //fix ordering
         for (let booking of allBookings) {
-          const spot = await Spot.findOne({
+          const user = await User.findOne({
             where: {
               ownerId: currentUserId
             },
@@ -53,7 +53,7 @@ router.get('/current', requireAuth, async (req, res, next) => {
           })
           bookingsObj = {
               Bookings: allBookings,
-              Spot: spot
+              user
           }
         }
         res.status(200).json(bookingsObj)
