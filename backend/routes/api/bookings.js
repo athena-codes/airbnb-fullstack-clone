@@ -98,6 +98,12 @@ router.put(
       const userId = await Booking.findByPk(bookingId, {
         attributes: ['userId']
       })
+      if (!bookingToUpdate) {
+        return res.status(404).json({
+          message: 'Booking not found',
+          statusCode: 404
+        })
+      }
 
       if (bookingToUpdate.userId !== req.user.id) {
         return res.status(403).json({
@@ -106,12 +112,6 @@ router.put(
         })
       }
 
-      if (!bookingToUpdate) {
-        return res.status(404).json({
-          message: 'Booking not found',
-          statusCode: 404
-        })
-      }
 
       if (req.user.id === userId.dataValues.userId) {
         if (endDate <= startDate) {
