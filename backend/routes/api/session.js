@@ -1,10 +1,9 @@
 const express = require('express')
-const router = express.Router()
-
-const { setTokenCookie, restoreUser } = require('../../utils/auth')
+const { setTokenCookie, restoreUser, requireAuth } = require('../../utils/auth')
 const { User } = require('../../db/models')
 const { check } = require('express-validator')
 const { handleValidationErrors } = require('../../utils/validation')
+const router = express.Router()
 
 const validateLogin = [
   check('credential')
@@ -17,51 +16,45 @@ const validateLogin = [
   handleValidationErrors
 ]
 
-// Get the current user
-router.get('/', restoreUser, (req, res) => {
-  const { user } = req
-
-  if (user) {
-    return res.json({
-      user: user.toSafeObject()
-    })
-  } else return res.json({ user: null })
-})
-
-// Log in
 router.post('/', validateLogin, async (req, res, next) => {
-  // API login route will be hit with a request body holding a valid
-  // credential (either username or email) and password combo
   const { credential, password } = req.body
-
-  // login handler will look for a User with the input credential
   const user = await User.login({ credential, password })
-
   if (!user) {
-    return res.status(400).json({
-      message: 'Invalid credentials',
-      statusCode: 401
-    })
-  }
+    const err = new Error('Login failed')
+    res.json(
+      (err.errors = {
+        message: 'Invalid credentials',
+        statusCode: 401
+      })
+    )
 
+    return next(err)
+  }
+  await setTokenCookie(res, user)
+  const { id, firstName, lastName, email, username } = user
   return res.json({
-    user: user.toSafeObject()
+    user: { id, firstName, lastName, email, username }
   })
-  // can also do this instead of await
-  //     }).then(() => {
-  //   setTokenCookie(res, user)
-  // })
 })
 
-// Log out
+
 router.delete('/', (_req, res) => {
-  // The API logout handler will remove the JWT cookie set by the
-  // login or signup API routes and return a JSON success message
   res.clearCookie('token')
   return res.json({ message: 'success' })
 })
 
+
+router.get('/', restoreUser, requireAuth, (req, res) => {
+  const { user } = req
+  if (user) {
+    return res.json({
+      user: user.toSafeObject()
+    })
+  } else return res.json({})
+})
+
 module.exports = router
+
 
 // Use http://localhost:8000/api/csrf/restore to make login/out requests
 
