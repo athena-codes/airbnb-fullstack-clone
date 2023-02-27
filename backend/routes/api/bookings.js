@@ -117,6 +117,13 @@ router.put(
           })
         }
 
+        // find the booking where...
+        // -- id matches input
+        // -- the startDate + endDate's being input by user are between (including)
+        // the start + end dates of an existing booking
+        // -- if start date being input is <= to start date of existing booking
+        // -- if end date being input is <= to start date of existing booking
+
         const conflictingBooking = await Booking.findOne({
           where: {
             id: bookingId,
@@ -186,7 +193,7 @@ router.delete('/:bookingId', requireAuth, async (req, res, next) => {
     const startDate = booking.startDate
     const currentDate = new Date()
     if (new Date(startDate) <= currentDate) {
-      return res.status(404).json({
+      return res.status(403).json({
         message: 'Bookings that have been started can not be deleted',
         statusCode: 403
       })

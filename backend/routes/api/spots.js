@@ -59,13 +59,13 @@ const validateSpot = [
     .withMessage('Country is required'),
   check('lat')
     .exists({ checkFalsy: true })
-    .withMessage('Latitude is required')
+    .withMessage('Latitude is not valid')
     .bail()
     .isNumeric()
     .withMessage('Latitude must be a number'),
   check('lng')
     .exists({ checkFalsy: true })
-    .withMessage('Longitude is required')
+    .withMessage('Longitude is not valid ')
     .bail()
     .isNumeric()
     .withMessage('Longitude must be a number'),
@@ -91,70 +91,189 @@ const validateSpot = [
 // Require auth: false
 router.get('/', async (req, res, next) => {
   try {
-    const spots = await Spot.findAll()
+    let { page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } =
+      req.query
 
-    const allSpots = []
-    for (let spot of spots) {
-      // -- extract properties from the spot object
-      const {
-        ownerId,
-        id,
-        name,
-        description,
-        address,
-        lat,
-        lng,
-        city,
-        state,
-        country,
-        price,
-        createdAt,
-        updatedAt
-      } = spot
+    const pagination = {}
 
-      // -- get avg review star rating and assign column name for it avgRating
-      const review = await Review.findOne({
-        where: {
-          spotId: id
-        },
-        attributes: [[Sequelize.fn('AVG', Sequelize.col('stars')), 'avgRating']]
-      })
+    page = parseInt(page)
+    size = parseInt(size)
+    minLat = parseFloat(minLat)
+    maxLat = parseFloat(maxLat)
+    minLng = parseFloat(minLng)
+    maxLng = parseFloat(maxLng)
+    minPrice = parseFloat(minPrice)
+    maxPrice = parseFloat(maxPrice)
 
-      // -- find preview image and include the url if the preview attribute is set to true
-      const previewImage = await SpotImage.findOne({
-        where: {
-          preview: true,
-          spotId: id
-        },
-        attributes: ['url']
-      })
-      // -- create an object with the spot's details and the avgRating & previewImage
-      const spotsObj = {
-        id,
-        ownerId,
-        name,
-        description,
-        address,
-        city,
-        state,
-        country,
-        lat,
-        lng,
-        price,
-        createdAt,
-        updatedAt,
-        avgRating: review.dataValues.avgRating,
-        previewImage: previewImage
-      }
-      allSpots.push(spotsObj)
+    const errors = {}
+
+    if (isNaN(page) || !Number.isInteger(page) || page < 1) {
+      errors.page = 'Page must be greater than or equal to 1'
     }
-    return res.json({
-      Spots: allSpots
+
+    if (isNaN(size) || !Number.isInteger(size) || size < 1) {
+      errors.size = 'Page must be greater than or equal to 1'
+    }
+
+    if (minLat && isNaN(parseFloat(minLat))) {
+      errors.minLat = 'Minimum latitude must be a number'
+    } else {
+      minLat = parseFloat(minLat)
+      if (minLat < -90 || minLat > 90) {
+        errors.minLat = 'Minimum latitude is invalid'
+      }
+    }
+
+    if (maxLat && isNaN(parseFloat(maxLat))) {
+      errors.maxLat = 'Maximum latitude must be a number'
+    } else {
+      maxLat = parseFloat(maxLat)
+      if (maxLat < -90 || maxLat > 90) {
+        errors.maxLat = 'Maximum latitude is invalid'
+      }
+    }
+
+    if (minLng && isNaN(parseFloat(minLng))) {
+      errors.minLng = 'Minimum longitude must be a number'
+    } else {
+      minLng = parseFloat(minLng)
+      if (minLng < -180 || minLng > 180) {
+        errors.minLng = 'Minimum longitude is invalid'
+      }
+    }
+
+    if (maxLng && isNaN(parseFloat(maxLng))) {
+      errors.maxLng = 'Maximum longitude must be a number'
+    } else {
+      maxLng = parseFloat(maxLng)
+      if (maxLng < -180 || maxLng > 180) {
+        errors.maxLng = 'Maximum longitude is invalid'
+      }
+    }
+
+    if (minPrice && isNaN(parseFloat(minPrice))) {
+      errors.minPrice = 'Minimum price must be greater than or equal to 0'
+    } else {
+      minPrice = parseFloat(minPrice)
+      if (minPrice < 0) {
+        errors.minPrice = 'Minimum price must be greater than or equal to 0'
+      }
+    }
+
+    if (maxPrice && isNaN(parseFloat(maxPrice))) {
+      errors.maxPrice = 'Maximum price must be greater than or equal to 0'
+    } else {
+      maxPrice = parseFloat(maxPrice)
+      if (maxPrice < 0) {
+        errors.maxPrice = 'Maximum price must be greater than or equal to 0'
+      }
+    }
+
+    if (Object.keys(errors).length > 0) {
+      return res.status(400).json({
+        message: 'Validation Error',
+        statusCode: 400,
+        errors
+      })
+    }
+
+    if (page && size) {
+      pagination.limit = size
+      pagination.offset = size * (page - 1)
+    }
+
+    let where = {}
+    if (minLat && maxLat && minLng && maxLng) {
+      where = {
+        lat: { [Op.between]: [minLat, maxLat] },
+        lng: { [Op.between]: [minLng, maxLng] }
+      }
+    } else if (minLat && maxLat) {
+      where.lat = { [Op.between]: [minLat, maxLat] }
+    } else if (minLng && maxLng) {
+      where.lng = { [Op.between]: [minLng, maxLng] }
+    }
+
+    if (minPrice && maxPrice) {
+      where.price = { [Op.between]: [minPrice, maxPrice] }
+    } else if (minPrice) {
+      where.price = { [Op.gte]: minPrice }
+    } else if (maxPrice) {
+      where.price = { [Op.lte]: maxPrice }
+    }
+
+    const spots = await Spot.findAll({
+      ...pagination,
+      where
     })
+
+    if (spots) {
+      const allSpots = []
+      for (let spot of spots) {
+        // -- extract properties from the spot object
+        const {
+          ownerId,
+          id,
+          name,
+          description,
+          address,
+          lat,
+          lng,
+          city,
+          state,
+          country,
+          price,
+          createdAt,
+          updatedAt
+        } = spot
+
+        // -- get avg review star rating and assign column name for it avgRating
+        const review = await Review.findOne({
+          where: {
+            spotId: id
+          },
+          attributes: [
+            [Sequelize.fn('AVG', Sequelize.col('stars')), 'avgRating']
+          ]
+        })
+
+        // -- find preview image and include the url if the preview attribute is set to true
+        const previewImage = await SpotImage.findOne({
+          where: {
+            preview: true,
+            spotId: id
+          },
+          attributes: ['url']
+        })
+        // -- create an object with the spot's details and the avgRating & previewImage
+        const spotsObj = {
+          id,
+          ownerId,
+          name,
+          description,
+          address,
+          city,
+          state,
+          country,
+          lat,
+          lng,
+          price,
+          createdAt,
+          updatedAt,
+          avgRating: review.dataValues.avgRating,
+          previewImage: previewImage
+        }
+        allSpots.push(spotsObj)
+      }
+      return res.json({
+        Spots: allSpots
+      })
+    }
   } catch (err) {
     next(err)
   }
 })
+
 
 // ********** Create a Spot **********
 // Require auth: true
@@ -185,7 +304,22 @@ router.post('/', requireAuth, validateSpot, async (req, res, next) => {
       description,
       price
     })
-    res.status(201).json(newSpot)
+
+    res.status(201).json({
+      id: newSpot.id,
+      ownerId,
+      address,
+      city,
+      state,
+      country,
+      lat,
+      lng,
+      name,
+      description,
+      price,
+      createdAt: newSpot.createdAt,
+      updatedAt: newSpot.updatedAt
+    })
   } catch (err) {
     next(err)
   }
@@ -267,6 +401,12 @@ router.get('/:spotId', async (req, res, next) => {
     const spotId = req.params.spotId
     const spot = await Spot.findByPk(spotId)
 
+    if (!spot) {
+      return res.status(404).json({
+        message: 'Spot not found',
+        statusCode: 404
+      })
+    }
     const reviews = await Review.findAll({
       where: {
         spotId: spotId
@@ -318,13 +458,6 @@ router.get('/:spotId', async (req, res, next) => {
     })
   } catch (err) {
     const spot = await Spot.findByPk(req.params.spotId)
-
-    if (!spot) {
-      return res.status(404).json({
-        message: 'Spot not found',
-        statusCode: 404
-      })
-    }
   }
 })
 
@@ -393,7 +526,21 @@ router.put(
         description,
         price
       })
-      return res.status(200).json(spot)
+      return res.status(200).json({
+        id: spot.id,
+        ownerId: spot.ownerId,
+        address,
+        city,
+        state,
+        country,
+        lat,
+        lng,
+        name,
+        description,
+        price,
+        createdAt: spot.createdAt,
+        updatedAt: spot.updatedAt
+      })
     } catch (err) {
       next(err)
     }
@@ -543,7 +690,7 @@ router.post(
   validateBooking,
   async (req, res, next) => {
     try {
-      const spotId = req.params.spotId
+      const spotId = parseInt(req.params.spotId)
       const spot = await Spot.findByPk(spotId)
       const userId = req.user.id
       const { startDate, endDate } = req.body
@@ -680,7 +827,7 @@ router.get('/:spotId/bookings', requireAuth, async (req, res, next) => {
       const response = {
         Bookings: bookings
       }
-     return res.status(200).json(response)
+      return res.status(200).json(response)
     }
   } catch (err) {
     next(err)

@@ -44,15 +44,8 @@ router.post('/', validateLogin, async (req, res, next) => {
     })
   }
 
-  // the login route should send back a JWT in an
-  // HTTP-only cookie and a response body
-  const token = await setTokenCookie(res, user)
-  // user.token = token
-
-  console.log(req.user)
   return res.json({
-    user: user.toSafeObject(),
-    token
+    user: user.toSafeObject()
   })
   // can also do this instead of await
   //     }).then(() => {

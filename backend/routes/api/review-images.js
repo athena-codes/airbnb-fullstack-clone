@@ -9,8 +9,20 @@ const router = express.Router()
 router.delete('/:imageId', requireAuth, async (req, res, next) => {
   try {
     const imageId = req.params.imageId
-    const reviewImage = await ReviewImage.findByPk(imageId)
-    const reviewId = await ReviewImage.findByPk(imageId, {
+    const reviewImage = await ReviewImage.findOne({
+      where: {
+        id: imageId
+      }
+    })
+
+    if (!reviewImage) {
+      res.status(404).json({
+        message: 'Review Image not found',
+        statusCode: 404
+      })
+    }
+
+    const reviewId = await ReviewImage.findByPk(reviewImage.id, {
       attributes: ['reviewId']
     })
     const review = await Review.findByPk(reviewId.reviewId, {
