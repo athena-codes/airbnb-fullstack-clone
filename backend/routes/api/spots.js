@@ -383,7 +383,9 @@ router.get('/', async (req, res, next) => {
         allSpots.push(spotsObj)
       }
       return res.status(200).json({
-        Spots: allSpots
+        Spots: allSpots,
+        page,
+        size
       })
     }
   } catch (err) {
