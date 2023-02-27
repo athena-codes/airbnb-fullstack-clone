@@ -345,8 +345,12 @@ router.get('/', async (req, res, next) => {
           },
           attributes: ['url']
         })
+        console.log(previewImage)
+
+        let spotsObj = {}
+
         // -- create an object with the spot's details and the avgRating & previewImage
-        const spotsObj = {
+        spotsObj = {
           id,
           ownerId,
           name,
@@ -360,9 +364,14 @@ router.get('/', async (req, res, next) => {
           price,
           createdAt,
           updatedAt,
-          avgRating: review.dataValues.avgRating,
-          previewImage: previewImage
+          avgRating: review.dataValues.avgRating
         }
+        if (previewImage) {
+          spotsObj.previewImage = previewImage.dataValues.url
+        } else {
+          spotsObj.previewImage = null
+        }
+
         allSpots.push(spotsObj)
       }
       return res.json({
@@ -481,9 +490,15 @@ router.get('/current', requireAuth, async (req, res, next) => {
         price,
         createdAt,
         updatedAt,
-        avgRating: review[0].dataValues.avgRating,
-        previewImage: previewImage
+        avgRating: review[0].dataValues.avgRating
       }
+      
+      if (previewImage) {
+        spotsObj.previewImage = previewImage.dataValues.url
+      } else {
+        spotsObj.previewImage = null
+      }
+
       allSpots.push(spotsObj)
     }
     return res.status(200).json({ Spots: allSpots })

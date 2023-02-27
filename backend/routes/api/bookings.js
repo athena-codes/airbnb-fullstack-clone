@@ -99,6 +99,13 @@ router.put(
         attributes: ['userId']
       })
 
+      if (bookingToUpdate.userId !== req.user.id) {
+        return res.status(403).json({
+          message: 'Cannot edit booking you do not own',
+          statusCode: 403
+        })
+      }
+
       if (!bookingToUpdate) {
         return res.status(404).json({
           message: 'Booking not found',
