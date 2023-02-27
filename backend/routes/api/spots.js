@@ -333,7 +333,15 @@ router.get('/', async (req, res, next) => {
             spotId: id
           },
           attributes: [
-            [Sequelize.fn('AVG', Sequelize.col('stars')), 'avgRating']
+            // [Sequelize.fn('AVG', Sequelize.col('stars')), 'avgRating']
+            [
+              Sequelize.fn(
+                'ROUND',
+                Sequelize.fn('AVG', Sequelize.col('stars')),
+                2
+              ),
+              'avgRating'
+            ]
           ]
         })
 
@@ -386,17 +394,8 @@ router.get('/', async (req, res, next) => {
 // Require auth: true
 router.post('/', requireAuth, validateSpot, async (req, res, next) => {
   try {
-    let {
-      address,
-      city,
-      state,
-      country,
-      name,
-      lat,
-      lng,
-      description,
-      price
-    } = req.body
+    let { address, city, state, country, name, lat, lng, description, price } =
+      req.body
     let ownerId = req.user.id
 
     let newSpot = await Spot.create({
@@ -819,7 +818,7 @@ router.post(
       // spot belongs to owner
       if (spot.ownerId === userId) {
         return res.status(403).json({
-          message: 'Cannot create booking for a spot you own',
+          message: 'Forbidden',
           statusCode: 403
         })
       }
