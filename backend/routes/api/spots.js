@@ -25,12 +25,12 @@ const validateBooking = [
   check('startDate')
     .exists({ checkFalsy: true })
     .notEmpty()
-    // .isISO8601()
+    .isISO8601()
     .withMessage('The start date is not a valid date.'),
   check('endDate')
     .exists({ checkFalsy: true })
     .notEmpty()
-    // .isISO8601()
+    .isISO8601()
     .withMessage('The end date is not a valid date.'),
   handleValidationErrors
 ]

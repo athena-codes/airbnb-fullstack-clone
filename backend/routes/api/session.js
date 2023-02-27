@@ -21,7 +21,7 @@ router.post('/', validateLogin, async (req, res, next) => {
   const user = await User.login({ credential, password })
   if (!user) {
     const err = new Error('Login failed')
-    res.json(
+    res.status(401).json(
       (err.errors = {
         message: 'Invalid credentials',
         statusCode: 401
