@@ -187,7 +187,7 @@ router.get('/', async (req, res, next) => {
     if (size > 20) size = 20
     if (page > 10) page = 10
 
-    const pagination = {}
+    let pagination = {}
 
     page = parseInt(page)
     size = parseInt(size)
@@ -198,7 +198,7 @@ router.get('/', async (req, res, next) => {
     // minPrice = parseFloat(minPrice)
     // maxPrice = parseFloat(maxPrice)
 
-    const errors = {}
+    let errors = {}
 
     if (isNaN(page) || !Number.isInteger(page) || page < 1) {
       errors.page = 'Page must be greater than or equal to 1'
@@ -272,7 +272,7 @@ router.get('/', async (req, res, next) => {
       pagination.offset = size * (page - 1)
     }
 
-    const where = {}
+    let where = {}
 
     if (minLat && maxLat && minLng && maxLng) {
       where = {
@@ -302,16 +302,16 @@ router.get('/', async (req, res, next) => {
       where.price = { [Op.lte]: maxPrice }
     }
 
-    const spots = await Spot.findAll({
+    let spots = await Spot.findAll({
       ...pagination,
       where
     })
 
     if (spots) {
-      const allSpots = []
+      let allSpots = []
       for (let spot of spots) {
         // -- extract properties from the spot object
-        const {
+        let {
           ownerId,
           id,
           name,
@@ -328,7 +328,7 @@ router.get('/', async (req, res, next) => {
         } = spot
 
         // -- get avg review star rating and assign column name for it avgRating
-        const review = await Review.findOne({
+        let review = await Review.findOne({
           where: {
             spotId: id
           },
@@ -338,7 +338,7 @@ router.get('/', async (req, res, next) => {
         })
 
         // -- find preview image and include the url if the preview attribute is set to true
-        const previewImage = await SpotImage.findOne({
+        let previewImage = await SpotImage.findOne({
           where: {
             preview: true,
             spotId: id
@@ -374,7 +374,7 @@ router.get('/', async (req, res, next) => {
 
         allSpots.push(spotsObj)
       }
-      return res.json({
+      return res.status(200).json({
         Spots: allSpots
       })
     }
@@ -386,7 +386,7 @@ router.get('/', async (req, res, next) => {
 // Require auth: true
 router.post('/', requireAuth, validateSpot, async (req, res, next) => {
   try {
-    const {
+    let {
       address,
       city,
       state,
@@ -397,9 +397,9 @@ router.post('/', requireAuth, validateSpot, async (req, res, next) => {
       description,
       price
     } = req.body
-    const ownerId = req.user.id
+    let ownerId = req.user.id
 
-    const newSpot = await Spot.create({
+    let newSpot = await Spot.create({
       ownerId,
       address,
       city,
@@ -442,10 +442,10 @@ router.get('/current', requireAuth, async (req, res, next) => {
       }
     })
 
-    const allSpots = []
+    let allSpots = []
 
     for (let spot of spots) {
-      const {
+      let {
         id,
         ownerId,
         address,
@@ -461,14 +461,14 @@ router.get('/current', requireAuth, async (req, res, next) => {
         updatedAt
       } = spot.dataValues
 
-      const review = await Review.findAll({
+      let review = await Review.findAll({
         where: {
           spotId: spot.id
         },
         attributes: [[Sequelize.fn('AVG', Sequelize.col('stars')), 'avgRating']]
       })
 
-      const previewImage = await SpotImage.findOne({
+      let previewImage = await SpotImage.findOne({
         where: {
           preview: true,
           spotId: spot.id
@@ -476,7 +476,7 @@ router.get('/current', requireAuth, async (req, res, next) => {
         attributes: ['url']
       })
 
-      const spotsObj = {
+      let spotsObj = {
         id,
         ownerId,
         address,
@@ -492,7 +492,7 @@ router.get('/current', requireAuth, async (req, res, next) => {
         updatedAt,
         avgRating: review[0].dataValues.avgRating
       }
-      
+
       if (previewImage) {
         spotsObj.previewImage = previewImage.dataValues.url
       } else {

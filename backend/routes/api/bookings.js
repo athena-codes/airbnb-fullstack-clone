@@ -101,7 +101,7 @@ router.put(
 
       if (bookingToUpdate.userId !== req.user.id) {
         return res.status(403).json({
-          message: 'Cannot edit booking you do not own',
+          message: 'Forbidden',
           statusCode: 403
         })
       }
@@ -194,6 +194,13 @@ router.delete('/:bookingId', requireAuth, async (req, res, next) => {
       return res.status(404).json({
         message: 'Booking not found',
         statusCode: 404
+      })
+    }
+
+    if (booking.userId !== req.user.id) {
+      return res.status(403).json({
+        message: 'Forbidden',
+        statusCode: 403
       })
     }
 
