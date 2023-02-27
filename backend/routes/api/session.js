@@ -37,13 +37,6 @@ router.post('/', validateLogin, async (req, res, next) => {
   })
 })
 
-
-router.delete('/', (_req, res) => {
-  res.clearCookie('token')
-  return res.json({ message: 'success' })
-})
-
-
 router.get('/', restoreUser, requireAuth, (req, res) => {
   const { user } = req
   if (user) {
