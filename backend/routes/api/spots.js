@@ -89,21 +89,114 @@ const validateSpot = [
 
 // ******** Get all spots *********
 // Require auth: false
+// let { page, size, minPrice, maxPrice } = req.query
+// maxPrice = +maxPrice
+// minPrice = +minPrice
+// const pagination = {}
+
+// page = +page
+// size = +size
+
+// if (!page) page = 1
+// if (!size) size = 20
+// if (size > 20) size = 20
+// if (page > 10) page = 10
+
+// if (!page > 0) {
+//   return res
+//     .json({
+//       message: 'Page must be greater than or equal to 1',
+//       statusCode: 400
+//     })
+//     .status(400)
+// }
+
+// if (!size > 0) {
+//   return res
+//     .json({
+//       message: 'Size must be greater than or equal to 1',
+//       statusCode: 400
+//     })
+//     .status(400)
+// }
+
+// if (page > 0 && size > 0) {
+//   pagination.limit = size
+//   pagination.offset = size * (page - 1)
+// }
+
+// let query = {
+//   where: {},
+//   include: []
+// }
+
+// let errors = {}
+
+//     if (req.query.minPrice < 0 && req.query.maxPrice < 0) {
+//     if (+req.query.minPrice && +req.query.maxPrice) {
+//       errors.minPrice = 'Minimum price must be greater than or equal to 0'
+//       errors.maxPrice = 'Minimum price must be greater than or equal to 0'
+//     } else {
+//       query.where.price = {
+//            [Op.or]: [
+//           { minPrice: { [Op.lte]: maxPrice } },
+//           { maxPrice: { [Op.gte]: minPrice } }
+//         ]
+//       }
+//     }
+//   }
+
+// if (req.query.maxPrice < 0) {
+//   if (+req.query.maxPrice) {
+//     errors.maxPrice = 'Maximum price must be greater than or equal to 0'
+//   } else {
+//     query.where.price = {
+//       [Op.lte]: req.query.maxPrice
+//     }
+//   }
+// }
+
+// if (req.query.minPrice < 0) {
+//   if (+req.query.minPrice) {
+//     errors.minPrice = 'Minimum price must be greater than or equal to 0'
+//   } else {
+//     query.where.price = {
+//       [Op.gte]: req.query.minPrice
+//     }
+//   }
+// }
+
+// if (Object.keys(errors).length !== 0) {
+//   const err = new Error('Validation Error')
+//   err.status = 400
+//   err.errors = errors
+//   return next(err)
+// }
+
+// const spots = await Spot.findAll({
+//   ...pagination,
+//   query
+// })
 router.get('/', async (req, res, next) => {
   try {
     let { page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } =
       req.query
 
+    if (!page) page = 1
+    if (!size) size = 20
+    if (size > 20) size = 20
+    if (page > 10) page = 10
+
     const pagination = {}
 
     page = parseInt(page)
     size = parseInt(size)
-    minLat = parseFloat(minLat)
-    maxLat = parseFloat(maxLat)
-    minLng = parseFloat(minLng)
-    maxLng = parseFloat(maxLng)
-    minPrice = parseFloat(minPrice)
-    maxPrice = parseFloat(maxPrice)
+    // minLat = parseFloat(minLat)
+    // maxLat = parseFloat(maxLat)
+    // minLng = parseFloat(minLng)
+    // maxLng = parseFloat(maxLng)
+    // minPrice = parseFloat(minPrice)
+    // maxPrice = parseFloat(maxPrice)
 
     const errors = {}
 
@@ -116,36 +209,33 @@ router.get('/', async (req, res, next) => {
     }
 
     if (minLat && isNaN(parseFloat(minLat))) {
-      errors.minLat = 'Minimum latitude must be a number'
-    } else {
       minLat = parseFloat(minLat)
+      errors.minLat = 'Minimum latitude is invalid'
       if (minLat < -90 || minLat > 90) {
         errors.minLat = 'Minimum latitude is invalid'
       }
     }
 
     if (maxLat && isNaN(parseFloat(maxLat))) {
-      errors.maxLat = 'Maximum latitude must be a number'
-    } else {
       maxLat = parseFloat(maxLat)
+      errors.maxLat = 'Maximum latitude is invalid'
       if (maxLat < -90 || maxLat > 90) {
         errors.maxLat = 'Maximum latitude is invalid'
       }
     }
 
     if (minLng && isNaN(parseFloat(minLng))) {
-      errors.minLng = 'Minimum longitude must be a number'
-    } else {
       minLng = parseFloat(minLng)
+      errors.minLng = 'Minimum longitude is invalid'
       if (minLng < -180 || minLng > 180) {
         errors.minLng = 'Minimum longitude is invalid'
       }
     }
 
     if (maxLng && isNaN(parseFloat(maxLng))) {
-      errors.maxLng = 'Maximum longitude must be a number'
-    } else {
       maxLng = parseFloat(maxLng)
+      errors.maxLng = 'Maximum longitude is invalid'
+
       if (maxLng < -180 || maxLng > 180) {
         errors.maxLng = 'Maximum longitude is invalid'
       }
@@ -182,16 +272,26 @@ router.get('/', async (req, res, next) => {
       pagination.offset = size * (page - 1)
     }
 
-    let where = {}
+    const where = {}
+
     if (minLat && maxLat && minLng && maxLng) {
       where = {
         lat: { [Op.between]: [minLat, maxLat] },
         lng: { [Op.between]: [minLng, maxLng] }
       }
-    } else if (minLat && maxLat) {
-      where.lat = { [Op.between]: [minLat, maxLat] }
-    } else if (minLng && maxLng) {
-      where.lng = { [Op.between]: [minLng, maxLng] }
+    } else {
+      if (minLat) {
+        where.lat = { [Op.gte]: minLat }
+      }
+      if (maxLat) {
+        where.lat = { ...where.lat, [Op.lte]: maxLat }
+      }
+      if (minLng) {
+        where.lng = { [Op.gte]: minLng }
+      }
+      if (maxLng) {
+        where.lng = { ...where.lng, [Op.lte]: maxLng }
+      }
     }
 
     if (minPrice && maxPrice) {
@@ -273,8 +373,6 @@ router.get('/', async (req, res, next) => {
     next(err)
   }
 })
-
-
 // ********** Create a Spot **********
 // Require auth: true
 router.post('/', requireAuth, validateSpot, async (req, res, next) => {
