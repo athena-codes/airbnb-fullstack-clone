@@ -1,0 +1,76 @@
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 50px;
+}
+
+label {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #555;
+}
+
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 20px;
+    font-size: 16px;
+    color: #333;
+    border: none;
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+button[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 20px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #e91e63;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+button[type="submit"]:hover {
+    background-color: #c2185b;
+}
+
+ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+li {
+    margin-bottom: 10px;
+    font-size: 16px;
+    color: #e91e63;
+}
+
+/* Dynamic styles */
+
+body {
+    background-color: #f8f8f8;
+}
+
+button[type="submit"]:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+button[type="submit"]:disabled:hover {
+    background-color: #ccc;
+}
