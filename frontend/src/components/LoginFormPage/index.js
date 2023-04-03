@@ -11,7 +11,7 @@ function LoginFormPage () {
   const [password, setPassword] = useState('')
   const [errors, setErrors] = useState([])
 
-  // if user is logged in will be automatically directed to homepage, saves logged in user into session 
+  // if user is logged in will be automatically directed to homepage, saves logged in user into session
   if (sessionUser) return <Redirect to='/' />
 
   const handleSubmit = e => {
@@ -59,4 +59,17 @@ function LoginFormPage () {
     </form>
   )
 }
+
+// TEST IN CONSOLE DEV TOOLS:
+// window.store.dispatch(
+//   window.sessionActions.login({
+//     credential: 'Test',
+//     password: 'password'
+//   })
+// )
+
+// LOGOUT
+// window.store.dispatch(window.sessionActions.logout())
+
+
 export default LoginFormPage

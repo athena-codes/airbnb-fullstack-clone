@@ -15,25 +15,6 @@ export const removeSessionUser = () => ({
 })
 
 // Thunk Action Creator
-// *** LOG-IN ***
-export const login =
-  ({ credential, password }) =>
-  async dispatch => {
-    const res = await csrfFetch('/api/session', {
-      method: 'POST',
-      body: JSON.stringify({ credential, password })
-    })
-    const user = await res.json()
-    dispatch(setSessionUser(user))
-  }
-
-// *** RESTORE USER ***
-export const restoreUser = () => async dispatch => {
-  const response = await csrfFetch('/api/session')
-  const data = await response.json()
-  dispatch(setSessionUser(data.user))
-  return response
-}
 
 // *** SIGN-UP ***
 export const signup = user => async dispatch => {
@@ -52,16 +33,49 @@ export const signup = user => async dispatch => {
   dispatch(setSessionUser(data))
   return response
 }
+// *** LOG-IN ***
+export const login =
+  ({ credential, password }) =>
+  async dispatch => {
+    const res = await csrfFetch('/api/session', {
+      method: 'POST',
+      body: JSON.stringify({ credential, password })
+    })
+    const user = await res.json()
+    dispatch(setSessionUser(user))
+  }
+
+// *** LOG-OUT ***
+export const logout = () => async dispatch => {
+  const response = await csrfFetch('/api/session', {
+    method: 'DELETE'
+  })
+  dispatch(removeSessionUser())
+  return response
+}
+
+// *** RESTORE USER ***
+export const restoreUser = () => async dispatch => {
+  const response = await csrfFetch('/api/session')
+  const data = await response.json()
+  dispatch(setSessionUser(data.user))
+  return response
+}
 
 // Reducer
 const initialState = { user: null }
 
 const sessionReducer = (state = initialState, action) => {
+  let newState
   switch (action.type) {
     case SET_SESSION_USER:
-      return { ...state, user: action.payload }
+      newState = Object.assign({}, state)
+      newState.user = action.payload
+      return newState
     case REMOVE_SESSION_USER:
-      return { ...state, user: null }
+      newState = Object.assign({}, state)
+      newState.user = null
+      return newState
     default:
       return state
   }
