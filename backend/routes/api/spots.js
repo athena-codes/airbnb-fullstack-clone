@@ -353,7 +353,6 @@ router.get('/', async (req, res, next) => {
           },
           attributes: ['url']
         })
-        console.log(previewImage)
 
         let spotsObj = {}
 

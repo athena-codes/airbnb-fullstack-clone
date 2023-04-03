@@ -78,6 +78,6 @@ module.exports = router
 //   }
 // })
 //   .then(res => res.json())
-//   .then(data => console.log(data))
+//   .then(data => (data))
 // --> in http://localhost:8000/api/restore-user, we get
 // user object if they are logged in or null if logged out

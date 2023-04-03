@@ -188,7 +188,6 @@ router.delete('/:bookingId', requireAuth, async (req, res, next) => {
   try {
     const bookingId = req.params.bookingId
     const booking = await Booking.findByPk(bookingId)
-    console.log(booking)
 
     if (!booking) {
       return res.status(404).json({
