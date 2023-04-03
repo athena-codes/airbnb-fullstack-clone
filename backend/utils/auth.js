@@ -65,7 +65,7 @@ const requireAuth = function (req, res, next) {
     statusCode: 401
   }
 
-  res.status(401).json(err)
+  return res.status(401).json(err)
 }
 
 

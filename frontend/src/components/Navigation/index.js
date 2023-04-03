@@ -5,9 +5,8 @@ import ProfileButton from './ProfileButton';
 import * as sessionActions from '../../store/session';
 import './Navigation.css';
 
-function Navigation({ isLoaded }) {
-  const sessionUser = useSelector((state) => state.session.user);
-  console.log(sessionUser)
+function Navigation({ isLoaded }){
+  const sessionUser = useSelector(state => state.session.user);
   const dispatch = useDispatch();
 
   const logout = (e) => {
@@ -20,6 +19,7 @@ function Navigation({ isLoaded }) {
     sessionLinks = (
       <li>
         <ProfileButton user={sessionUser} />
+        <button onClick={logout}>Log Out</button>
       </li>
     );
   } else {
@@ -32,16 +32,12 @@ function Navigation({ isLoaded }) {
   }
 
   return (
-    <nav>
-      <ul>
-        <li>
-          <NavLink exact to="/">
-            Home
-          </NavLink>
-        </li>
-        {isLoaded && sessionLinks}
-      </ul>
-    </nav>
+    <ul>
+      <li>
+        <NavLink exact to="/">Home</NavLink>
+      </li>
+      {isLoaded && sessionLinks}
+    </ul>
   );
 }
 

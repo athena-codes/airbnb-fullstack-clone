@@ -15,7 +15,6 @@ export const removeSessionUser = () => ({
 })
 
 // Thunk Action Creator
-
 // *** LOG-IN ***
 export const login =
   ({ credential, password }) =>
@@ -26,15 +25,8 @@ export const login =
     })
     const user = await res.json()
     dispatch(setSessionUser(user))
+    return res
   }
-
-// *** RESTORE USER ***
-export const restoreUser = () => async dispatch => {
-  const response = await csrfFetch('/api/session')
-  const data = await response.json()
-  dispatch(setSessionUser(data.user))
-  return response
-}
 
 // *** SIGN-UP ***
 export const signup = user => async dispatch => {
@@ -63,6 +55,14 @@ export const logout = () => async dispatch => {
   return response
 }
 
+// *** RESTORE USER ***
+export const restoreUser = () => async dispatch => {
+  const response = await csrfFetch('/api/session')
+  const data = await response.json()
+  dispatch(setSessionUser(data.user))
+  return response
+}
+
 // Reducer
 const initialState = { user: null }
 
@@ -73,10 +73,12 @@ const sessionReducer = (state = initialState, action) => {
       newState = Object.assign({}, state)
       newState.user = action.payload
       return newState
+
     case REMOVE_SESSION_USER:
       newState = Object.assign({}, state)
       newState.user = null
       return newState
+
     default:
       return state
   }
