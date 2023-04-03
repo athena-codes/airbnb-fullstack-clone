@@ -4,26 +4,33 @@ import * as sessionActions from '../../store/session'
 
 function ProfileButton ({ user }) {
   const dispatch = useDispatch()
+  const [showMenu, setShowMenu] = useState(false)
 
   const logout = e => {
     e.preventDefault()
     dispatch(sessionActions.logout())
   }
 
-  const ulClassName = 'profile-dropdown'
+  const ulClassName = 'profile-dropdown' + (showMenu ? '' : ' hidden')
 
+  // had to add showMenu && inside of return for drop down effect 
   return (
     <>
-      <button>
+      <button onClick={() => setShowMenu(!showMenu)}>
         <i className='fas fa-user-circle' />
       </button>
-      <ul className={ulClassName}>
-        <li>{user.username}</li>
-        <li>
-          {user.firstName} {user.lastName}
-        </li>
-        <li>{user.email}</li>
-      </ul>
+      {showMenu && (
+        <ul className={ulClassName}>
+          <li>{user.username}</li>
+          <li>
+            {user.firstName} {user.lastName}
+          </li>
+          <li>{user.email}</li>
+          <li>
+            <button onClick={logout}>Log Out</button>
+          </li>
+        </ul>
+      )}
     </>
   )
 }
