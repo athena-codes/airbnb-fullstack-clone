@@ -3,9 +3,9 @@ import { useDispatch } from 'react-redux'
 import { Route, Switch } from 'react-router-dom'
 import * as sessionActions from './store/session'
 import Navigation from './components/Navigation'
+import AllSpots from './components/Spots/AllSpots'
 import LoginModal from './components/LoginModal'
 import SignupModal from './components/SignupModal'
-
 
 function App () {
   const dispatch = useDispatch()
@@ -20,9 +20,10 @@ function App () {
       <Navigation isLoaded={isLoaded} />
       {isLoaded && (
         <Switch>
-          <Route exact path='/'>
-            THIS IS HOME PAGE
+          <Route exact path={'/'}>
+            <AllSpots />
           </Route>
+
           <Route path='/login'>
             <LoginModal />
           </Route>
