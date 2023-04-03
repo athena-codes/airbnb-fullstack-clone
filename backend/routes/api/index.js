@@ -19,6 +19,10 @@ router.use('/bookings', bookingsRouter)
 router.use('/spot-images', spotImagesRouter)
 router.use('/review-images', reviewImagesRouter)
 
+
+
+module.exports = router
+
 // Test Route:
 // router.get('/test', requireAuth, (req, res) => {
 //   res.json({ message: 'success' })
@@ -53,5 +57,3 @@ router.use('/review-images', reviewImagesRouter)
 //   setTokenCookie(res, user)
 //   return res.json({ user: user })
 // })
-
-module.exports = router

@@ -10,7 +10,8 @@ function App () {
   const dispatch = useDispatch()
   const [isLoaded, setIsLoaded] = useState(false)
   useEffect(() => {
-    dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true))
+    dispatch(sessionActions.restoreUser())
+    setIsLoaded(true)
   }, [dispatch])
 
   return (
@@ -18,9 +19,9 @@ function App () {
       <Navigation isLoaded={isLoaded} />
       {isLoaded && (
         <Switch>
-          {/* <Route exact path='/'>
+          <Route exact path='/'>
             THIS IS HOME PAGE
-          </Route> */}
+          </Route>
           <Route path='/login'>
             <LoginFormPage />
           </Route>

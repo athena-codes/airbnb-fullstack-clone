@@ -1,47 +1,40 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
-import { Provider as ReduxProvider } from 'react-redux';
-import './index.css';
 import App from './App';
+import { restoreCSRF, csrfFetch } from './store/csrf';
+import './index.css';
 import configureStore from './store';
-// import csrf functions
-import { restoreCSRF, csrfFetch } from './store/csrf'
-// import session actions and assign window key of 'sessionActions'
-import * as sessionActions from './store/session'
+import * as sessionActions from './store/session';
 
-const store = configureStore()
+const store = configureStore();
+
+// if (process.env.NODE_ENV !== 'production') {
+//   window.store = store;
+// }
+
 
 if (process.env.NODE_ENV !== 'production') {
-  restoreCSRF()
+  restoreCSRF();
 
-  window.csrfFetch = csrfFetch
-  window.store = store
-  window.sessionActions = sessionActions
-}
-
-
-if (process.env.NODE_ENV !== "production") {
+  window.csrfFetch = csrfFetch;
   window.store = store;
+  window.sessionActions = sessionActions;
 }
 
-if (process.env.NODE_ENV !== 'production') {
-  restoreCSRF()
-
-  window.csrfFetch = csrfFetch
-  window.store = store
-}
 
 
 function Root() {
   return (
-    <ReduxProvider store={store}>
+    <Provider store={store}>
       <BrowserRouter>
         <App />
       </BrowserRouter>
-    </ReduxProvider>
+    </Provider>
   );
 }
+
 
 ReactDOM.render(
   <React.StrictMode>

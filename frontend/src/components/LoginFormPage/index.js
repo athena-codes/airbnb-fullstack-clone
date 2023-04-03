@@ -60,6 +60,7 @@ function LoginFormPage () {
   )
 }
 
+export default LoginFormPage
 // TEST IN CONSOLE DEV TOOLS:
 // window.store.dispatch(
 //   window.sessionActions.login({
@@ -70,6 +71,3 @@ function LoginFormPage () {
 
 // LOGOUT
 // window.store.dispatch(window.sessionActions.logout())
-
-
-export default LoginFormPage

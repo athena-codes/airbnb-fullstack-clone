@@ -3,7 +3,6 @@ const { setTokenCookie, restoreUser, requireAuth } = require('../../utils/auth')
 const { User } = require('../../db/models')
 const { check } = require('express-validator')
 const { handleValidationErrors } = require('../../utils/validation')
-
 const router = express.Router()
 
 const validateLogin = [
@@ -38,7 +37,7 @@ router.post('/', validateLogin, async (req, res, next) => {
   })
 })
 
-router.get('/', restoreUser, (req, res) => {
+router.get('/', restoreUser, requireAuth, (req, res) => {
   const { user } = req
   if (user) {
     return res.json({
@@ -46,12 +45,6 @@ router.get('/', restoreUser, (req, res) => {
     })
   } else return res.json({})
 })
-
-router.delete('/', (_req, res) => {
-  res.clearCookie('token')
-  return res.json({ message: 'success' })
-})
-
 
 module.exports = router
 
@@ -79,6 +72,6 @@ module.exports = router
 //   }
 // })
 //   .then(res => res.json())
-//   .then(data => (data))
+//   .then(data => console.log(data))
 // --> in http://localhost:8000/api/restore-user, we get
 // user object if they are logged in or null if logged out
