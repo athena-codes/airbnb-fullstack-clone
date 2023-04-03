@@ -16,7 +16,8 @@ function SignupFormPage () {
   const [confirmPassword, setConfirmPassword] = useState('')
   const [errors, setErrors] = useState([])
 
-  // if (sessionUser) return <Redirect to='/' />
+  // when the newly signed up user is successfully logged in, redirect to homepage 
+  if (sessionUser) return <Redirect to='/' />
 
   const handleSubmit = e => {
     e.preventDefault()

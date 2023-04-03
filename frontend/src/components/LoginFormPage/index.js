@@ -11,7 +11,8 @@ function LoginFormPage () {
   const [password, setPassword] = useState('')
   const [errors, setErrors] = useState([])
 
-  // if (sessionUser) return <Redirect to='/' />
+  // if user is logged in will be automatically directed to homepage, saves logged in user into session 
+  if (sessionUser) return <Redirect to='/' />
 
   const handleSubmit = e => {
     e.preventDefault()
