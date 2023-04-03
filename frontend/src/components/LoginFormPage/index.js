@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import './LoginFormPage.css'
 
-function LoginFormPage () {
+function LoginFormPage ({ onSuccess }) {
   const dispatch = useDispatch()
   const sessionUser = useSelector(state => state.session.user)
   const [credential, setCredential] = useState('')
@@ -14,16 +14,21 @@ function LoginFormPage () {
   // if user is logged in will be automatically directed to homepage, saves logged in user into session
   if (sessionUser) return <Redirect to='/' />
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault()
     setErrors([])
-    return dispatch(sessionActions.login({ credential, password })).catch(
-      async res => {
-        const data = await res.json()
-        if (data && data.errors) setErrors(data.errors)
-      }
-    )
+    const success = await dispatch(
+      sessionActions.login({ credential, password })
+    ).catch(async res => {
+      const data = await res.json()
+      if (data && data.errors) setErrors(data.errors)
+    })
+
+    if (success && onSuccess) {
+      onSuccess()
+    }
   }
+
   return (
     <form onSubmit={handleSubmit} className='form'>
       <ul className='ul'>

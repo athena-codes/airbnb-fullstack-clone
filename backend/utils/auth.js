@@ -57,7 +57,7 @@ const restoreUser = (req, res, next) => {
 // Protects route from user who is not logged in
 const requireAuth = function (req, res, next) {
   if (req.user) {
-    return
+    return next()
   }
 
   const err = {

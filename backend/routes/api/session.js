@@ -46,6 +46,12 @@ router.get('/', restoreUser, requireAuth, (req, res) => {
   } else return res.json({})
 })
 
+router.delete('/', (_req, res) => {
+  res.clearCookie('token')
+  return res.json({ message: 'success' })
+})
+
+
 module.exports = router
 
 

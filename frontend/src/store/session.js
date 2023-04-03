@@ -24,8 +24,13 @@ export const login =
       body: JSON.stringify({ credential, password })
     })
     const user = await res.json()
-    dispatch(setSessionUser(user))
-    return res
+
+    if (res.ok) {
+      dispatch(setSessionUser(user))
+      return true
+    } else {
+      return false
+    }
   }
 
 // *** SIGN-UP ***
