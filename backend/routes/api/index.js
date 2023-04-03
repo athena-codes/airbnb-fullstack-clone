@@ -20,13 +20,13 @@ router.use('/spot-images', spotImagesRouter)
 router.use('/review-images', reviewImagesRouter)
 
 // Test Route:
-router.get('/test', requireAuth, (req, res) => {
-  res.json({ message: 'success' })
-})
+// router.get('/test', requireAuth, (req, res) => {
+//   res.json({ message: 'success' })
+// })
 
-router.post('/test', function (req, res) {
-  res.json({ requestBody: req.body })
-})
+// router.post('/test', function (req, res) {
+//   res.json({ requestBody: req.body })
+// })
 
 // Other test routes:
 
