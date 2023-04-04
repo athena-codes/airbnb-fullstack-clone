@@ -1,4 +1,5 @@
 import React from 'react'
+import './Modal.css'
 
 function SignupModal ({ open, children, onClose }) {
   if (!open) return null
@@ -8,9 +9,10 @@ function SignupModal ({ open, children, onClose }) {
       onClose()
     }
   }
+
   return (
-    <div onClick={handleOverlayClick}>
-      <div> {children} </div>
+    <div className='modal-overlay' onClick={handleOverlayClick}>
+      <div className='modal'>{children}</div>
     </div>
   )
 }

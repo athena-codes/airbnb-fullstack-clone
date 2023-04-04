@@ -1,0 +1,71 @@
+.allSpots-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    margin: 20px;
+}
+
+.spot {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+}
+
+.spot:hover {
+    transform: scale(1.05);
+}
+
+.spot .previewImg {
+    height: 200px;
+    background-color: #eee;
+    position: relative;
+    overflow: hidden;
+}
+
+.spot .previewImg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.spot .spot-container {
+    padding: 10px;
+    background-color: #fff;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.spot .location {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 5px;
+    position: relative;
+}
+
+.spot .location::before {
+    content: '★';
+    color: yellow;
+    margin-right: 5px;
+}
+
+.spot .spot-name {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.spot .price {
+    font-size: 16px;
+    color: #666;
+}
+
+.spot .spot-price {
+    font-weight: bold;
+    color: #f98fa1;
+}

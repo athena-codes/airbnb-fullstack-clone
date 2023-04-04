@@ -13,6 +13,7 @@ function Navigation ({ isLoaded }) {
   const sessionUser = useSelector(state => state.session.user)
   const [isLoginOpen, setIsLogInOpen] = useState(false)
   const [isSignupOpen, setIsSignupOpen] = useState(false)
+  const [showOverlay, setShowOverlay] = useState(false)
 
   const history = useHistory()
 
@@ -26,21 +27,25 @@ function Navigation ({ isLoaded }) {
   const openLoginModal = () => {
     setIsLogInOpen(true)
     setIsSignupOpen(false)
+    setShowOverlay(true)
     history.push('/')
   }
 
   const openSignupModal = () => {
     setIsSignupOpen(true)
     setIsLogInOpen(false)
+    setShowOverlay(true)
     history.push('/')
   }
 
   const handleLoginSuccess = () => {
     setIsLogInOpen(false)
+    setShowOverlay(false)
   }
 
   const handleSignupSuccess = () => {
     setIsSignupOpen(false)
+    setShowOverlay(false)
   }
 
   let sessionLinks
@@ -75,11 +80,34 @@ function Navigation ({ isLoaded }) {
         {isLoaded && sessionLinks}
       </ul>
 
-      <LoginModal open={isLoginOpen} onClose={() => setIsLogInOpen(false)}>
+      {showOverlay && (
+        <div
+          className='overlay'
+          onClick={() => {
+            setIsLogInOpen(false)
+            setIsSignupOpen(false)
+            setShowOverlay(false)
+          }}
+        ></div>
+      )}
+
+      <LoginModal
+        open={isLoginOpen}
+        onClose={() => {
+          setIsLogInOpen(false)
+          setShowOverlay(false)
+        }}
+      >
         <LoginFormPage onSuccess={handleLoginSuccess} />
       </LoginModal>
 
-      <SignupModal open={isSignupOpen} onClose={() => setIsSignupOpen(false)}>
+      <SignupModal
+        open={isSignupOpen}
+        onClose={() => {
+          setIsSignupOpen(false)
+          setShowOverlay(false)
+        }}
+      >
         <SignupFormPage onSuccess={handleSignupSuccess} />
       </SignupModal>
     </div>

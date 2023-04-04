@@ -1,16 +1,18 @@
 import React from 'react'
+import './Modal.css'
 
-function LoginModal({ open, children, onClose}) {
-    if (!open) return null
+function LoginModal ({ open, children, onClose }) {
+  if (!open) return null
 
-    const handleOverlayClick = (e) => {
-        if (e.target === e.currentTarget) {
-            onClose()
-        }
+  const handleOverlayClick = e => {
+    if (e.target === e.currentTarget) {
+      onClose()
     }
+  }
+
   return (
-    <div onClick={handleOverlayClick}>
-        <div> {children} </div>
+    <div className='modal-overlay' onClick={handleOverlayClick}>
+      <div className='modal'>{children}</div>
     </div>
   )
 }
