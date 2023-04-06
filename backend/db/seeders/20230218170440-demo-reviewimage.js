@@ -12,16 +12,40 @@ module.exports = {
 
     return queryInterface.bulkInsert(options, [
       {
-        url: "https://images.pexels.com/photos/9582419/pexels-photo-9582419.jpeg?auto=compress&cs=tinysrgb&w=400",
+        url: "https://images.pexels.com/photos/7579042/pexels-photo-7579042.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
         reviewId: 1
       },
          {
-        url: "https://images.pexels.com/photos/8349961/pexels-photo-8349961.jpeg?auto=compress&cs=tinysrgb&w=400",
+        url: "https://images.pexels.com/photos/7579042/pexels-photo-7579042.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
         reviewId: 2
       },
          {
-        url: "https://images.pexels.com/photos/11535806/pexels-photo-11535806.jpeg?auto=compress&cs=tinysrgb&w=400",
+        url: "https://images.pexels.com/photos/7579042/pexels-photo-7579042.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
         reviewId: 3
+      },
+       {
+        url: "https://images.pexels.com/photos/7579042/pexels-photo-7579042.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+        reviewId: 4
+      },
+       {
+        url: "https://images.pexels.com/photos/7579042/pexels-photo-7579042.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+        reviewId: 5
+      },
+       {
+        url: "https://images.pexels.com/photos/7579042/pexels-photo-7579042.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+        reviewId: 6
+      },
+       {
+        url: "https://images.pexels.com/photos/7579042/pexels-photo-7579042.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+        reviewId: 7
+      },
+       {
+        url: "https://images.pexels.com/photos/7579042/pexels-photo-7579042.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+        reviewId: 8
+      },
+       {
+        url: "https://images.pexels.com/photos/7579042/pexels-photo-7579042.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+        reviewId: 9
       }
     ])
   },
