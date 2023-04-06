@@ -17,19 +17,24 @@ export const removeSessionUser = () => ({
 // Thunk Action Creator
 // *** LOG-IN ***
 export const login =
-  ({ credential, password }) =>
+  ({ credential, password, setErrors }) =>
   async dispatch => {
-    const res = await csrfFetch('/api/session', {
-      method: 'POST',
-      body: JSON.stringify({ credential, password })
-    })
-    const user = await res.json()
+    try {
+      const res = await csrfFetch('/api/session', {
+        method: 'POST',
+        body: JSON.stringify({ credential, password })
+      })
+      const user = await res.json()
 
-    if (res.ok) {
-      dispatch(setSessionUser(user))
-      return true
-    } else {
-      return false
+      if (res.ok) {
+        dispatch(setSessionUser(user.user))
+        return res
+      } else {
+        dispatch(setErrors(user.errors))
+        return Promise.reject(user)
+      }
+    } catch (err) {
+      console.error(err)
     }
   }
 

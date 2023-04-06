@@ -42,13 +42,34 @@ form {
     font-size: 16px;
     padding: 8px 12px;
     cursor: pointer;
-    background-color: #0076FF;
+    background-color:#d60096e1;
     color: #FFFFFF;
     border: none;
     border-radius: 4px;
     margin-top: 15px;
+    text-decoration: none;
 }
 
+.button:focus,
 .button:hover {
-    background-color: #0056D6;
+    background-color: #bf1e5eed;
+    outline: none;
+    color: #FFFFFF;
+}
+
+.login-form {
+    position: relative;
+}
+
+.error-message {
+    position: absolute;
+    top: 300px;
+    left: 0;
+    width: 97%;
+    color: rgb(227, 47, 47);
+    padding: 10px;
+    text-align: center;
+    background-color: #ffe5e58a;
+    border-radius: 4px;
+    font-weight: bold;
 }

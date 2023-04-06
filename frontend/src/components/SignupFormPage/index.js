@@ -72,12 +72,10 @@ function SignupFormPage () {
       }
     })
   }
-
-  // --------------------------------
   return setErrors([
     'Confirm Password field must be the same as the Password field'
   ])
-  // --------------------------------
+
 }
 
 
@@ -142,7 +140,7 @@ function SignupFormPage () {
           required
         />
       </label>
-      <button type='submit'>Sign Up</button>
+      <button type='submit' className='button'>Sign Up</button>
     </form>
   )
 }

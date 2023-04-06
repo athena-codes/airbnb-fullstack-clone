@@ -1,30 +1,33 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import * as sessionActions from '../../store/session'
 
-function ProfileButton ({ user }) {
+function ProfileButton () {
   const dispatch = useDispatch()
   const [showMenu, setShowMenu] = useState(false)
   const ulRef = useRef()
+
+  const  user  = useSelector(state => state.session.user)
+  console.log('USER --> ', user)
+
+  useEffect(() => {
+    if (user) {
+      setShowMenu(false)
+    }
+  }, [user])
 
   const logout = e => {
     e.preventDefault()
     dispatch(sessionActions.logout())
   }
 
-  // OPEN MENU FUNCTIONALITY
   const openMenu = () => {
-    if (showMenu) return
     setShowMenu(true)
   }
 
-  // sets the showMenu state variable to false to trigger the dropdown menu to close
-  // make sure to include showMenu in dependency array
   useEffect(() => {
     if (!showMenu) return
 
-    // change showMenu to false only if the target of the click event does NOT
-    // contain the HTML element of the dropdown menu
     const closeMenu = e => {
       if (!ulRef.current.contains(e.target)) {
         setShowMenu(false)
@@ -33,20 +36,19 @@ function ProfileButton ({ user }) {
 
     document.addEventListener('click', closeMenu)
 
-    return () => document.removeEventListener('click', closeMenu)
+    return () => {
+      document.removeEventListener('click', closeMenu)
+    }
   }, [showMenu])
 
-  const ulClassName = 'profile-dropdown' + (showMenu ? '' : ' hidden')
-
-  // had to add showMenu && inside of return for drop down effect
   return (
     <>
       <button onClick={openMenu}>
         <i className='fas fa-user-circle' />
       </button>
       {showMenu && (
-        <ul className={ulClassName} ref={ulRef}>
-          <li>{user.username}</li>
+        <ul className='profile-dropdown' ref={ulRef}>
+          <li>Hello, {user.firstName}</li>
           <li>
             {user.firstName} {user.lastName}
           </li>

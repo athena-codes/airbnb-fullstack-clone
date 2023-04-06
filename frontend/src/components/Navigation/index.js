@@ -1,13 +1,17 @@
 import React, { useState } from 'react'
 import { NavLink, useHistory } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-import ProfileButton from './ProfileButton'
+
 import * as sessionActions from '../../store/session'
-import './Navigation.css'
+import ProfileButton from './ProfileButton'
 import LoginModal from '../LoginModal'
 import SignupModal from '../SignupModal'
 import LoginFormPage from '../LoginFormPage'
 import SignupFormPage from '../SignupFormPage'
+
+import logo from './images/logo.jpeg'
+import './Navigation.css'
+
 
 function Navigation ({ isLoaded }) {
   const sessionUser = useSelector(state => state.session.user)
@@ -53,7 +57,7 @@ function Navigation ({ isLoaded }) {
     sessionLinks = (
       <li>
         <ProfileButton user={sessionUser} />
-        <button onClick={logout}>Log Out</button>
+        {/* <button onClick={logout}></button> */}
       </li>
     )
   } else {
@@ -70,11 +74,11 @@ function Navigation ({ isLoaded }) {
   }
 
   return (
-    <div>
-      <ul>
+    <div className='navigation-container'>
+      <ul className='navigation-list'>
         <li>
-          <NavLink exact to='/'>
-            Home
+          <NavLink exact to='/' className='navigation-logo'>
+            <img src={logo} alt='logo' />
           </NavLink>
         </li>
         {isLoaded && sessionLinks}

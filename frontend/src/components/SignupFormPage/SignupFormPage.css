@@ -37,15 +37,30 @@ button[type="submit"] {
     font-size: 18px;
     font-weight: bold;
     color: #fff;
-    background-color: #e91e63;
-    border: none;
+    background-color: #e91e62;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.2s ease-in-out;
 }
 
-button[type="submit"]:hover {
-    background-color: #c2185b;
+.button:focus,
+.button:hover {
+    background-color:#bf1e5eed;
+    outline: none;
+    color: #FFFFFF;
+}
+
+
+button {
+    background-color: transparent;
+    border: none;
+    color: #000000;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all .4s ease-in-out;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.269);
+    padding: 8px 12px;
+    margin-bottom: 10px;
+    border-radius: 4px;
 }
 
 ul {
@@ -64,13 +79,4 @@ li {
 
 body {
     background-color: #f8f8f8;
-}
-
-button[type="submit"]:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-}
-
-button[type="submit"]:disabled:hover {
-    background-color: #ccc;
 }

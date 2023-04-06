@@ -14,9 +14,7 @@ export default function AllSpots () {
   }, [dispatch])
   if (!spots) return null
 
-const allSpots = Object.values(spots)
-console.log('ALL SPOTS ->', allSpots)
-
+  const allSpots = Object.values(spots)
 
   const clickHandler = spotId => {
     history.push(`/spots/${spotId}`)
@@ -25,7 +23,6 @@ console.log('ALL SPOTS ->', allSpots)
   return (
     <div className='allSpots-container'>
       {allSpots[0].map(spot => {
-        console.log('SPOT RETURNED', spot)
         return (
           <div
             className='spot'
@@ -40,20 +37,27 @@ console.log('ALL SPOTS ->', allSpots)
               />
             </div>
             <div className='spot-container'>
-              <p className='location'>
-                {spot.city}, {spot.state}
-                <span className='stars'>
-                  ★
-                  {Number(spot.avgRating)
-                    ? Number(spot.avgRating).toFixed(1)
-                    : '0'}
-                </span>
-              </p>
-
-              <p className='spot-name'>{spot.name}</p>
-              <p className='price'>
-                <span className='spot-price'>${spot.price}</span> night
-              </p>
+              <div className='location-stars-container'>
+                <div className='location'>
+                  {spot.city}, {spot.state}
+                </div>
+                <div className='stars-container'>
+                  <span className='stars'>
+                    <p className='star-icon'>{'\u2605'}</p>
+                    <p>
+                      {Number(spot.avgRating)
+                        ? Number(spot.avgRating).toFixed(1)
+                        : '0'}
+                    </p>
+                  </span>
+                </div>
+              </div>
+              <div className='spot-info'>
+                <p className='spot-name'>{spot.name}</p>
+                <p className='price'>
+                  <span className='spot-price'>${spot.price}</span> night
+                </p>
+              </div>
             </div>
           </div>
         )
