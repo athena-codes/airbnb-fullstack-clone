@@ -12,6 +12,7 @@ function LoginFormPage ({ onSuccess }) {
   const [errors, setErrors] = useState([])
   const [loginFailed, setLoginFailed] = useState(false)
 
+  // redirect user to homepage after logging in 
   if (sessionUser) return <Redirect to='/' />
 
   const handleSubmit = async e => {
