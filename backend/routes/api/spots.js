@@ -537,7 +537,6 @@ router.get('/:spotId', async (req, res, next) => {
 
     const spotImages = await SpotImage.findAll({
       where: {
-        preview: true,
         spotId: spotId
       },
       attributes: ['id', 'url', 'preview']
@@ -588,13 +587,14 @@ router.post(
       const { url, preview } = req.body
 
       const newSpotImage = await SpotImage.create({
-        spotId: spotId,
+        spotId: spot.id,
         url: url,
         preview: preview
       })
 
       res.status(200).json({
         id: newSpotImage.id,
+        spotId: newSpotImage.spotId,
         url: newSpotImage.url,
         preview: newSpotImage.preview
       })

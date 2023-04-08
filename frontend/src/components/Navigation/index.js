@@ -9,7 +9,7 @@ import SignupModal from '../SignupModal'
 import LoginFormPage from '../LoginFormPage'
 import SignupFormPage from '../SignupFormPage'
 
-import logo from './images/logo.jpeg'
+import logo from './images/MOCK.png'
 import './Navigation.css'
 
 
@@ -78,7 +78,7 @@ function Navigation ({ isLoaded }) {
       <ul className='navigation-list'>
         <li>
           <NavLink exact to='/' className='navigation-logo'>
-            <img src={logo} alt='logo' />
+            <img className='logo' src={logo} alt='logo' />
           </NavLink>
         </li>
         {isLoaded && sessionLinks}

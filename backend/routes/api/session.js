@@ -16,6 +16,7 @@ const validateLogin = [
   handleValidationErrors
 ]
 
+// LOG IN
 router.post('/', validateLogin, async (req, res, next) => {
   const { credential, password } = req.body
   const user = await User.login({ credential, password })
@@ -37,6 +38,7 @@ router.post('/', validateLogin, async (req, res, next) => {
   })
 })
 
+// RESTORE CURRENT USER
 router.get('/', restoreUser, requireAuth, (req, res) => {
   const { user } = req
   if (user) {
@@ -46,9 +48,29 @@ router.get('/', restoreUser, requireAuth, (req, res) => {
   } else return res.json({})
 })
 
+// LOG OUT
 router.delete('/', (_req, res) => {
   res.clearCookie('token')
   return res.json({ message: 'success' })
+})
+
+// DEMO LOG IN
+router.post('/demo', async (req, res, next) => {
+  try {
+    const demoUser = await User.findOne({ where: { username: 'Demo-lition' } })
+    if (!demoUser) throw new Error('Demo user not found')
+    await setTokenCookie(res, demoUser)
+    const { id, firstName, lastName, email, username } = demoUser
+    return res.json({
+      user: { id, firstName, lastName, email, username }
+    })
+  } catch (err) {
+    console.error(err)
+    res.status(500).json({
+      errors: [{ message: 'Server error', statusCode: 500 }]
+    })
+    next(err)
+  }
 })
 
 

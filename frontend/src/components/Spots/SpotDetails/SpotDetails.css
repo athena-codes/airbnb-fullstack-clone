@@ -1,0 +1,144 @@
+.spot-details {
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: repeat(4, 1fr) auto;
+    /* add a new row for the spot description */
+    grid-column-gap: 10px;
+    margin-bottom: 0px;
+}
+
+.spot-images {
+    grid-column: 1 / span 2;
+    grid-row: 1 / span 5;
+    /* adjust grid row to span 5 rows instead of 4 */
+}
+
+.preview-image {
+    width: 100%;
+    height: auto;
+    grid-row: 1 / span 5;
+    /* adjust grid row to span 5 rows instead of 4 */
+    grid-column: 1 / span 2;
+}
+
+.other-images-grid {
+    display: grid;
+    margin-top: 20px;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    grid-column-gap: 10px;
+    grid-row-gap: 10px;
+    grid-column: 3 / span 2;
+    grid-row: 1 / span 4;
+}
+
+.spot-description {
+    max-width: 55%;
+    flex-grow: 1;
+}
+
+.other-image {
+    width: 100%;
+    height: auto;
+}
+
+.spot-stars {
+    padding-right: 12px;
+    padding-top: 15px;
+    /* margin-bottom: 5px; */
+}
+
+.spot-details h1 {
+    font-size: 36px;
+    margin: 0;
+}
+
+.spot-location {
+    font-size: 20px;
+    margin-top: 10px;
+}
+
+.spot-images {
+    margin-top: 20px;
+}
+
+.spot-images img {
+    max-width: 500px;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.spot-description {
+    max-width: 55%;
+    flex-grow: 1;
+}
+
+.spot-price-box {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    overflow: hidden;
+}
+
+.spot-price {
+    margin-right: 3px;
+    font-size: 24px;
+    font-weight: bold;
+    padding-top: 10px;
+}
+
+.spot-reserve {
+    margin-top: 20px;
+}
+
+.reserve-btn {
+    font-size: 18px;
+    padding: 10px 20px;
+    background-color: #ff6b6b;
+    border: none;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    max-width: 350px;
+}
+
+.reserve-btn:hover {
+    box-sizing: border-box;
+    box-shadow: 10px solid black;
+}
+
+.review-logo {
+    height: 25px;
+    width: 25px;
+    padding-top: 10px;
+}
+
+.reservation-box {
+    display: flex;
+    flex-direction: column;
+    max-width: 80%;
+    margin-left: 60%;
+    border: 2px solid rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    border-radius: 10px;
+    transition: all 0.3s ease-in-out;
+}
+
+.reservation-box .reserve-btn {
+    width: 100%;
+}
+.reservation-box:hover {
+    transform: scale(1.05);
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    border-color: rgba(0, 0, 0, 0.05);
+}

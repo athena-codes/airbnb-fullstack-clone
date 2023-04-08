@@ -12,7 +12,7 @@ function LoginFormPage ({ onSuccess }) {
   const [errors, setErrors] = useState([])
   const [loginFailed, setLoginFailed] = useState(false)
 
-  // redirect user to homepage after logging in 
+  // redirect user to homepage after logging in
   if (sessionUser) return <Redirect to='/' />
 
   const handleSubmit = async e => {
@@ -39,9 +39,37 @@ function LoginFormPage ({ onSuccess }) {
     }
   }
 
+  const handleDemoLogin = async e => {
+    e.preventDefault()
+    setErrors([])
+    setLoginFailed(false)
+
+    const success = await dispatch(sessionActions.demoLogin()).catch(
+      async res => {
+        const data = await res.json()
+
+        if (data && data.errors) {
+          setErrors(data.errors)
+        }
+      }
+    )
+
+    if (success && onSuccess) {
+      onSuccess()
+    }
+
+    if (!success) {
+      setLoginFailed(true)
+    }
+  }
+
   return (
     <div className='login-form'>
-      {loginFailed && <div className='error-message'>The provided credentials were invalid.</div>}
+      {loginFailed && (
+        <div className='error-message'>
+          The provided credentials were invalid.
+        </div>
+      )}
       <form onSubmit={handleSubmit} className='form'>
         <label className='label'>
           Username or Email
@@ -66,6 +94,10 @@ function LoginFormPage ({ onSuccess }) {
         <button type='submit' className='button'>
           Log In
         </button>
+        <button type='button' className='button' onClick={handleDemoLogin}>
+          Demo User
+        </button>
+
         <ul className='ul'>
           {errors.map((error, idx) => (
             <li key={idx} className='li'>

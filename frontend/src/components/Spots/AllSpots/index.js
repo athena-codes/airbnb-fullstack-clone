@@ -25,10 +25,14 @@ export default function AllSpots () {
       {allSpots[0].map(spot => {
         return (
           <div
-            className='spot'
+            className='spot tooltip-on-hover'
             key={spot.id}
             onClick={() => clickHandler(spot.id)}
+            data-name={spot.name}
           >
+              <div className='toolip-on-hover'></div>
+            <div className='tooltip' title={spot.name}>{spot.name}
+            </div>
             <div className='previewImg'>
               <img
                 className='spot-img'
@@ -55,7 +59,7 @@ export default function AllSpots () {
               <div className='spot-info'>
                 <p className='spot-name'>{spot.name}</p>
                 <p className='price'>
-                  <span className='spot-price'>${spot.price}</span> night
+                  <span className='spot-price'>${spot.price}</span>/night
                 </p>
               </div>
             </div>

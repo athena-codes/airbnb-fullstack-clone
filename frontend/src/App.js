@@ -6,6 +6,7 @@ import Navigation from './components/Navigation'
 import AllSpots from './components/Spots/AllSpots'
 import LoginModal from './components/LoginModal'
 import SignupModal from './components/SignupModal'
+import SpotDetails from './components/Spots/SpotDetails'
 
 function App () {
   const dispatch = useDispatch()
@@ -29,6 +30,9 @@ function App () {
           </Route>
           <Route path='/signup'>
             <SignupModal />
+          </Route>
+          <Route exact path='/spots/:id'>
+            <SpotDetails />
           </Route>
         </Switch>
       )}
