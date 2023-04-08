@@ -104,22 +104,22 @@ function SpotDetails () {
         <div className='reservation-container'>
           <div ref={reservationBoxRef} className='reservation-box'>
             <div className='spot-price-box'>
-              <div className='spot-price'>${price} per night</div>
+              <div className='spot-price'>${price}/night</div>
               <div className='spot-stars'>
-                {Number(avgStarRating) ? Number(avgStarRating).toFixed(1) : '0'}{' '}
-                ⭐️
+                ⭐️{Number(avgStarRating) ? Number(avgStarRating).toFixed(1) : 'New'}{' '}
               </div>
+              <p className='dot'>·</p>
               <div className='num-reviews'>
-                {numReviews}
                 <img
                   className='review-logo'
                   src={reviewIcon}
                   alt='review thread'
                 ></img>
+                {  numReviews !== 0 ? numReviews : '0' } {`${numReviews === 1 ? 'Review' : 'Reviews'}`}
               </div>
             </div>
             <div className='spot-reserve'>
-              <button className='reserve-btn'>Reserve</button>
+              <button className='reserve-btn' onClick={() => alert('Feature coming soon!')}>Reserve</button>
             </div>
           </div>
         </div>

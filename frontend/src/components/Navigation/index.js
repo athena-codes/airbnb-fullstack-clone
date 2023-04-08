@@ -12,11 +12,12 @@ import CreateSpotModal from '../Spots/CreateSpot/CreateSpotModal/CreateSpotModal
 import logo from './images/MOCK.png'
 import './Navigation.css'
 
-function Navigation ({ isLoaded }) {
+function Navigation ({ isLoaded, createdSpotId }) {
   const sessionUser = useSelector(state => state.session.user)
   const [isLoginOpen, setIsLogInOpen] = useState(false)
   const [isSignupOpen, setIsSignupOpen] = useState(false)
   const [isCreateSpotOpen, setIsCreateSpotOpen] = useState(false)
+  const [createSpot, setCreateSpot] = useState(false)
   const [showOverlay, setShowOverlay] = useState(false)
 
   const history = useHistory()
@@ -51,6 +52,12 @@ function Navigation ({ isLoaded }) {
     setShowOverlay(false)
   }
 
+  const handleCreationSuccess = () => {
+    setCreateSpot(false)
+    setShowOverlay(false)
+    history.push(`/spots/${createdSpotId}`)
+  }
+
   const openCreateSpotForm = () => {
     setIsCreateSpotOpen(!isCreateSpotOpen)
   }
@@ -74,7 +81,7 @@ function Navigation ({ isLoaded }) {
         <button className='login' onClick={openLoginModal}>
           <NavLink
             to='/login'
-            style={{ textDecoration: 'none', color:'black'}}
+            style={{ textDecoration: 'none', color: 'black' }}
           >
             Log In
           </NavLink>
@@ -82,7 +89,7 @@ function Navigation ({ isLoaded }) {
         <button className='logout' onClick={openSignupModal}>
           <NavLink
             to='/signup'
-            style={{ textDecoration: 'none', color:'black' }}
+            style={{ textDecoration: 'none', color: 'black' }}
           >
             Sign Up
           </NavLink>
@@ -124,13 +131,14 @@ function Navigation ({ isLoaded }) {
 
       {isCreateSpotOpen && (
         <CreateSpotModal
-          open={isCreateSpotOpen}
+          open={openCreateSpotModal}
           onClose={() => {
             setIsCreateSpotOpen(false)
             setShowOverlay(false)
           }}
+          onSuccess = { handleCreationSuccess }
         >
-          <CreateSpotForm onSuccess={openCreateSpotForm} />
+          <CreateSpotForm />
         </CreateSpotModal>
       )}
 

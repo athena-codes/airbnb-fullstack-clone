@@ -51,7 +51,7 @@ export default function AllSpots () {
                     <p>
                       {Number(spot.avgRating)
                         ? Number(spot.avgRating).toFixed(1)
-                        : '0'}
+                        : 'New!'}
                     </p>
                   </span>
                 </div>
