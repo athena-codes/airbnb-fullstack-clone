@@ -64,49 +64,59 @@ function LoginFormPage ({ onSuccess }) {
   }
 
   return (
-    <div className='login-form'>
-      {loginFailed && (
-        <div className='error-message'>
-          The provided credentials were invalid.
-        </div>
-      )}
-      <form onSubmit={handleSubmit} className='form'>
-        <label className='label'>
-          Username or Email
-          <input
-            className='input'
-            type='text'
-            value={credential}
-            onChange={e => setCredential(e.target.value)}
-            required
-          />
-        </label>
-        <label className='label'>
-          Password
-          <input
-            className='input'
-            type='password'
-            value={password}
-            onChange={e => setPassword(e.target.value)}
-            required
-          />
-        </label>
-        <button type='submit' className='button'>
-          Log In
-        </button>
-        <button type='button' className='button' onClick={handleDemoLogin}>
-          Demo User
-        </button>
-
-        <ul className='ul'>
-          {errors.map((error, idx) => (
-            <li key={idx} className='li'>
-              {error}
-            </li>
-          ))}
-        </ul>
-      </form>
-    </div>
+    <>
+      <h1 className='login-title'>Log In</h1>
+      <div className='login-form'>
+        {loginFailed && (
+          <div className='error-message'>
+            The provided credentials were invalid.
+          </div>
+        )}
+        <form onSubmit={handleSubmit} className='login-form'>
+          <div className='login-input'>
+            <label className='label'>
+              <input
+                className='input'
+                type='text'
+                placeholder='Username or Email'
+                value={credential}
+                onChange={e => setCredential(e.target.value)}
+                required
+              />
+            </label>
+            <label className='label'>
+              <input
+                className='input'
+                type='password'
+                placeholder='Password'
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+                required
+              />
+            </label>
+          </div>
+          <div className='demo-login-btns'>
+            <button type='submit' className='login-btn'>
+              Log In
+            </button>
+            <button
+              type='button'
+              className='demo-btn'
+              onClick={handleDemoLogin}
+            >
+              Demo User
+            </button>
+          </div>
+          <ul className='ul'>
+            {errors.map((error, idx) => (
+              <li key={idx} className='li'>
+                {error}
+              </li>
+            ))}
+          </ul>
+        </form>
+      </div>
+    </>
   )
 }
 

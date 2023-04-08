@@ -1,4 +1,4 @@
-.modal-overlay {
+.login-modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -11,10 +11,12 @@
     align-items: center;
 }
 
-.modal {
+.login-modal {
     position: relative;
     background-color: #fff;
     padding: 2rem;
     border-radius: 0.5rem;
+    height: 400px;
+    width: 500px;
     box-shadow: 0 0 1rem rgba(0, 0, 0, 0.3);
 }

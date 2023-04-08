@@ -41,107 +41,107 @@ function SignupFormPage () {
   // }
 
   const handleSubmit = e => {
-  e.preventDefault()
-  if (password === confirmPassword) {
-    setErrors([])
-    return dispatch(
-      sessionActions.signup({ email, username, firstName, lastName, password })
-    ).catch(async res => {
-      const data = await res.json()
-      if (data && data.errors) {
-        let errorMessages = []
+    e.preventDefault()
+    if (password === confirmPassword) {
+      setErrors([])
+      return dispatch(
+        sessionActions.signup({
+          email,
+          username,
+          firstName,
+          lastName,
+          password
+        })
+      ).catch(async res => {
+        const data = await res.json()
+        if (data && data.errors) {
+          let errorMessages = []
 
-        if (Array.isArray(data.errors)) {
-          errorMessages = data.errors
-        } else {
-          for (const key in data.errors) {
-            if (data.errors.hasOwnProperty(key)) {
-              const errorValue = data.errors[key]
-              if (Array.isArray(errorValue)) {
-                errorValue.forEach(errorMsg => {
-                  errorMessages.push(`${key}: ${errorMsg}`)
-                })
-              } else {
-                errorMessages.push(`${key}: ${errorValue}`)
+          if (Array.isArray(data.errors)) {
+            errorMessages = data.errors
+          } else {
+            for (const key in data.errors) {
+              if (data.errors.hasOwnProperty(key)) {
+                const errorValue = data.errors[key]
+                if (Array.isArray(errorValue)) {
+                  errorValue.forEach(errorMsg => {
+                    errorMessages.push(`${key}: ${errorMsg}`)
+                  })
+                } else {
+                  errorMessages.push(`${key}: ${errorValue}`)
+                }
               }
             }
           }
+
+          setErrors(errorMessages)
         }
-
-        setErrors(errorMessages)
-      }
-    })
+      })
+    }
+    return setErrors([
+      'Confirm Password field must be the same as the Password field'
+    ])
   }
-  return setErrors([
-    'Confirm Password field must be the same as the Password field'
-  ])
-
-}
-
 
   return (
-    <form onSubmit={handleSubmit}>
-      <ul>
-        {errors.map((error, idx) => (
-          <li key={idx}>{error}</li>
-        ))}
-      </ul>
-      <label>
-        Email
+    <>
+      <h1>Sign Up</h1>
+      <form className='signup-form' onSubmit={handleSubmit}>
+        <ul>
+          {errors.map((error, idx) => (
+            <li key={idx}>{error}</li>
+          ))}
+        </ul>
+        <div className='signup-input'>
+
         <input
           type='text'
+          placeholder='Email'
           value={email}
           onChange={e => setEmail(e.target.value)}
           required
         />
-      </label>
-      <label>
-        Username
         <input
           type='text'
+          placeholder='Username'
           value={username}
           onChange={e => setUsername(e.target.value)}
           required
         />
-      </label>
-      <label>
-        First Name
         <input
           type='text'
+          placeholder='First Name'
           value={firstName}
           onChange={e => setFirstName(e.target.value)}
           required
         />
-      </label>
-      <label>
-        Last Name
         <input
           type='text'
+          placeholder='Last Name'
           value={lastName}
           onChange={e => setLastName(e.target.value)}
           required
         />
-      </label>
-      <label>
-        Password
         <input
           type='password'
+          placeholder='Password'
           value={password}
           onChange={e => setPassword(e.target.value)}
           required
         />
-      </label>
-      <label>
-        Confirm Password
         <input
           type='password'
+          placeholder='Confirm Password'
           value={confirmPassword}
           onChange={e => setConfirmPassword(e.target.value)}
           required
         />
-      </label>
-      <button type='submit' className='button'>Sign Up</button>
-    </form>
+        </div>
+        <button type='submit' className='signup-btn'>
+          Sign Up
+        </button>
+      </form>
+    </>
   )
 }
 

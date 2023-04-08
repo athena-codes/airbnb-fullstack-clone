@@ -1,0 +1,23 @@
+.signup-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.signup-modal {
+    position: relative;
+    background-color: #fff;
+    padding: 1rem;
+    width: 80%;
+    max-width: 500px;
+    height: 650px;
+    border-radius: 0.5rem;
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.3);
+}

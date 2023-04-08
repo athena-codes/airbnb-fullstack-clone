@@ -1,5 +1,5 @@
 import React from 'react'
-import './Modal.css'
+import './LoginModal.css'
 
 function LoginModal ({ open, children, onClose }) {
   if (!open) return null
@@ -11,8 +11,8 @@ function LoginModal ({ open, children, onClose }) {
   }
 
   return (
-    <div className='modal-overlay' onClick={handleOverlayClick}>
-      <div className='modal'>{children}</div>
+    <div className='login-modal-overlay' onClick={handleOverlayClick}>
+      <div className='login-modal'>{children}</div>
     </div>
   )
 }

@@ -1,26 +1,25 @@
 import React, { useState } from 'react'
 import { NavLink, useHistory } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-
 import * as sessionActions from '../../store/session'
 import ProfileButton from './ProfileButton'
 import LoginModal from '../LoginModal'
 import SignupModal from '../SignupModal'
 import LoginFormPage from '../LoginFormPage'
 import SignupFormPage from '../SignupFormPage'
-
+import CreateSpotForm from '../Spots/CreateSpot'
+import CreateSpotModal from '../Spots/CreateSpot/CreateSpotModal/CreateSpotModal'
 import logo from './images/MOCK.png'
 import './Navigation.css'
-
 
 function Navigation ({ isLoaded }) {
   const sessionUser = useSelector(state => state.session.user)
   const [isLoginOpen, setIsLogInOpen] = useState(false)
   const [isSignupOpen, setIsSignupOpen] = useState(false)
+  const [isCreateSpotOpen, setIsCreateSpotOpen] = useState(false)
   const [showOverlay, setShowOverlay] = useState(false)
 
   const history = useHistory()
-
   const dispatch = useDispatch()
 
   const logout = e => {
@@ -52,6 +51,15 @@ function Navigation ({ isLoaded }) {
     setShowOverlay(false)
   }
 
+  const openCreateSpotForm = () => {
+    setIsCreateSpotOpen(!isCreateSpotOpen)
+  }
+
+  const openCreateSpotModal = () => {
+    setIsCreateSpotOpen(true)
+    history.push('/')
+  }
+
   let sessionLinks
   if (sessionUser) {
     sessionLinks = (
@@ -63,11 +71,21 @@ function Navigation ({ isLoaded }) {
   } else {
     sessionLinks = (
       <li>
-        <button onClick={openLoginModal}>
-          <NavLink to='/login'>Log In</NavLink>
+        <button className='login' onClick={openLoginModal}>
+          <NavLink
+            to='/login'
+            style={{ textDecoration: 'none', color:'black'}}
+          >
+            Log In
+          </NavLink>
         </button>
-        <button onClick={openSignupModal}>
-          <NavLink to='/signup'>Sign Up</NavLink>
+        <button className='logout' onClick={openSignupModal}>
+          <NavLink
+            to='/signup'
+            style={{ textDecoration: 'none', color:'black' }}
+          >
+            Sign Up
+          </NavLink>
         </button>
       </li>
     )
@@ -81,7 +99,16 @@ function Navigation ({ isLoaded }) {
             <img className='logo' src={logo} alt='logo' />
           </NavLink>
         </li>
-        {isLoaded && sessionLinks}
+        <div className='nav-list-items'>
+          {isLoaded && sessionLinks}
+          {sessionUser && (
+            <li>
+              <button className='create-spot-btn' onClick={openCreateSpotForm}>
+                Create Spot
+              </button>
+            </li>
+          )}
+        </div>
       </ul>
 
       {showOverlay && (
@@ -93,6 +120,18 @@ function Navigation ({ isLoaded }) {
             setShowOverlay(false)
           }}
         ></div>
+      )}
+
+      {isCreateSpotOpen && (
+        <CreateSpotModal
+          open={isCreateSpotOpen}
+          onClose={() => {
+            setIsCreateSpotOpen(false)
+            setShowOverlay(false)
+          }}
+        >
+          <CreateSpotForm onSuccess={openCreateSpotForm} />
+        </CreateSpotModal>
       )}
 
       <LoginModal

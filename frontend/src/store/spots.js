@@ -3,6 +3,7 @@ import { csrfFetch } from './csrf'
 // Action Types
 const GET = 'spots/getSpots'
 const SPOT_DETAILS = 'spots/getSpotDetails'
+const CREATE = 'spots/createSpot'
 
 // Action Creators
 
@@ -19,7 +20,12 @@ const getSpotDetails = spot => {
     spot
   }
 }
-
+const createSpot = newSpot => {
+  return {
+    type: CREATE,
+    newSpot
+  }
+}
 
 // Thunk Functions
 
@@ -44,6 +50,38 @@ export const getSpotDetailsThunk = spotId => async dispatch => {
   }
 }
 
+// CREATE SPOT
+export const createSpotsThunk = (newSpot, previewImage) => async dispatch => {
+  const response = await csrfFetch(`/api/spots`, {
+    method: 'POST',
+    body: JSON.stringify(newSpot)
+  })
+
+  if (response.ok) {
+    const createdSpot = await response.json()
+    const imageResponse = await csrfFetch(
+      `/api/spots/${createdSpot.id}/images`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          url: previewImage.url,
+          preview: true
+        })
+      }
+    )
+
+    if (imageResponse.ok) {
+      const image = await imageResponse.json()
+      createdSpot.previewImage = image.url
+
+      dispatch(createSpot(createdSpot))
+
+      return createdSpot
+    }
+  }
+}
+
 // REDUCER
 const initialState = {}
 
@@ -53,10 +91,13 @@ const spotReducer = (state = initialState, action) => {
     case GET:
       newState = Object.assign({}, state)
       newState.spots = action.payload
-      return newState;
- case SPOT_DETAILS:
-      newState["spotDetails"] = action.spot;
-      return newState;
+      return newState
+    case SPOT_DETAILS:
+      newState['spotDetails'] = action.spot
+      return newState
+    case CREATE:
+      const createSpot = action.newSpot
+      return createSpot
     default:
       return state
   }
