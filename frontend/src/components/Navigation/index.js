@@ -138,7 +138,9 @@ function Navigation ({ isLoaded, createdSpotId }) {
           }}
           onSuccess = { handleCreationSuccess }
         >
-          <CreateSpotForm />
+          <CreateSpotForm
+          open={setIsCreateSpotOpen}
+          />
         </CreateSpotModal>
       )}
 

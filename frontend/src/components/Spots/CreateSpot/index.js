@@ -4,7 +4,7 @@ import { Redirect, useHistory } from 'react-router-dom'
 import * as spotActions from '../../../store/spots'
 import './CreateSpot.css'
 
-export default function CreateSpotForm ({ createdSpotId, onSuccess }) {
+export default function CreateSpotForm ({ createdSpotId, onSuccess, open }) {
   const dispatch = useDispatch()
   const history = useHistory()
 
@@ -48,6 +48,7 @@ export default function CreateSpotForm ({ createdSpotId, onSuccess }) {
       )
     )
       .then(spot => {
+        open(false)
         history.push(`/spots/${spot.id}`)
       })
 
