@@ -2,8 +2,10 @@ import { useEffect, useState, useRef } from 'react'
 import { useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { getSpotDetailsThunk } from '../../../store/spots'
+import { getSpotReviewsThunk } from '../../../store/reviews'
 import './SpotDetails.css'
 import reviewIcon from './images/review-icon.avif'
+import SpotReviews from '../Reviews/SpotReviews'
 
 function SpotDetails () {
   const { id } = useParams()
@@ -16,6 +18,8 @@ function SpotDetails () {
     async function fetchSpotDetails () {
       setIsLoading(true)
       await dispatch(getSpotDetailsThunk(id))
+      setIsLoading(false)
+      await dispatch(getSpotReviewsThunk(id))
       setIsLoading(false)
     }
     fetchSpotDetails()
@@ -106,7 +110,10 @@ function SpotDetails () {
             <div className='spot-price-box'>
               <div className='spot-price'>${price}/night</div>
               <div className='spot-stars'>
-                ⭐️{Number(avgStarRating) ? Number(avgStarRating).toFixed(1) : 'New'}{' '}
+                ⭐️
+                {Number(avgStarRating)
+                  ? Number(avgStarRating).toFixed(1)
+                  : 'New'}{' '}
               </div>
               <p className='dot'>·</p>
               <div className='num-reviews'>
@@ -115,14 +122,23 @@ function SpotDetails () {
                   src={reviewIcon}
                   alt='review thread'
                 ></img>
-                {  numReviews !== 0 ? numReviews : '0' } {`${numReviews === 1 ? 'Review' : 'Reviews'}`}
+                {numReviews !== 0 ? numReviews : '0'}{' '}
+                {`${numReviews === 1 ? 'Review' : 'Reviews'}`}
               </div>
             </div>
             <div className='spot-reserve'>
-              <button className='reserve-btn' onClick={() => alert('Feature coming soon!')}>Reserve</button>
+              <button
+                className='reserve-btn'
+                onClick={() => alert('Feature coming soon!')}
+              >
+                Reserve
+              </button>
             </div>
           </div>
         </div>
+      </div>
+      <div>
+        <SpotReviews />
       </div>
     </div>
   )

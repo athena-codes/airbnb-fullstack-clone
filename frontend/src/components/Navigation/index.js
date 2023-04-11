@@ -8,7 +8,7 @@ import SignupModal from '../SignupModal'
 import LoginFormPage from '../LoginFormPage'
 import SignupFormPage from '../SignupFormPage'
 import CreateSpotForm from '../Spots/CreateSpot'
-import CreateSpotModal from '../Spots/CreateSpot/CreateSpotModal/CreateSpotModal'
+import CreateSpotModal from '../Spots/CreateSpot/CreateSpotModal'
 import logo from './images/MOCK.png'
 import './Navigation.css'
 
@@ -107,7 +107,6 @@ function Navigation ({ isLoaded, createdSpotId }) {
           </NavLink>
         </li>
         <div className='nav-list-items'>
-          {isLoaded && sessionLinks}
           {sessionUser && (
             <li>
               <button className='create-spot-btn' onClick={openCreateSpotForm}>
@@ -115,6 +114,7 @@ function Navigation ({ isLoaded, createdSpotId }) {
               </button>
             </li>
           )}
+          {isLoaded && sessionLinks}
         </div>
       </ul>
 

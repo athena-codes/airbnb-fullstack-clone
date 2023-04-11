@@ -6,7 +6,6 @@ const SPOT_DETAILS = 'spots/getSpotDetails'
 const CREATE = 'spots/createSpot'
 
 // Action Creators
-
 const getSpots = spots => {
   return {
     type: GET,

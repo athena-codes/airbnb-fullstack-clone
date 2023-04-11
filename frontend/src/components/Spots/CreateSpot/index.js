@@ -145,39 +145,102 @@ export default function CreateSpotForm ({ createdSpotId, onSuccess, open }) {
                   ></input>
                 </div>
               </div>
+            </div>
+            <div className='description-section'>
+              <h2 className='form-heading'>Describe your place to guests</h2>
+              <p className='form-subheading'>
+                Mention the best features of your space, any special amenities
+                like fast wifi or parking, and what you love about the
+                neighborhood.
+              </p>
+              <textarea
+                className='input-desc'
+                type='text'
+                value={description}
+                onChange={e => setDescription(e.target.value)}
+                placeholder='Description'
+                required
+              ></textarea>
+            </div>
+            <div className='title-section'>
+              <h2 className='form-heading'>Create a title for your spot</h2>
+              <p className='form-subheading'>
+                Catch guests' attention with a spot title that highlights what
+                makes your place special.
+              </p>
               <input
                 className='input1'
                 type='text'
                 value={name}
                 onChange={e => setName(e.target.value)}
-                placeholder='Full Name'
-                required
-              ></input>
-              <input
-                className='input2'
-                type='text'
-                value={price}
-                onChange={e => setPrice(e.target.value)}
-                placeholder='Price'
+                placeholder='Name of your spot'
                 required
               ></input>
             </div>
-            <textarea
-              className='input-desc'
-              type='text'
-              value={description}
-              onChange={e => setDescription(e.target.value)}
-              placeholder='Description'
-              required
-            ></textarea>
+            <div className='price-section'>
+              <h2 className='form-heading'>Set a base price for your spot</h2>
+              <p className='form-subheading'>
+                Competitive pricing can help your listing stand out and rank
+                higher in search results.
+              </p>
+              <div className='price'>
+                <p>$</p>
+                <input
+                  className='input2'
+                  type='text'
+                  value={price}
+                  onChange={e => setPrice(e.target.value)}
+                  placeholder='Price per night (USD)'
+                  required
+                ></input>
+              </div>
+            </div>
+            <div className='photo-section'>
+            <h2 className='form-heading'>Liven up your spot with photos</h2>
+            <p className='form-subheading'>
+              Submit a link to AT LEAST one photo to publish your spot.
+            </p>
             <input
               className='input-img'
               type='url'
               value={previewImage}
               onChange={e => setPreviewImage(e.target.value)}
-              placeholder='Preview Image'
+              placeholder='Preview Image URL'
               required
             ></input>
+            <input
+              className='input-img'
+              type='url'
+              value={previewImage}
+              onChange={e => setPreviewImage(e.target.value)}
+              placeholder='Image URL'
+              required
+            ></input>
+            <input
+              className='input-img'
+              type='url'
+              value={previewImage}
+              onChange={e => setPreviewImage(e.target.value)}
+              placeholder='Image URL'
+              required
+            ></input>
+            <input
+              className='input-img'
+              type='url'
+              value={previewImage}
+              onChange={e => setPreviewImage(e.target.value)}
+              placeholder='Image URL'
+              required
+            ></input>
+            <input
+              className='input-img'
+              type='url'
+              value={previewImage}
+              onChange={e => setPreviewImage(e.target.value)}
+              placeholder='Image URL'
+              required
+            ></input>
+            </div>
             {/* <ul className='errors'>
             {errors.map((error, id) => (
               <li key={id}>{error}</li>
