@@ -61,74 +61,107 @@ export default function CreateSpotForm ({ createdSpotId, onSuccess, open }) {
   return (
     <div className='form-container-div'>
       <div className='form-container'>
-        <div className='title'>Create a Spot</div>
+        <h1 className='title'>Create a new Spot</h1>
         <div className='form'>
           <form className='create-spot' onSubmit={handleSubmit}>
-            <input
-              className='input1'
-              type='text'
-              value={name}
-              onChange={e => setName(e.target.value)}
-              placeholder='Full Name'
-              required
-            ></input>
-            <input
-              className='input1'
-              type='text'
-              value={address}
-              onChange={e => setAddress(e.target.value)}
-              placeholder='Address'
-              required
-            ></input>
-            <input
-              className='input2'
-              type='text'
-              value={city}
-              onChange={e => setCity(e.target.value)}
-              placeholder='City'
-              required
-            ></input>
-            <input
-              className='input2'
-              type='text'
-              value={state}
-              onChange={e => setState(e.target.value)}
-              placeholder='State'
-              required
-            ></input>
-            <input
-              className='input2'
-              type='text'
-              value={country}
-              onChange={e => setCountry(e.target.value)}
-              placeholder='Country'
-              required
-            ></input>
-            <input
-              className='input2'
-              type='text'
-              value={price}
-              onChange={e => setPrice(e.target.value)}
-              placeholder='Price'
-              required
-            ></input>
-            <input
-              className='input2'
-              type='text'
-              value={lat}
-              onChange={e => setLat(e.target.value)}
-              placeholder='Latitude'
-              required
-            ></input>
-            <input
-              className='input2'
-              type='text'
-              value={lng}
-              onChange={e => setLng(e.target.value)}
-              placeholder='Longitude'
-              required
-            ></input>
-
+            <div className='location-section'>
+              <div className='location-info'>
+                <h2 className='form-heading'>Where's your place located?</h2>
+                <p className='form-subheading'>
+                  Guests will only get your exact address once they booked a
+                  reservation.
+                </p>
+                <div className='location-inputs'>
+                  <div className='input-group'></div>
+                </div>
+                <label htmlFor='country'>Country</label>
+                <input
+                  className='input2'
+                  type='text'
+                  value={country}
+                  onChange={e => setCountry(e.target.value)}
+                  placeholder='Country'
+                  required
+                ></input>
+                <label htmlFor='address'>Street Address</label>
+                <input
+                  className='input1'
+                  type='text'
+                  value={address}
+                  onChange={e => setAddress(e.target.value)}
+                  placeholder='Address'
+                  required
+                ></input>
+                <div className='city-state-labels'>
+                  <label className='city' htmlFor='city'>
+                    City
+                  </label>
+                  <label className='state' htmlFor='state'>
+                    State
+                  </label>
+                </div>
+                <div className='city-state'>
+                  <input
+                    className='input2'
+                    type='text'
+                    value={city}
+                    onChange={e => setCity(e.target.value)}
+                    placeholder='City'
+                    required
+                  ></input>
+                  <input
+                    className='input2'
+                    type='text'
+                    value={state}
+                    onChange={e => setState(e.target.value)}
+                    placeholder='State'
+                    required
+                  ></input>
+                </div>
+                <div className='lat-lng-labels'>
+                  <label className='lat' htmlFor='lat'>
+                    Latitude
+                  </label>
+                  <label className='lng' htmlFor='lng'>
+                    Longitude
+                  </label>
+                </div>
+                <div className='lat-lng'>
+                  <input
+                    className='input2'
+                    type='text'
+                    value={lat}
+                    onChange={e => setLat(e.target.value)}
+                    placeholder='Latitude'
+                    required
+                  ></input>
+                  <input
+                    className='input2'
+                    type='text'
+                    value={lng}
+                    onChange={e => setLng(e.target.value)}
+                    placeholder='Longitude'
+                    required
+                  ></input>
+                </div>
+              </div>
+              <input
+                className='input1'
+                type='text'
+                value={name}
+                onChange={e => setName(e.target.value)}
+                placeholder='Full Name'
+                required
+              ></input>
+              <input
+                className='input2'
+                type='text'
+                value={price}
+                onChange={e => setPrice(e.target.value)}
+                placeholder='Price'
+                required
+              ></input>
+            </div>
             <textarea
               className='input-desc'
               type='text'
