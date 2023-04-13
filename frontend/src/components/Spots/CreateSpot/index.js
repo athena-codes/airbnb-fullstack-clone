@@ -158,7 +158,7 @@ export default function CreateSpotForm ({ createdSpotId, onSuccess, open }) {
                 type='text'
                 value={description}
                 onChange={e => setDescription(e.target.value)}
-                placeholder='Description'
+                placeholder='Please write at least 30 characters.'
                 required
               ></textarea>
             </div>

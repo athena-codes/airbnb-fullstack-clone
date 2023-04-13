@@ -81,7 +81,7 @@ function Navigation ({ isLoaded, createdSpotId }) {
         <button className='login' onClick={openLoginModal}>
           <NavLink
             to='/login'
-            style={{ textDecoration: 'none', color: 'black' }}
+            style={{ textDecoration: 'none', color: 'black'}}
           >
             Log In
           </NavLink>

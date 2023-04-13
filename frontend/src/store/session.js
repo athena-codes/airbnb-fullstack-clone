@@ -14,7 +14,8 @@ export const removeSessionUser = () => ({
   type: REMOVE_SESSION_USER
 })
 
-// Thunk Action Creator
+// Thunk Action Creators
+
 // *** LOG-IN ***
 export const login =
   ({ credential, password, setErrors }) =>

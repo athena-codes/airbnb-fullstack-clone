@@ -11,10 +11,13 @@ import SpotDetails from './components/Spots/SpotDetails'
 function App () {
   const dispatch = useDispatch()
   const [isLoaded, setIsLoaded] = useState(false)
+  const [modalOpen, setModalOpen] = useState(false)
+
   useEffect(() => {
     dispatch(sessionActions.restoreUser())
     setIsLoaded(true)
   }, [dispatch])
+
 
   return (
     <>
@@ -24,12 +27,11 @@ function App () {
           <Route exact path={'/'}>
             <AllSpots />
           </Route>
-
           <Route path='/login'>
             <LoginModal />
           </Route>
           <Route path='/signup'>
-            <SignupModal />
+            <SignupModal open={modalOpen} onClose={() => setModalOpen(false)} setModalOpen={setModalOpen}/>
           </Route>
           <Route exact path='/spots/:id'>
             <SpotDetails />

@@ -1,4 +1,23 @@
+.spot-details-container {
+    position: relative;
+    margin-top: 90px;
+    border-top: 1px solid rgba(81, 81, 81, 0.207);
+    z-index: 2;
+}
+
+.preview-image {
+    border-radius: 4px;
+    height: 600px;
+    width: 500px;
+
+}
+
+.other-image {
+  border-radius: 4px;
+}
+
 .spot-details {
+    padding-top: 100px;
     width: 100%;
     max-width: 1000px;
     margin: 0 auto;
@@ -53,6 +72,7 @@
     flex-grow: 1;
     margin-left: 20px;
 }
+
 .hosted-by {
     margin-left: 10px;
     margin-top: none;
@@ -148,6 +168,7 @@
 
 .description-container {
     display: flex;
+    margin-bottom: 20px;
 }
 
 .dot {
@@ -165,7 +186,7 @@
     border: 2px solid rgba(0, 0, 0, 0.1);
     padding: 10px;
     border-radius: 10px;
-    max-height: 125px;
+    max-height: 180px;
     transition: all 0.3s ease-in-out;
 }
 
