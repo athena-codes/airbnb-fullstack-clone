@@ -109,7 +109,7 @@ function LoginFormPage ({ onSuccess }) {
           </div>
           <ul className='ul'>
             {errors.map((error, idx) => (
-              <li key={idx} className='li'>
+              <li key={idx} className='error-li'>
                 {error}
               </li>
             ))}

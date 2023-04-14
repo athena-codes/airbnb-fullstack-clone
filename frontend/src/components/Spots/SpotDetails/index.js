@@ -26,7 +26,6 @@ function SpotDetails () {
     fetchSpotDetails()
   }, [dispatch, id])
 
-  if (isLoading) return <div>Loading...</div>
   if (!spotDetails) return null
 
   const {
@@ -81,26 +80,38 @@ function SpotDetails () {
             <div ref={reservationBoxRef} className='reservation-box'>
               <div className='spot-price-box'>
                 <div className='spot-price'>${price}/night</div>
-                <div className='spot-stars'>
-                  ★
-                  {Number(avgStarRating)
-                    ? Number(avgStarRating).toFixed(1)
-                    : 'New'}{' '}
-                </div>
-                {numReviews > 0 ? <p className='dot'>·</p> : <p></p>}
-                <div className='num-reviews'>
-                  {/* <img
-                  className='review-logo'
-                  src={reviewIcon}
-                  alt='review thread'
-                ></img> */}
-                  {numReviews > 0 ? (
-                    <div className='num-reviews'>
-                      {numReviews === 1 ? '1 Review' : `${numReviews} Reviews`}
-                    </div>
+                <div className='stars-reviews-box'>
+                  {Number(avgStarRating) ? (
+                    <>
+                      <div className='spot-stars'>
+                        <p>★</p>
+                        <div>{Number(avgStarRating).toFixed(1)}</div>
+                      </div>
+                    </>
                   ) : (
-                    <div></div>
+                    <>
+                      <div className='spot-stars-new'>
+                        <p>★</p>
+                        <div className='new-stars'>New</div>
+                      </div>
+                    </>
                   )}
+                  {numReviews > 0 ? (
+                    <p className='dot'>·</p>
+                  ) : (
+                    <p className='white-space'></p>
+                  )}
+                  <div className='num-reviews'>
+                    {numReviews > 0 ? (
+                      <div className='num-reviews'>
+                        {numReviews === 1
+                          ? '1 Review'
+                          : `${numReviews} Reviews`}
+                      </div>
+                    ) : (
+                      <br></br>
+                    )}
+                  </div>
                 </div>
               </div>
               <div className='spot-reserve'>

@@ -28,7 +28,7 @@ login-form {
     margin-bottom: 20px;
 }
 
-.li {
+.error-li {
     color: red;
     font-size: 14px;
     margin-bottom: 10px;
@@ -61,7 +61,7 @@ login-form {
     text-decoration: none;
     transition: all .4s ease-in-out;
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.26/9);
-    width: 50%;
+    width: 30%;
 }
 
 .demo-btn {
@@ -88,9 +88,17 @@ login-form {
 
 button:focus,
 button:hover {
-    background-color: white;
     outline: none;
-    color: #fff;
+    /* color: #fff; */
+}
+
+.login-btn:focus,
+.login-btn:hover,
+.demo-btn:focus,
+.demo-btn:hover {
+    background-color: #ff3385;
+    transition: all .2s ease-in-out;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.269);
 }
 
 .login-form {

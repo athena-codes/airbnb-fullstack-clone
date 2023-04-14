@@ -75,7 +75,6 @@ li {
 } */
 
 button {
-    background-color: white;
     border: none;
     color: #000000;
     font-weight: bold;
@@ -90,17 +89,19 @@ button {
 button:focus,
 button:hover {
     outline: none;
-    color: #fff;
+    /* color: #fff; */
 }
 
 .login {
     text-decoration: none;
     color: black;
+    background-color: white;
 }
 
-.logout {
+.signup {
     text-decoration: none;
     color: black;
+    background-color: white;
 }
 
 .logo {

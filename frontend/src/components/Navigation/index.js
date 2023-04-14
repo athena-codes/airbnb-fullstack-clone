@@ -86,7 +86,7 @@ function Navigation ({ isLoaded, createdSpotId }) {
             Log In
           </NavLink>
         </button>
-        <button className='logout' onClick={openSignupModal}>
+        <button className='signup' onClick={openSignupModal}>
           <NavLink
             to='/signup'
             style={{ textDecoration: 'none', color: 'black' }}
@@ -110,7 +110,7 @@ function Navigation ({ isLoaded, createdSpotId }) {
           {sessionUser && (
             <li>
               <button className='create-spot-btn' onClick={openCreateSpotForm}>
-                Create Spot
+                Airbnb your home
               </button>
             </li>
           )}

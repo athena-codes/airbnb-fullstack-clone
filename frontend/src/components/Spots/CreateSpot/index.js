@@ -61,10 +61,10 @@ export default function CreateSpotForm ({ createdSpotId, onSuccess, open }) {
   return (
     <div className='form-container-div'>
       <div className='form-container'>
-        <h1 className='title'>Create a new Spot</h1>
         <div className='form'>
           <form className='create-spot' onSubmit={handleSubmit}>
             <div className='location-section'>
+        <h1 className='title'>Create a new Spot</h1>
               <div className='location-info'>
                 <h2 className='form-heading'>Where's your place located?</h2>
                 <p className='form-subheading'>
@@ -246,7 +246,7 @@ export default function CreateSpotForm ({ createdSpotId, onSuccess, open }) {
               <li key={id}>{error}</li>
             ))}
           </ul> */}
-            <button type='submit'>Create Spot</button>
+            <button className='submit-create-spot-btn' type='submit'>Create Spot</button>
           </form>
         </div>
       </div>

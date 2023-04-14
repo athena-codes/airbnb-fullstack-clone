@@ -48,7 +48,6 @@ button[type="submit"] {
     margin-top: 20px;
     font-size: 18px;
     font-weight: bold;
-    color: #000000;
     border-radius: 5px;
     cursor: pointer;
 }
@@ -67,6 +66,13 @@ button[type="submit"] {
     border-radius: 4px;
 }
 
+.signup-btn:focus,
+.signup-btn:hover {
+    background-color: #ff3385;
+    transition: all .2s ease-in-out;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.269);
+}
+
 
 
 ul {
@@ -75,14 +81,8 @@ ul {
     padding: 0;
 }
 
-li {
+.error-li {
     margin-bottom: 10px;
     font-size: 16px;
     color: #e91e63;
-}
-
-/* Dynamic styles */
-
-body {
-    background-color: #f8f8f8;
 }

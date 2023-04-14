@@ -74,7 +74,7 @@ function SignupFormPage ({ onSuccess }) {
         {errors && (
           <ul>
             {errors.map((error, idx) => (
-              <li key={idx}>{error}</li>
+              <li className='error-li' key={idx}>{error}</li>
             ))}
           </ul>
         )}

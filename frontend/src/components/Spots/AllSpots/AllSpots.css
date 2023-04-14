@@ -3,8 +3,9 @@
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 20px;
     margin: 20px;
-    max-width: 1500px;
-    margin-top: 130px;
+    width: 95%;
+    margin-top: 100px;
+    padding: 10px;
 }
 
 .spot {
@@ -38,6 +39,7 @@
     visibility: visible;
     opacity: 1;
 }
+
 .spot:hover {
     transform: scale(1.05);
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
@@ -74,7 +76,6 @@
 .spot .location {
     font-size: 18px;
     color: #454444;
-    margin-bottom: 5px;
     position: relative;
 }
 
@@ -100,6 +101,10 @@
 .spot .spot-price {
     font-weight: bold;
     color: #f98fa1;
+}
+
+.price {
+    margin-right: 10px;
 }
 
 .stars {

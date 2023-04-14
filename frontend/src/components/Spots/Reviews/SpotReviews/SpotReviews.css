@@ -8,6 +8,11 @@
     padding-bottom: 16px;
 }
 
+.reviews-container {
+ display: flex;
+ flex-direction: column;
+}
+
 .stars-rating {
     font-weight: bold;
     margin-right: 8px;

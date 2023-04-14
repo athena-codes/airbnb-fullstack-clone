@@ -1,4 +1,7 @@
 /* TODO Add site wide styles */
 * {
     background-color: white;
+    font-family: 'MontrealRegular';
+    font-weight: normal;
+    font-style: normal;
 }

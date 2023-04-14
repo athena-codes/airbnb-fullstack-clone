@@ -26,7 +26,7 @@ function SpotReviews () {
       </div>
       <button className='post-review-btn'>Post Your Review</button>
       {reviews.length > 0 ?
-      <ul>
+      <ul className='reviews-container'>
         { reviews.map(review => {
           const date = new Date(review.updatedAt).toLocaleDateString('en-US', {
             month: 'long',

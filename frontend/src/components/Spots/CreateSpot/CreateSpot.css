@@ -2,8 +2,6 @@
     display: flex;
     align-items: flex-start;
     justify-content: center;
-    height: 1000px;
-    width: 100%;
     padding: 0 20px;
 }
 
@@ -20,8 +18,6 @@
     font-size: 36px;
     font-weight: bold;
     text-align: center;
-    margin-bottom: 320px;
-    /* margin-left: 10px; */
 }
 
 .form {
@@ -32,9 +28,7 @@
     width: 100%;
     border-radius: 4px;
     background-color: #fff;
-    max-height: 300px;
     margin-right: 30px;
-    margin-top: 250px;
 }
 
 .create-spot {
@@ -43,12 +37,13 @@
     justify-content: center;
     align-items: center;
     width: 100%;
-    margin-top: 15px;
+    margin-bottom: 20px;
+    z-index: 1;
 }
 
 input {
     outline: 1px solid #ccc;
-    padding: 5px;
+    padding: 20px;
 }
 
 .input1,
@@ -56,6 +51,7 @@ input {
     margin-top: 5px;
     font-size: 16px;
     padding: 5px;
+    margin-left: 7px;
 }
 
 .input1 {
@@ -83,11 +79,19 @@ button {
     margin-top: 0;
 }
 
+/* PROBLEM */
 button:focus,
 button:hover {
-    background-color: #bf1e5eed;
+    /* background-color: #bf1e5eed; */
     outline: none;
-    color: #fff;
+    /* color: #fff; */
+}
+
+.create-spot-btn:hover,
+.submit-create-spot-btn:hover {
+    background-color: #ff3385;
+    transition: all .2s ease-in-out;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.269);
 }
 
 .errors {
@@ -220,4 +224,8 @@ button:hover {
 .price {
     display: flex;
     flex-direction: row;
+}
+
+p.price {
+    margin-left: 10px;
 }
