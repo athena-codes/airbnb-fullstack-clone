@@ -9,6 +9,7 @@ h1 {
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-bottom: none;
 }
 
 .signup-input {
@@ -82,7 +83,6 @@ ul {
 }
 
 .error-li {
-    margin-bottom: 10px;
-    font-size: 16px;
+    font-size: 10px;
     color: #e91e63;
 }

@@ -61,7 +61,7 @@ login-form {
     text-decoration: none;
     transition: all .4s ease-in-out;
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.26/9);
-    width: 30%;
+    width: 10%;
 }
 
 .demo-btn {

@@ -1,7 +1,7 @@
 import React from 'react'
 import './SignupModal.css'
 
-function SignupModal ({ open, children, onClose, setModalOpen }) {
+function SignupModal ({ open, children, onClose }) {
   if (!open) return null
 
   const handleOverlayClick = e => {

@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom'
 import * as sessionActions from '../../store/session'
 import './SignupFormPage.css'
 
-function SignupFormPage ({ onSuccess }) {
+function SignupFormPage () {
   const dispatch = useDispatch()
   const sessionUser = useSelector(state => state.session.user)
   const [email, setEmail] = useState('')
@@ -40,16 +40,17 @@ function SignupFormPage ({ onSuccess }) {
 
           if (Array.isArray(data.errors)) {
             errorMessages = data.errors
+            console.log('ERRORS --->', errorMessages)
           } else {
             for (const key in data.errors) {
               if (data.errors.hasOwnProperty(key)) {
                 const errorValue = data.errors[key]
                 if (Array.isArray(errorValue)) {
                   errorValue.forEach(errorMsg => {
-                    errorMessages.push(`${key}: ${errorMsg}`)
+                    errorMessages.push(`${errorMsg}`)
                   })
                 } else {
-                  errorMessages.push(`${key}: ${errorValue}`)
+                  errorMessages.push(`${errorValue}`)
                 }
               }
             }
@@ -57,9 +58,6 @@ function SignupFormPage ({ onSuccess }) {
           setErrors(errorMessages)
         }
       })
-      if (success && onSuccess) {
-        onSuccess()
-      }
     }
 
     return setErrors([
@@ -71,12 +69,12 @@ function SignupFormPage ({ onSuccess }) {
     <>
       <h1>Sign Up</h1>
       <form className='signup-form' onSubmit={handleSubmit}>
-        {errors && (
-          <ul>
+        {errors.length > 0 && (
+          <p>
             {errors.map((error, idx) => (
               <li className='error-li' key={idx}>{error}</li>
             ))}
-          </ul>
+          </p>
         )}
         <div className='signup-input'>
           <input
