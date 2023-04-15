@@ -66,12 +66,12 @@ function LoginFormPage ({ onSuccess }) {
   return (
     <>
       <h1 className='login-title'>Log In</h1>
+    {loginFailed && (
+      <div className='error-message'>
+        The provided credentials were invalid.
+      </div>
+    )}
       <div className='login-form'>
-        {loginFailed && (
-          <div className='error-message'>
-            The provided credentials were invalid.
-          </div>
-        )}
         <form onSubmit={handleSubmit} className='login-form'>
           <div className='login-input'>
             <label className='label'>
@@ -107,13 +107,6 @@ function LoginFormPage ({ onSuccess }) {
               Demo User
             </button>
           </div>
-          <ul className='ul'>
-            {errors.map((error, idx) => (
-              <li key={idx} className='error-li'>
-                {error}
-              </li>
-            ))}
-          </ul>
         </form>
       </div>
     </>

@@ -229,3 +229,8 @@ button:hover {
 p.price {
     margin-left: 10px;
 }
+
+.error {
+    color: red;
+    font-size: 0.8rem;
+}

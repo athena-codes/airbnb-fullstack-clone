@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom'
 import * as sessionActions from '../../store/session'
 import './SignupFormPage.css'
 
-function SignupFormPage () {
+function SignupFormPage ({ onSuccess, onClose }) {
   const dispatch = useDispatch()
   const sessionUser = useSelector(state => state.session.user)
   const [email, setEmail] = useState('')
@@ -25,7 +25,7 @@ function SignupFormPage () {
     if (password === confirmPassword) {
       setErrors([])
 
-      const success = dispatch(
+      return dispatch(
         sessionActions.signup({
           email,
           username,
@@ -33,49 +33,58 @@ function SignupFormPage () {
           lastName,
           password
         })
-      ).catch(async res => {
-        const data = await res.json()
-        if (data && data.errors) {
-          let errorMessages = []
+      )
+        .then(() => {
+          onSuccess() // call the onSuccess callback prop
+          onClose() // close the modal and overlay
+        })
+        .catch(async res => {
+          const data = await res.json()
+          if (data && data.errors) {
+            let errorMessages = []
 
-          if (Array.isArray(data.errors)) {
-            errorMessages = data.errors
-            console.log('ERRORS --->', errorMessages)
-          } else {
-            for (const key in data.errors) {
-              if (data.errors.hasOwnProperty(key)) {
-                const errorValue = data.errors[key]
-                if (Array.isArray(errorValue)) {
-                  errorValue.forEach(errorMsg => {
-                    errorMessages.push(`${errorMsg}`)
-                  })
-                } else {
-                  errorMessages.push(`${errorValue}`)
+            if (Array.isArray(data.errors)) {
+              errorMessages = data.errors
+              console.log('ERRORS --->', errorMessages)
+            } else {
+              for (const key in data.errors) {
+                if (data.errors.hasOwnProperty(key)) {
+                  const errorValue = data.errors[key]
+                  if (Array.isArray(errorValue)) {
+                    errorValue.forEach(errorMsg => {
+                      errorMessages.push(`${errorMsg}`)
+                    })
+                  } else {
+                    errorMessages.push(`${errorValue}`)
+                  }
                 }
               }
             }
+            setErrors(errorMessages)
           }
-          setErrors(errorMessages)
-        }
-      })
+        })
     }
 
     return setErrors([
-      'Confirm Password field must be the same as the Password field'
+      'Confirm Password field must be the same as the password field'
     ])
   }
 
   return (
     <>
       <h1>Sign Up</h1>
-      <form className='signup-form' onSubmit={handleSubmit}>
+      <div className='err-container'>
         {errors.length > 0 && (
           <p>
             {errors.map((error, idx) => (
-              <li className='error-li' key={idx}>{error}</li>
+              <li className='error-li' key={idx}>
+                {error}
+              </li>
             ))}
           </p>
         )}
+      </div>
+      <form className='signup-form' onSubmit={handleSubmit}>
         <div className='signup-input'>
           <input
             type='text'
@@ -120,7 +129,7 @@ function SignupFormPage () {
             required
           />
         </div>
-        <button type='submit' className='signup-btn'>
+        <button type='submit' className='signup-btn' onSubmit={onSuccess}>
           Sign Up
         </button>
       </form>

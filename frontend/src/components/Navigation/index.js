@@ -77,24 +77,27 @@ function Navigation ({ isLoaded, createdSpotId }) {
     )
   } else {
     sessionLinks = (
+      <div className='navigation'>
+
       <li>
         <button className='login' onClick={openLoginModal}>
           <NavLink
             to='/login'
             style={{ textDecoration: 'none', color: 'black'}}
-          >
+            >
             Log In
           </NavLink>
         </button>
-        <button className='signup' onClick={openSignupModal}>
+        <button className='signup' onClick={openSignupModal} >
           <NavLink
             to='/signup'
             style={{ textDecoration: 'none', color: 'black' }}
-          >
+            >
             Sign Up
           </NavLink>
         </button>
       </li>
+            </div>
     )
   }
 

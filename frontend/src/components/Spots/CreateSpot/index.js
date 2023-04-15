@@ -20,8 +20,10 @@ export default function CreateSpotForm ({ createdSpotId, onSuccess, open }) {
   const [lat, setLat] = useState('')
   const [lng, setLng] = useState('')
   const [previewImage, setPreviewImage] = useState('')
+  console.log('PREV IMAGE --->', previewImage)
+  const [imageUrl, setImageUrl] = useState('')
+  console.log('IMAGE URL ---->', imageUrl)
   const [errors, setErrors] = useState([])
-  console.log('ERRORS -->', errors)
 
   if (!sessionUser) return <Redirect to={'/'} />
 
@@ -54,17 +56,30 @@ export default function CreateSpotForm ({ createdSpotId, onSuccess, open }) {
 
       .catch(async res => {
         const data = await res.json()
-        if (data && data.errors) setErrors(data.errors)
+        const imageErrors = {}
+
+        if (!previewImage) {
+          imageErrors.previewImage = 'Preview Image is required'
+        }
+
+        if (!/\.(png|jpe?g)$/i.test(imageUrl)) {
+          imageErrors.imageUrl = 'Image URL must end in .png, .jpg or .jpeg'
+        }
+
+        const combinedErrors = { ...data.errors, ...imageErrors }
+
+        setErrors(combinedErrors)
       })
   }
 
+  // ** add noValidate to form/submit button to prevent browser default validation msg
   return (
     <div className='form-container-div'>
       <div className='form-container'>
         <div className='form'>
-          <form className='create-spot' onSubmit={handleSubmit}>
+          <form noValidate className='create-spot' onSubmit={handleSubmit}>
             <div className='location-section'>
-        <h1 className='title'>Create a new Spot</h1>
+              <h1 className='title'>Create a new Spot</h1>
               <div className='location-info'>
                 <h2 className='form-heading'>Where's your place located?</h2>
                 <p className='form-subheading'>
@@ -83,6 +98,10 @@ export default function CreateSpotForm ({ createdSpotId, onSuccess, open }) {
                   placeholder='Country'
                   required
                 ></input>
+                {errors.country && (
+                  <div className='error'>{errors.country}</div>
+                )}
+
                 <label htmlFor='address'>Street Address</label>
                 <input
                   className='input1'
@@ -92,6 +111,9 @@ export default function CreateSpotForm ({ createdSpotId, onSuccess, open }) {
                   placeholder='Address'
                   required
                 ></input>
+                {errors.address && (
+                  <div className='error'>{errors.address}</div>
+                )}
                 <div className='city-state-labels'>
                   <label className='city' htmlFor='city'>
                     City
@@ -109,6 +131,8 @@ export default function CreateSpotForm ({ createdSpotId, onSuccess, open }) {
                     placeholder='City'
                     required
                   ></input>
+                  {errors.city && <div className='error'>{errors.city}</div>}
+
                   <input
                     className='input2'
                     type='text'
@@ -117,6 +141,7 @@ export default function CreateSpotForm ({ createdSpotId, onSuccess, open }) {
                     placeholder='State'
                     required
                   ></input>
+                  {errors.state && <div className='error'>{errors.state}</div>}
                 </div>
                 <div className='lat-lng-labels'>
                   <label className='lat' htmlFor='lat'>
@@ -135,6 +160,7 @@ export default function CreateSpotForm ({ createdSpotId, onSuccess, open }) {
                     placeholder='Latitude'
                     required
                   ></input>
+                  {errors.lat && <div className='error'>{errors.lat}</div>}
                   <input
                     className='input2'
                     type='text'
@@ -143,6 +169,7 @@ export default function CreateSpotForm ({ createdSpotId, onSuccess, open }) {
                     placeholder='Longitude'
                     required
                   ></input>
+                  {errors.lng && <div className='error'>{errors.lng}</div>}
                 </div>
               </div>
             </div>
@@ -161,6 +188,9 @@ export default function CreateSpotForm ({ createdSpotId, onSuccess, open }) {
                 placeholder='Please write at least 30 characters.'
                 required
               ></textarea>
+              {errors.description && (
+                <div className='error'>{errors.description}</div>
+              )}
             </div>
             <div className='title-section'>
               <h2 className='form-heading'>Create a title for your spot</h2>
@@ -176,6 +206,7 @@ export default function CreateSpotForm ({ createdSpotId, onSuccess, open }) {
                 placeholder='Name of your spot'
                 required
               ></input>
+              {errors.name && <div className='error'>{errors.name}</div>}
             </div>
             <div className='price-section'>
               <h2 className='form-heading'>Set a base price for your spot</h2>
@@ -193,60 +224,66 @@ export default function CreateSpotForm ({ createdSpotId, onSuccess, open }) {
                   placeholder='Price per night (USD)'
                   required
                 ></input>
+                {errors.price && <div className='error'>{errors.price}</div>}
               </div>
             </div>
             <div className='photo-section'>
-            <h2 className='form-heading'>Liven up your spot with photos</h2>
-            <p className='form-subheading'>
-              Submit a link to AT LEAST one photo to publish your spot.
-            </p>
-            <input
-              className='input-img'
-              type='url'
-              value={previewImage}
-              onChange={e => setPreviewImage(e.target.value)}
-              placeholder='Preview Image URL'
-              required
-            ></input>
-            <input
-              className='input-img'
-              type='url'
-              value={previewImage}
-              onChange={e => setPreviewImage(e.target.value)}
-              placeholder='Image URL'
-              required
-            ></input>
-            <input
-              className='input-img'
-              type='url'
-              value={previewImage}
-              onChange={e => setPreviewImage(e.target.value)}
-              placeholder='Image URL'
-              required
-            ></input>
-            <input
-              className='input-img'
-              type='url'
-              value={previewImage}
-              onChange={e => setPreviewImage(e.target.value)}
-              placeholder='Image URL'
-              required
-            ></input>
-            <input
-              className='input-img'
-              type='url'
-              value={previewImage}
-              onChange={e => setPreviewImage(e.target.value)}
-              placeholder='Image URL'
-              required
-            ></input>
+              <h2 className='form-heading'>Liven up your spot with photos</h2>
+              <p className='form-subheading'>
+                Submit a link to AT LEAST one photo to publish your spot.
+              </p>
+              <input
+                className='input-img'
+                type='url'
+                value={previewImage}
+                onChange={e => setPreviewImage(e.target.value)}
+                placeholder='Preview Image URL'
+                required
+              ></input>
+              {errors.previewImage && (
+                <div className='error'>{errors.previewImage}</div>
+              )}
+
+              <input
+                className='input-img'
+                type='url'
+                value={imageUrl}
+                onChange={e => setImageUrl(e.target.value)}
+                placeholder='Image URL'
+                required
+              ></input>
+              {errors.imageUrl && (
+                <div className='error'>{errors.imageUrl}</div>
+              )}
+
+              <input
+                className='input-img'
+                type='url'
+                value={imageUrl}
+                onChange={e => setImageUrl(e.target.value)}
+                placeholder='Image URL'
+                required
+              ></input>
+              <input
+                className='input-img'
+                type='url'
+                value={imageUrl}
+                onChange={e => setImageUrl(e.target.value)}
+                placeholder='Image URL'
+                required
+              ></input>
+              <input
+                className='input-img'
+                type='url'
+                value={imageUrl}
+                onChange={e => setImageUrl(e.target.value)}
+                placeholder='Image URL'
+                required
+              ></input>
             </div>
-            {/* <ul className='errors'>
-            {errors.map((error, id) => (
-              <li key={id}>{error}</li>
-            ))}
-          </ul> */}
-            <button className='submit-create-spot-btn' type='submit'>Create Spot</button>
+            <button className='submit-create-spot-btn' type='submit'>
+              Create Spot
+            </button>
           </form>
         </div>
       </div>

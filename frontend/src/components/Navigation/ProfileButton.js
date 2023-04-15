@@ -8,7 +8,6 @@ function ProfileButton () {
   const ulRef = useRef()
 
   const  user  = useSelector(state => state.session.user)
-  console.log('USER --> ', user)
 
   useEffect(() => {
     if (user) {

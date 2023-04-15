@@ -16,7 +16,7 @@
     background-color: #fff;
     padding: 2rem;
     border-radius: 0.5rem;
-    height: 400px;
+    height: auto;
     width: 500px;
     box-shadow: 0 0 1rem rgba(0, 0, 0, 0.3);
 }

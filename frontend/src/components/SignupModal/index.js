@@ -12,7 +12,7 @@ function SignupModal ({ open, children, onClose }) {
 
   return (
     <div className='signup-modal-overlay' onClick={handleOverlayClick}>
-      <div className='signup-modal'>{children}</div>
+      <div className='signup-modal' >{children}</div>
     </div>
   )
 }
