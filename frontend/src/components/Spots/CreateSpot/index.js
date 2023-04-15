@@ -4,7 +4,7 @@ import { Redirect, useHistory } from 'react-router-dom'
 import * as spotActions from '../../../store/spots'
 import './CreateSpot.css'
 
-export default function CreateSpotForm ({ createdSpotId, onSuccess, open }) {
+export default function CreateSpotForm ({ open }) {
   const dispatch = useDispatch()
   const history = useHistory()
 
@@ -21,14 +21,25 @@ export default function CreateSpotForm ({ createdSpotId, onSuccess, open }) {
   const [lng, setLng] = useState('')
   const [previewImage, setPreviewImage] = useState('')
   console.log('PREV IMAGE --->', previewImage)
-  const [imageUrl, setImageUrl] = useState('')
-  console.log('IMAGE URL ---->', imageUrl)
+  // ALL OTHER IMAGES BESIDES PREV IMAGE
+  const [image1, setImage1] = useState('')
+  const [image2, setImage2] = useState('')
+  const [image3, setImage3] = useState('')
+  const [image4, setImage4] = useState('')
+
   const [errors, setErrors] = useState([])
 
   if (!sessionUser) return <Redirect to={'/'} />
 
   const handleSubmit = async e => {
     e.preventDefault()
+
+    const images = [image1, image2, image3, image4]
+      .filter(Boolean)
+      .map(url => ({
+        url,
+        preview: false
+      }))
 
     return dispatch(
       spotActions.createSpotsThunk(
@@ -46,7 +57,8 @@ export default function CreateSpotForm ({ createdSpotId, onSuccess, open }) {
         {
           url: previewImage,
           preview: true
-        }
+        },
+        images
       )
     )
       .then(spot => {
@@ -62,7 +74,7 @@ export default function CreateSpotForm ({ createdSpotId, onSuccess, open }) {
           imageErrors.previewImage = 'Preview Image is required'
         }
 
-        if (!/\.(png|jpe?g)$/i.test(imageUrl)) {
+        if (!/\.(png|jpe?g)$/i.test(image1)) {
           imageErrors.imageUrl = 'Image URL must end in .png, .jpg or .jpeg'
         }
 
@@ -247,8 +259,8 @@ export default function CreateSpotForm ({ createdSpotId, onSuccess, open }) {
               <input
                 className='input-img'
                 type='url'
-                value={imageUrl}
-                onChange={e => setImageUrl(e.target.value)}
+                value={image1}
+                onChange={e => setImage1(e.target.value)}
                 placeholder='Image URL'
                 required
               ></input>
@@ -259,24 +271,24 @@ export default function CreateSpotForm ({ createdSpotId, onSuccess, open }) {
               <input
                 className='input-img'
                 type='url'
-                value={imageUrl}
-                onChange={e => setImageUrl(e.target.value)}
+                value={image2}
+                onChange={e => setImage2(e.target.value)}
                 placeholder='Image URL'
                 required
               ></input>
               <input
                 className='input-img'
                 type='url'
-                value={imageUrl}
-                onChange={e => setImageUrl(e.target.value)}
+                value={image3}
+                onChange={e => setImage3(e.target.value)}
                 placeholder='Image URL'
                 required
               ></input>
               <input
                 className='input-img'
                 type='url'
-                value={imageUrl}
-                onChange={e => setImageUrl(e.target.value)}
+                value={image4}
+                onChange={e => setImage4(e.target.value)}
                 placeholder='Image URL'
                 required
               ></input>

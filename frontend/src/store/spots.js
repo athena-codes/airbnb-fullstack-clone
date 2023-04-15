@@ -50,39 +50,54 @@ export const getSpotDetailsThunk = spotId => async dispatch => {
 }
 
 // CREATE SPOT
-export const createSpotsThunk = (newSpot, previewImage) => async dispatch => {
-  const res = await csrfFetch(`/api/spots`, {
-    method: 'POST',
-    body: JSON.stringify(newSpot)
-  })
+export const createSpotsThunk =
+  (newSpot, previewImage, images) => async dispatch => {
+    const spotResponse = await csrfFetch(`/api/spots`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(newSpot)
+    })
 
-  if (res.ok) {
-    const createdSpot = await res.json()
+    if (spotResponse.ok) {
+      const spotData = await spotResponse.json()
 
-    const imageResponse = await csrfFetch(
-      `/api/spots/${createdSpot.id}/images`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
+      const imagesWithPreview = [
+        {
           url: previewImage.url,
           preview: true
-        })
+        },
+        ...images.map(image => ({
+          url: image.url,
+          preview: false
+        }))
+      ]
+
+      const imageResponses = await Promise.all(
+        imagesWithPreview.map(image =>
+          csrfFetch(`/api/spots/${spotData.id}/images`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(image)
+          })
+        )
+      )
+
+      const imageDatas = await Promise.all(
+        imageResponses.map(response => response.json())
+      )
+
+      const imageDataWithPreview = imageDatas.find(
+        imageData => imageData.preview
+      )
+
+      if (imageDataWithPreview) {
+        spotData.previewImage = imageDataWithPreview.url
       }
-    )
 
-    if (imageResponse.ok) {
-      const image = await imageResponse.json()
-      createdSpot.previewImage = image.url
-
-      dispatch(createSpot(createdSpot))
-
-      return createdSpot
+      dispatch(createSpot(spotData))
+      return spotData
     }
-    dispatch(createSpot(createdSpot))
-    return createdSpot
   }
-}
 
 // REDUCER
 const initialState = {}
