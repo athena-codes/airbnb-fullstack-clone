@@ -15,6 +15,7 @@
     position: relative;
     width: 90%;
     max-width: 500px;
+    max-height: auto;
     min-height: 250px;
     background-color: #fff;
     border-radius: 10px;
@@ -37,4 +38,3 @@
     color: #000000;
     cursor: pointer;
 }
-

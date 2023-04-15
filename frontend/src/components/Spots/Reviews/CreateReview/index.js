@@ -5,12 +5,16 @@ import { getSpotReviewsThunk } from '../../../../store/reviews'
 
 import './CreateReviewForm.css'
 
-export default function CreateReviewForm ({ spotId, createNewReview, closeModal}) {
+export default function CreateReviewForm ({
+  spotId,
+  createNewReview,
+  closeModal
+}) {
   const dispatch = useDispatch()
   const [review, setReview] = useState('')
   const [errors, setErrors] = useState([])
+  console.log('ERRORS -->', errors)
   const [stars, setStars] = useState('')
-  const [showCreateReviewModal, setShowCreateReviewModal] = useState(false)
 
   useEffect(() => {
     dispatch(getSpotReviewsThunk(spotId))
@@ -22,18 +26,21 @@ export default function CreateReviewForm ({ spotId, createNewReview, closeModal}
 
   const handleSubmitReview = async e => {
     e.preventDefault()
-    const res = await createNewReview(e, review, stars)
-    if (res && res.errors && res.errors.length) {
-      setErrors(res.errors)
-    } else {
-      closeModal() // close the modal after successful review submission
+    const errors = {}
+    if (review.length < 10 || stars === '') {
+      errors.errorMsg = 'Please write a minimum of 10 characters.'
+      console.log(errors)
+      setErrors(errors)
     }
+    const res = await createNewReview(e, review, stars)
+    closeModal()
   }
 
   return (
     <div className='post-review-container'>
       <div className='heading'>
         <p>How was your stay?</p>
+        {errors && <div className='error'>{errors.errorMsg}</div>}
       </div>
       <div className='form'>
         <form className='post-review-form'>
@@ -44,22 +51,20 @@ export default function CreateReviewForm ({ spotId, createNewReview, closeModal}
             placeholder='Leave your review here...'
             required
           />
-          <div className='star-rating'>
-            {[1, 2, 3, 4, 5].map(rating => (
-              <span
-                key={rating}
-                className={rating <= stars ? 'filled' : ''}
-                onClick={() => handleStarClick(rating)}
-              >
-                {rating <= stars ? '✭' : '☆'}
-              </span>
-            ))}
+          <div className='star-rating-container'>
+            <h3>Stars</h3>
+            <div className='star-rating'>
+              {[1, 2, 3, 4, 5].map(rating => (
+                <span
+                  key={rating}
+                  className={rating <= stars ? 'filled' : ''}
+                  onClick={() => handleStarClick(rating)}
+                >
+                  {rating <= stars ? '✭' : '☆'}
+                </span>
+              ))}
+            </div>
           </div>
-          <ul className='errors'>
-            {errors.map((error, id) => (
-              <li key={id}>{error}</li>
-            ))}
-          </ul>
 
           <button
             className='review-btn'
