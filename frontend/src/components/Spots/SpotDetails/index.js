@@ -3,18 +3,18 @@ import { useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { getSpotDetailsThunk } from '../../../store/spots'
 import { getSpotReviewsThunk } from '../../../store/reviews'
+import { createReviewThunk } from '../../../store/reviews'
 import SpotReviews from '../Reviews/SpotReviews'
-import CreateReviewForm from '../Reviews/CreateReview'
-import CreateReviewModal from '../Reviews/CreateReviewModal/CreateReviewModal'
 import './SpotDetails.css'
 import reviewIcon from './images/review-icon.avif'
 
-
 function SpotDetails () {
   const { id } = useParams()
-  const dispatch = useDispatch()
   const spotDetails = useSelector(state => state.spot.spotDetails)
   const [isLoading, setIsLoading] = useState(true)
+  const [isLoaded, setIsLoaded] = useState(false)
+
+  const dispatch = useDispatch()
   const reservationBoxRef = useRef(null)
 
   useEffect(() => {
@@ -43,6 +43,27 @@ function SpotDetails () {
 
   const previewImage = spotDetails.SpotImages.find(img => img.preview)
   const otherImages = spotDetails.SpotImages.filter(img => !img.preview)
+
+  const createNewReview = async (e, review, stars) => {
+    e.preventDefault()
+    let errors = []
+
+    await dispatch(createReviewThunk({ review, stars }, id)).catch(
+      async res => {
+        const data = await res.json()
+
+        if (data && data.errors) {
+          errors = data.errors
+        }
+      }
+    )
+
+    await dispatch(getSpotDetailsThunk(id)).then(() =>
+      dispatch(getSpotReviewsThunk(id))
+    )
+
+    setIsLoaded(true)
+  }
 
   return (
     <div className='spot-details-container'>
@@ -128,10 +149,7 @@ function SpotDetails () {
           </div>
         </div>
         <div>
-          <SpotReviews />
-          <CreateReviewModal>
-          <CreateReviewForm />
-          </CreateReviewModal>
+          <SpotReviews createNewReview={createNewReview} />
         </div>
       </div>
     </div>

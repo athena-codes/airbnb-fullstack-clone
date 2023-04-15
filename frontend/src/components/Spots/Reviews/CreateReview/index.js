@@ -5,17 +5,30 @@ import { getSpotReviewsThunk } from '../../../../store/reviews'
 
 import './CreateReviewForm.css'
 
-export default function CreateReviewForm ({ spotId, createNewReview }) {
+export default function CreateReviewForm ({ spotId, createNewReview, closeModal}) {
   const dispatch = useDispatch()
   const [review, setReview] = useState('')
-
   const [errors, setErrors] = useState([])
-
   const [stars, setStars] = useState('')
+  const [showCreateReviewModal, setShowCreateReviewModal] = useState(false)
 
   useEffect(() => {
     dispatch(getSpotReviewsThunk(spotId))
   }, [dispatch, spotId])
+
+  const handleStarClick = rating => {
+    setStars(rating)
+  }
+
+  const handleSubmitReview = async e => {
+    e.preventDefault()
+    const res = await createNewReview(e, review, stars)
+    if (res && res.errors && res.errors.length) {
+      setErrors(res.errors)
+    } else {
+      closeModal() // close the modal after successful review submission
+    }
+  }
 
   return (
     <div className='post-review-container'>
@@ -31,16 +44,17 @@ export default function CreateReviewForm ({ spotId, createNewReview }) {
             placeholder='Leave your review here...'
             required
           />
-          <input
-            className='star-rating'
-            type='number'
-            min={0}
-            max={5}
-            value={stars}
-            onChange={e => setStars(e.target.value)}
-            placeholder='Stars'
-            required
-          />
+          <div className='star-rating'>
+            {[1, 2, 3, 4, 5].map(rating => (
+              <span
+                key={rating}
+                className={rating <= stars ? 'filled' : ''}
+                onClick={() => handleStarClick(rating)}
+              >
+                {rating <= stars ? '✭' : '☆'}
+              </span>
+            ))}
+          </div>
           <ul className='errors'>
             {errors.map((error, id) => (
               <li key={id}>{error}</li>
@@ -50,13 +64,7 @@ export default function CreateReviewForm ({ spotId, createNewReview }) {
           <button
             className='review-btn'
             type='submit'
-            onClick={async e => {
-              e.preventDefault()
-              const res = await createNewReview(e, review, stars)
-              if (res && res.errors && res.errors.length) {
-                setErrors(res.errors)
-              }
-            }}
+            onClick={handleSubmitReview}
           >
             Submit Your Review
           </button>
