@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { NavLink, useHistory } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import * as sessionActions from '../../store/session'
@@ -18,10 +18,18 @@ function Navigation ({ isLoaded, createdSpotId }) {
   const [isSignupOpen, setIsSignupOpen] = useState(false)
   const [isCreateSpotOpen, setIsCreateSpotOpen] = useState(false)
   const [createSpot, setCreateSpot] = useState(false)
+  const [showMenu, setShowMenu] = useState(false)
   const [showOverlay, setShowOverlay] = useState(false)
 
+  const ulRef = useRef()
   const history = useHistory()
   const dispatch = useDispatch()
+
+  useEffect(() => {
+    if (sessionUser) {
+      setShowMenu(false)
+    }
+  }, [sessionUser])
 
   const logout = e => {
     e.preventDefault()
@@ -67,37 +75,62 @@ function Navigation ({ isLoaded, createdSpotId }) {
     history.push('/')
   }
 
+  const openMenu = () => {
+    setShowMenu(true)
+  }
+
+  useEffect(() => {
+    if (!showMenu) return
+
+    const closeMenu = e => {
+      if (!ulRef.current.contains(e.target)) {
+        setShowMenu(false)
+      }
+    }
+
+    document.addEventListener('click', closeMenu)
+
+    return () => {
+      document.removeEventListener('click', closeMenu)
+    }
+  }, [showMenu])
+
   let sessionLinks
   if (sessionUser) {
     sessionLinks = (
       <li>
         <ProfileButton user={sessionUser} />
-        {/* <button onClick={logout}></button> */}
       </li>
     )
   } else {
     sessionLinks = (
-      <div className='navigation'>
-
-      <li>
-        <button className='login' onClick={openLoginModal}>
-          <NavLink
-            to='/login'
-            style={{ textDecoration: 'none', color: 'black'}}
-            >
-            Log In
-          </NavLink>
-        </button>
-        <button className='signup' onClick={openSignupModal} >
-          <NavLink
-            to='/signup'
-            style={{ textDecoration: 'none', color: 'black' }}
-            >
-            Sign Up
-          </NavLink>
-        </button>
-      </li>
-            </div>
+      <>
+        <div className='dropdown-container'>
+          <button onClick={openMenu} className='active'>MENU</button>
+          {showMenu && (
+            <ul className='profile-dropdown open' ref={ulRef}>
+              <div className='navigation'>
+                <button className='login' onClick={openLoginModal}>
+                  <NavLink
+                    to='/login'
+                    style={{ textDecoration: 'none', color: 'black' }}
+                  >
+                    Log In
+                  </NavLink>
+                </button>
+                <button className='signup' onClick={openSignupModal}>
+                  <NavLink
+                    to='/signup'
+                    style={{ textDecoration: 'none', color: 'black' }}
+                  >
+                    Sign Up
+                  </NavLink>
+                </button>
+              </div>
+            </ul>
+          )}
+        </div>
+      </>
     )
   }
 
@@ -135,15 +168,13 @@ function Navigation ({ isLoaded, createdSpotId }) {
       {isCreateSpotOpen && (
         <CreateSpotModal
           open={openCreateSpotModal}
+          // TEMPORARY DONT ALLOW CREATE SPOT TO CLOSE
           onClose={() => {
             setIsCreateSpotOpen(false)
-            setShowOverlay(false)
           }}
-          onSuccess = { handleCreationSuccess }
+          onSuccess={handleCreationSuccess}
         >
-          <CreateSpotForm
-          open={setIsCreateSpotOpen}
-          />
+          <CreateSpotForm open={setIsCreateSpotOpen} />
         </CreateSpotModal>
       )}
 

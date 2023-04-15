@@ -46,7 +46,7 @@ login-form {
 
 .login-btn {
     font-size: 16px;
-    padding: 8px 12px;
+    padding: 10px 12px;
     cursor: pointer;
     color: #000000;
     border: none;
@@ -55,7 +55,12 @@ login-form {
     text-decoration: none;
     transition: all .4s ease-in-out;
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.26/9);
-    width: 10%;
+    width: 20%;
+    margin-top: 20px;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
 .demo-btn {
@@ -105,6 +110,7 @@ button:hover {
     margin-bottom: 10px;
     list-style: none;
 }
+
 .error-message {
     left: 0;
     width: 97%;

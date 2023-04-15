@@ -4,9 +4,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getSpotDetailsThunk } from '../../../store/spots'
 import { getSpotReviewsThunk } from '../../../store/reviews'
 import SpotReviews from '../Reviews/SpotReviews'
-
+import CreateReviewForm from '../Reviews/CreateReview'
+import CreateReviewModal from '../Reviews/CreateReviewModal/CreateReviewModal'
 import './SpotDetails.css'
 import reviewIcon from './images/review-icon.avif'
+
 
 function SpotDetails () {
   const { id } = useParams()
@@ -127,6 +129,9 @@ function SpotDetails () {
         </div>
         <div>
           <SpotReviews />
+          <CreateReviewModal>
+          <CreateReviewForm />
+          </CreateReviewModal>
         </div>
       </div>
     </div>

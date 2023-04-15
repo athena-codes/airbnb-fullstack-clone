@@ -4,7 +4,7 @@ import { Redirect, useHistory } from 'react-router-dom'
 import * as spotActions from '../../../store/spots'
 import './CreateSpot.css'
 
-export default function CreateSpotForm ({ open }) {
+export default function CreateSpotForm ({ createdSpotId, onSuccess, open }) {
   const dispatch = useDispatch()
   const history = useHistory()
 
@@ -116,7 +116,7 @@ export default function CreateSpotForm ({ open }) {
 
                 <label htmlFor='address'>Street Address</label>
                 <input
-                  className='input1'
+                  className='address-input'
                   type='text'
                   value={address}
                   onChange={e => setAddress(e.target.value)}
@@ -126,61 +126,64 @@ export default function CreateSpotForm ({ open }) {
                 {errors.address && (
                   <div className='error'>{errors.address}</div>
                 )}
-                <div className='city-state-labels'>
-                  <label className='city' htmlFor='city'>
-                    City
-                  </label>
-                  <label className='state' htmlFor='state'>
-                    State
-                  </label>
-                </div>
                 <div className='city-state'>
-                  <input
-                    className='input2'
-                    type='text'
-                    value={city}
-                    onChange={e => setCity(e.target.value)}
-                    placeholder='City'
-                    required
-                  ></input>
+                  <div className='input-group'>
+                    <label className='city' htmlFor='city'>
+                      City
+                    </label>
+                    <input
+                      className='input2'
+                      type='text'
+                      value={city}
+                      onChange={e => setCity(e.target.value)}
+                      placeholder='City'
+                      required
+                    ></input>
+                  </div>
                   {errors.city && <div className='error'>{errors.city}</div>}
-
-                  <input
-                    className='input2'
-                    type='text'
-                    value={state}
-                    onChange={e => setState(e.target.value)}
-                    placeholder='State'
-                    required
-                  ></input>
+                  <div className='input-group'>
+                    <label className='state' htmlFor='state'>
+                      State
+                    </label>
+                    <input
+                      className='input2'
+                      type='text'
+                      value={state}
+                      onChange={e => setState(e.target.value)}
+                      placeholder='State'
+                      required
+                    ></input>
+                  </div>
                   {errors.state && <div className='error'>{errors.state}</div>}
                 </div>
-                <div className='lat-lng-labels'>
-                  <label className='lat' htmlFor='lat'>
-                    Latitude
-                  </label>
-                  <label className='lng' htmlFor='lng'>
-                    Longitude
-                  </label>
-                </div>
                 <div className='lat-lng'>
-                  <input
-                    className='input2'
-                    type='text'
-                    value={lat}
-                    onChange={e => setLat(e.target.value)}
-                    placeholder='Latitude'
-                    required
-                  ></input>
+                  <div className='input-group'>
+                    <label className='lat' htmlFor='lat'>
+                      Latitude
+                    </label>
+                    <input
+                      className='input2'
+                      type='text'
+                      value={lat}
+                      onChange={e => setLat(e.target.value)}
+                      placeholder='Latitude'
+                      required
+                    ></input>
+                  </div>
                   {errors.lat && <div className='error'>{errors.lat}</div>}
-                  <input
-                    className='input2'
-                    type='text'
-                    value={lng}
-                    onChange={e => setLng(e.target.value)}
-                    placeholder='Longitude'
-                    required
-                  ></input>
+                  <div className='input-group'>
+                    <label className='lng' htmlFor='lng'>
+                      Longitude
+                    </label>
+                    <input
+                      className='input2'
+                      type='text'
+                      value={lng}
+                      onChange={e => setLng(e.target.value)}
+                      placeholder='Longitude'
+                      required
+                    ></input>
+                  </div>
                   {errors.lng && <div className='error'>{errors.lng}</div>}
                 </div>
               </div>
@@ -211,7 +214,7 @@ export default function CreateSpotForm ({ open }) {
                 makes your place special.
               </p>
               <input
-                className='input1'
+                className='name-input'
                 type='text'
                 value={name}
                 onChange={e => setName(e.target.value)}

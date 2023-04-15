@@ -3,6 +3,22 @@
     margin-top: none;
 }
 
+.navigation {
+    display: flex;
+    flex-direction: column;
+}
+
+.dropdown-container:active {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.dropdown-container .active {
+    margin-left: 20px;
+}
+
 .create-spot-btn {
     display: flex;
     align-items: center;
@@ -110,4 +126,3 @@ button:hover {
     height: 200px;
     cursor: pointer;
 }
-
