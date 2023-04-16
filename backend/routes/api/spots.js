@@ -182,15 +182,15 @@ router.get('/', async (req, res, next) => {
     let { page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } =
       req.query
 
-    if (!page) page = 1
-    if (!size) size = 20
-    if (size > 20) size = 20
-    if (page > 10) page = 10
+    // if (!page) page = 1
+    // if (!size) size = 20
+    // if (size > 20) size = 20
+    // if (page > 10) page = 10
 
-    let pagination = {}
+    // let pagination = {}
 
-    page = parseInt(page)
-    size = parseInt(size)
+    // page = parseInt(page)
+    // size = parseInt(size)
     // minLat = parseFloat(minLat)
     // maxLat = parseFloat(maxLat)
     // minLng = parseFloat(minLng)
@@ -200,13 +200,13 @@ router.get('/', async (req, res, next) => {
 
     let errors = {}
 
-    if (isNaN(page) || !Number.isInteger(page) || page < 1) {
-      errors.page = 'Page must be greater than or equal to 1'
-    }
+    // if (isNaN(page) || !Number.isInteger(page) || page < 1) {
+    //   errors.page = 'Page must be greater than or equal to 1'
+    // }
 
-    if (isNaN(size) || !Number.isInteger(size) || size < 1) {
-      errors.size = 'Page must be greater than or equal to 1'
-    }
+    // if (isNaN(size) || !Number.isInteger(size) || size < 1) {
+    //   errors.size = 'Page must be greater than or equal to 1'
+    // }
 
     if (minLat && isNaN(parseFloat(minLat))) {
       minLat = parseFloat(minLat)
@@ -267,10 +267,10 @@ router.get('/', async (req, res, next) => {
       })
     }
 
-    if (page && size) {
-      pagination.limit = size
-      pagination.offset = size * (page - 1)
-    }
+    // if (page && size) {
+    //   pagination.limit = size
+    //   pagination.offset = size * (page - 1)
+    // }
 
     let where = {}
 
@@ -303,7 +303,6 @@ router.get('/', async (req, res, next) => {
     }
 
     let spots = await Spot.findAll({
-      ...pagination,
       where
     })
 
@@ -382,9 +381,7 @@ router.get('/', async (req, res, next) => {
         allSpots.push(spotsObj)
       }
       return res.status(200).json({
-        Spots: allSpots,
-        page,
-        size
+        Spots: allSpots
       })
     }
   } catch (err) {

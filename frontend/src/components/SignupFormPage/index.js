@@ -83,7 +83,7 @@ function SignupFormPage ({ onSuccess, onClose }) {
           </p>
         )}
       </div>
-      <form className='signup-form' onSubmit={handleSubmit}>
+      <form className='signup-form' onSubmit={handleSubmit} noValidate>
         <div className='signup-input'>
           <input
             type='text'
@@ -128,7 +128,7 @@ function SignupFormPage ({ onSuccess, onClose }) {
             required
           />
         </div>
-        <button type='submit' className='signup-btn' onSubmit={onSuccess}>
+        <button type='submit' className='signup-btn' onSubmit={onSuccess} noValidate>
           Sign Up
         </button>
       </form>

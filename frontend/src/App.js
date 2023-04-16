@@ -4,6 +4,7 @@ import { Route, Switch } from 'react-router-dom'
 import * as sessionActions from './store/session'
 import Navigation from './components/Navigation'
 import AllSpots from './components/Spots/AllSpots'
+import ManageSpots from './components/Spots/ManageSpots'
 import LoginModal from './components/LoginModal'
 import SignupModal from './components/SignupModal'
 import SpotDetails from './components/Spots/SpotDetails'
@@ -18,7 +19,6 @@ function App () {
     setIsLoaded(true)
   }, [dispatch])
 
-
   return (
     <>
       <Navigation isLoaded={isLoaded} />
@@ -31,10 +31,17 @@ function App () {
             <LoginModal />
           </Route>
           <Route path='/signup'>
-            <SignupModal open={modalOpen} onClose={() => setModalOpen(false)} setModalOpen={setModalOpen}/>
+            <SignupModal
+              open={modalOpen}
+              onClose={() => setModalOpen(false)}
+              setModalOpen={setModalOpen}
+            />
           </Route>
           <Route exact path='/spots/:id'>
             <SpotDetails />
+          </Route>
+          <Route path='/current'>
+            <ManageSpots />
           </Route>
         </Switch>
       )}
