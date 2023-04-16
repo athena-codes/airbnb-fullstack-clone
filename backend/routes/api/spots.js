@@ -87,8 +87,8 @@ const validateSpot = [
   handleValidationErrors
 ]
 
-// ******** Get all spots *********
-// Require auth: false
+
+// *****************************************************
 // let { page, size, minPrice, maxPrice } = req.query
 // maxPrice = +maxPrice
 // minPrice = +minPrice
@@ -103,41 +103,41 @@ const validateSpot = [
 // if (page > 10) page = 10
 
 // if (!page > 0) {
-//   return res
-//     .json({
-//       message: 'Page must be greater than or equal to 1',
-//       statusCode: 400
-//     })
-//     .status(400)
-// }
+  //   return res
+  //     .json({
+    //       message: 'Page must be greater than or equal to 1',
+    //       statusCode: 400
+    //     })
+    //     .status(400)
+    // }
 
-// if (!size > 0) {
-//   return res
-//     .json({
-//       message: 'Size must be greater than or equal to 1',
-//       statusCode: 400
-//     })
-//     .status(400)
-// }
+    // if (!size > 0) {
+      //   return res
+      //     .json({
+        //       message: 'Size must be greater than or equal to 1',
+        //       statusCode: 400
+        //     })
+        //     .status(400)
+        // }
 
-// if (page > 0 && size > 0) {
-//   pagination.limit = size
-//   pagination.offset = size * (page - 1)
-// }
+        // if (page > 0 && size > 0) {
+          //   pagination.limit = size
+          //   pagination.offset = size * (page - 1)
+          // }
 
-// let query = {
-//   where: {},
-//   include: []
-// }
+          // let query = {
+            //   where: {},
+            //   include: []
+            // }
 
-// let errors = {}
+            // let errors = {}
 
-//     if (req.query.minPrice < 0 && req.query.maxPrice < 0) {
-//     if (+req.query.minPrice && +req.query.maxPrice) {
-//       errors.minPrice = 'Minimum price must be greater than or equal to 0'
-//       errors.maxPrice = 'Minimum price must be greater than or equal to 0'
-//     } else {
-//       query.where.price = {
+            //     if (req.query.minPrice < 0 && req.query.maxPrice < 0) {
+              //     if (+req.query.minPrice && +req.query.maxPrice) {
+                //       errors.minPrice = 'Minimum price must be greater than or equal to 0'
+                //       errors.maxPrice = 'Minimum price must be greater than or equal to 0'
+                //     } else {
+                  //       query.where.price = {
 //            [Op.or]: [
 //           { minPrice: { [Op.lte]: maxPrice } },
 //           { maxPrice: { [Op.gte]: minPrice } }
@@ -147,36 +147,40 @@ const validateSpot = [
 //   }
 
 // if (req.query.maxPrice < 0) {
-//   if (+req.query.maxPrice) {
-//     errors.maxPrice = 'Maximum price must be greater than or equal to 0'
-//   } else {
-//     query.where.price = {
-//       [Op.lte]: req.query.maxPrice
-//     }
-//   }
-// }
+  //   if (+req.query.maxPrice) {
+    //     errors.maxPrice = 'Maximum price must be greater than or equal to 0'
+    //   } else {
+      //     query.where.price = {
+        //       [Op.lte]: req.query.maxPrice
+        //     }
+        //   }
+        // }
 
-// if (req.query.minPrice < 0) {
-//   if (+req.query.minPrice) {
-//     errors.minPrice = 'Minimum price must be greater than or equal to 0'
-//   } else {
-//     query.where.price = {
-//       [Op.gte]: req.query.minPrice
-//     }
-//   }
-// }
+        // if (req.query.minPrice < 0) {
+          //   if (+req.query.minPrice) {
+            //     errors.minPrice = 'Minimum price must be greater than or equal to 0'
+            //   } else {
+              //     query.where.price = {
+                //       [Op.gte]: req.query.minPrice
+                //     }
+                //   }
+                // }
 
-// if (Object.keys(errors).length !== 0) {
-//   const err = new Error('Validation Error')
-//   err.status = 400
-//   err.errors = errors
-//   return next(err)
-// }
+                // if (Object.keys(errors).length !== 0) {
+                  //   const err = new Error('Validation Error')
+                  //   err.status = 400
+                  //   err.errors = errors
+                  //   return next(err)
+                  // }
 
-// const spots = await Spot.findAll({
-//   ...pagination,
+                  // const spots = await Spot.findAll({
+                    //   ...pagination,
 //   query
 // })
+// *****************************************************
+
+// ******** Get all spots *********
+// Require auth: false
 router.get('/', async (req, res, next) => {
   try {
     let { page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } =
