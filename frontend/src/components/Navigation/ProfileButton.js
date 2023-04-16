@@ -44,7 +44,7 @@ function ProfileButton () {
   return (
     <>
       <button onClick={openMenu}>
-        <i className='fas fa-user-circle' />
+        <i className='fas fa-user-circle hp' />
       </button>
       {showMenu && (
         <div className='dropdown-menu'>
@@ -53,14 +53,17 @@ function ProfileButton () {
               <li>Hello, {user.firstName}</li>
               <li>{user.email}</li>
             </div>
-            <li>
-              <NavLink className='profile-NavLink' to='/current'>
-                Manage Spots
-              </NavLink>
-            </li>
-            <li>
-              <button onClick={logout}>Log Out</button>
-            </li>
+
+            <div className='manage-logout-btns'>
+              <li>
+                <NavLink className='manage-spots-nav' to='/current'>
+                  Manage Spots
+                </NavLink>
+              </li>
+              <li className='logout-btn'>
+                <button onClick={logout}>Log Out</button>
+              </li>
+            </div>
           </ul>
         </div>
       )}

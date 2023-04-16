@@ -1,11 +1,14 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Redirect, useHistory } from 'react-router-dom'
 import * as spotActions from '../../../store/spots'
-import './CreateSpot.css'
+import './UpdateSpot.css'
 
-export default function CreateSpotForm ({ createdSpotId, onSuccess, open }) {
+function UpdateSpotForm ({ open }) {
   const sessionUser = useSelector(state => state.session.user)
+  const spotDetails = useSelector(state => state.spot.spotDetails)
+  console.log('SPOT DETAILS --->', spotDetails)
+  const selectedSpot = useSelector(state => state.spot.spot)
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
   const [price, setPrice] = useState('')
@@ -27,10 +30,23 @@ export default function CreateSpotForm ({ createdSpotId, onSuccess, open }) {
   const dispatch = useDispatch()
   const history = useHistory()
 
-  if (!sessionUser) return <Redirect to={'/'} />
+  useEffect(() => {
+    dispatch(spotActions.getSpotDetailsThunk(selectedSpot)).then(res => {
+      setAddress(res.address)
+      setName(res.name)
+      setDescription(res.description)
+      setState(res.state)
+      setCity(res.city)
+      setCountry(res.country)
+      setPrice(res.price)
+    })
+  }, [dispatch, selectedSpot])
 
   const handleSubmit = async e => {
     e.preventDefault()
+
+    const newSpot = { name, description, price, address, city, state, country }
+    const { id } = spotDetails
 
     const images = [image1, image2, image3, image4]
       .filter(Boolean)
@@ -39,19 +55,10 @@ export default function CreateSpotForm ({ createdSpotId, onSuccess, open }) {
         preview: false
       }))
 
-    const newSpot =  dispatch(
-      spotActions.createSpotsThunk(
-        {
-          name,
-          description,
-          price,
-          address,
-          city,
-          state,
-          country,
-          lat,
-          lng
-        },
+    return dispatch(
+      spotActions.updateSpotsThunk(
+        newSpot,
+        id,
         {
           url: previewImage,
           preview: true
@@ -81,21 +88,25 @@ export default function CreateSpotForm ({ createdSpotId, onSuccess, open }) {
           errors.description = 'Please write at least 30 characters'
         }
 
-        const combinedErrors = { ...data.errors, ...imageErrors, ...descriptionErr }
+        const combinedErrors = {
+          ...data.errors,
+          ...imageErrors,
+          ...descriptionErr
+        }
 
         setErrors(combinedErrors)
       })
-      return newSpot
   }
 
-  // ** add noValidate to form/submit button to prevent browser default validation msg
-  return (
-    <div className='form-container-div'>
+      if (!sessionUser) return <Redirect to={'/'} />
+      // ** add noValidate to form/submit button to prevent browser default validation msg
+      return (
+        <div className='form-container-div'>
       <div className='form-container'>
         <div className='form'>
           <form noValidate className='create-spot' onSubmit={handleSubmit}>
             <div className='location-section'>
-              <h1 className='title'>Create a new Spot</h1>
+              <h1 className='title'>Update Your Spot</h1>
               <div className='location-info'>
                 <h2 className='form-heading'>Where's your place located?</h2>
                 <p className='form-subheading'>
@@ -301,7 +312,7 @@ export default function CreateSpotForm ({ createdSpotId, onSuccess, open }) {
               ></input>
             </div>
             <button className='submit-create-spot-btn' type='submit'>
-              Create Spot
+              Update
             </button>
           </form>
         </div>
@@ -309,3 +320,5 @@ export default function CreateSpotForm ({ createdSpotId, onSuccess, open }) {
     </div>
   )
 }
+
+export default UpdateSpotForm

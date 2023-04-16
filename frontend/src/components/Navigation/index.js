@@ -106,13 +106,18 @@ function Navigation ({ isLoaded, createdSpotId }) {
     sessionLinks = (
       <>
         <div className='dropdown-container'>
-          <button onClick={openMenu} className={showMenu ? 'active' : ''}>
+          <div className='hamburger-menu'>
+
+          <button onClick={openMenu} id='hamburger-btn'className={showMenu ? 'active' : ''}>
             <span className='hamburger'></span>
             <span className='hamburger'></span>
             <span className='hamburger'></span>
           </button>
+            <i className='fas fa-user-circle' onClick = { openMenu }
+/>
+          </div>
           {showMenu && (
-            <ul className='profile-dropdown open' ref={ulRef}>
+            <ul className='profile-dropdown open login loggedin' ref={ulRef}>
               <div className='navigation'>
                 {!isLoginOpen && !isSignupOpen && (
                   <>

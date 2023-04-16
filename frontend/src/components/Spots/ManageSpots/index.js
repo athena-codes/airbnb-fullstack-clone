@@ -4,7 +4,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import { NavLink } from 'react-router-dom'
 import CreateSpotModal from '../CreateSpot/CreateSpotModal'
 import CreateSpotForm from '../CreateSpot'
+import UpdateSpotForm from '../UpdateSpot'
+import UpdateSpotModal from '../UpdateSpot/UpdateSpotModal/UpdateSpotModal'
 import { getSpotsThunk } from '../../../store/spots'
+import { updateSpotsThunk } from '../../../store/spots'
 import './ManageSpots.css'
 
 function ManageSpots ({ createdSpotId }) {
@@ -15,6 +18,8 @@ function ManageSpots ({ createdSpotId }) {
   // *** use later for delete + update modals
   const [showModal, setShowModal] = useState(false)
   const [isCreateSpotOpen, setIsCreateSpotOpen] = useState(false)
+  const [isUpdateSpotOpen, setIsUpdateSpotOpen] = useState(false)
+  const [updateSpot, setUpdateSpot] = useState(false)
   const [isLoaded, setIsLoaded] = useState(false)
   const [createSpot, setCreateSpot] = useState(false)
   const [showOverlay, setShowOverlay] = useState(false)
@@ -34,15 +39,29 @@ function ManageSpots ({ createdSpotId }) {
   } else {
     history.push('/')
   }
-  console.log('CURRENT USER SPOTS --->', currentUserSpots)
 
   const handleCreateSpotClick = () => {
     setIsCreateSpotOpen(true)
   }
 
+  const handleUpdateSpotClick = () => {
+    setIsUpdateSpotOpen(true)
+  }
+
   const openCreateSpotModal = () => {
     setIsCreateSpotOpen(true)
     history.push('/')
+  }
+
+  const openUpdateSpotModal = () => {
+    setIsUpdateSpotOpen(true)
+    history.push('/')
+  }
+
+  const handleUpdateSuccess = () => {
+    setUpdateSpot(false)
+    setShowOverlay(false)
+    history.push(`/spots/${createdSpotId}`)
   }
 
   const handleCreationSuccess = () => {
@@ -57,7 +76,10 @@ function ManageSpots ({ createdSpotId }) {
         <div className='manage-spots-heading'>
           <h2 className='manage-spots-title'>Manage Your Spots</h2>
           {sessionUser && (
-            <button className='create-spot-btn manage' onClick={handleCreateSpotClick}>
+            <button
+              className='create-spot-btn manage'
+              onClick={handleCreateSpotClick}
+            >
               Create a New Spot
             </button>
           )}
@@ -124,24 +146,36 @@ function ManageSpots ({ createdSpotId }) {
                   </div>
                 </div>
                 <div className='manage-spots-price'>${spot.price} night</div>
-              </div>
-              <div className='update-delete-btns'>
-                <button
-                  className='update-delete-btn'
-                  onClick={handleCreateSpotClick}
-                >
-                  Update
-                </button>
+                <div className='update-delete-btns'>
+                  <button
+                    className='update-delete-btn'
+                    onClick={() => handleUpdateSpotClick(spot.id)}
+                  >
+                    Update
+                  </button>
 
-                <button
-                  className='update-delete-btn'
-                  onClick={handleCreateSpotClick}
-                >
-                  Delete
-                </button>
+                  <button
+                    className='update-delete-btn'
+                    onClick={() => alert('Working on')}
+                    >
+                    Delete
+                  </button>
+                </div>
               </div>
             </div>
           ))}
+                    {isUpdateSpotOpen && (
+                      <UpdateSpotModal
+                        open={openUpdateSpotModal}
+                        // TEMPORARY DONT ALLOW CREATE SPOT TO CLOSE
+                        onClose={() => {
+                          setIsUpdateSpotOpen(false)
+                        }}
+                        onSuccess={handleUpdateSuccess}
+                      >
+                        <UpdateSpotForm open={setIsUpdateSpotOpen} />
+                      </UpdateSpotModal>
+                    )}
       </div>
     </>
   )

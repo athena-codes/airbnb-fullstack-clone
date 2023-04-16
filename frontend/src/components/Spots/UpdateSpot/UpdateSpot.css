@@ -1,0 +1,246 @@
+.form-container-div {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 0 20px;
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.title {
+    font-size: 36px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: fit-content;
+    border-radius: 4px;
+    background-color: #fff;
+    margin-right: 30px;
+}
+
+.create-spot {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: fit-content;
+    z-index: 9909;
+}
+
+input {
+    outline: 1px 1px 1px solid #000000;
+    margin: 10px;
+}
+
+.address-input {
+    margin-top: 5px;
+    font-size: 16px;
+    padding: 5px;
+    margin-left: 7px;
+}
+
+.name-input {
+    margin-top: 5px;
+    font-size: 16px;
+    padding: 5px;
+    margin-left: 7px;
+    width: 100%;
+}
+
+
+.input-desc {
+    width: 100%;
+    height: 100px;
+    margin-top: 5px;
+}
+
+.input-img {
+    width: 100%;
+    margin-top: 5px;
+}
+
+button {
+    color: black;
+    margin-top: 0;
+
+}
+
+/* PROBLEM */
+button:focus,
+button:hover {
+    /* background-color: #bf1e5eed; */
+    outline: none;
+    /* color: #fff; */
+}
+
+.submit-create-spot-btn {
+    width: 50%;
+    margin-top: 20px;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.create-spot-btn:hover,
+.submit-create-spot-btn:hover {
+    background-color: #ff3385;
+    transition: all .2s ease-in-out;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.269);
+}
+
+.errors {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 20px;
+}
+
+.errors li {
+    color: red;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.location-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.form-heading,
+.form-subheading {
+    margin: 0;
+    line-height: 1.2;
+}
+
+.form-heading {
+    padding-bottom: 5px;
+}
+
+.create-spot label {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    text-align: left;
+    margin-top: 30px;
+}
+
+.location-section {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+    margin-top: 50px;
+    border-bottom: 1px solid #a8a8a8;
+    width: 100%;
+}
+
+.description-section {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+    margin-top: 10px;
+    border-bottom: 1px solid #a8a8a8;
+    width: 100%;
+}
+
+.input-desc {
+    margin-bottom: 20px;
+}
+
+.title-section {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+    margin-top: 10px;
+    border-bottom: 1px solid #a8a8a8;
+    width: 100%;
+}
+
+.price-section {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+    margin-top: 10px;
+    border-bottom: 1px solid #a8a8a8;
+    width: 100%;
+}
+
+.photo-section {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+    margin-top: 10px;
+    border-bottom: 1px solid #a8a8a8;
+    width: 100%;
+
+}
+
+.lat-lng {
+    display: flex;
+    flex-direction: row;
+}
+
+.lat-lng-labels {
+    display: flex;
+    justify-content: space-between;
+}
+
+.lng {
+    margin-right: 150px;
+}
+
+.lat {
+    margin-left: 10px;
+}
+
+.city-state {
+    display: flex;
+    flex-direction: row;
+}
+
+.city-state,
+.lat-lng {
+    display: flex;
+    flex-direction: row;
+}
+
+.input-group input {
+    width: 80%;
+}
+
+.state {
+    margin-right: 180px;
+}
+
+.city {
+    margin-left: 10px;
+}
+
+.price {
+    display: flex;
+    flex-direction: row;
+}
+
+p.price {
+    margin-left: 10px;
+}
+
+.error {
+    color: red;
+    font-size: 0.8rem;
+}

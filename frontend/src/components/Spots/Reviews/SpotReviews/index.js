@@ -10,6 +10,7 @@ import CreateReviewModal from '../CreateReviewModal/CreateReviewModal'
 function SpotReviews ({ createNewReview }) {
   const reviews = useSelector(state => state.review.allReviews)
   const spotDetails = useSelector(state => state.spot.spotDetails)
+  console.log('SPOT DETAILS --->', spotDetails)
   const sessionUser = useSelector(state => state.session.user)
   const [showCreateReviewModal, setShowCreateReviewModal] = useState(false)
 

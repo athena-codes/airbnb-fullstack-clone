@@ -9,6 +9,7 @@
     align-items: center;
     justify-content: center;
     width: 100px;
+    height: 80px;
     background-color: transparent;
 }
 
@@ -25,8 +26,40 @@ a.navigation-logo.active {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    background-color: white;
+    background-color: transparent;
     width: 50px;
+}
+
+.fa-user-circle {
+    font-size: 25px;
+    margin-left: 15px;
+    margin-bottom: 8px;
+    cursor: pointer;
+}
+
+.manage-spots-nav {
+    border: none;
+    color: #000000;
+    font-weight: bold;
+    cursor: pointer;
+    margin-bottom: 10px;
+    font-size: 14px;
+    background-color: transparent;
+    text-decoration: none;
+    list-style: none;
+}
+
+.hamburger-menu {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-right: 50px;
+}
+
+.session-links {
+    background-color: transparent;
+    margin-right: 50px;
 }
 
 .dropdown-container button {
@@ -68,11 +101,16 @@ a.navigation-logo.active {
 
 .dropdown-container ul li {
     padding: 10px;
+    background-color: transparent;
+}
+
+#hamburger-btn {
+    background-color: transparent;
 }
 
 .dropdown-container button .hamburger {
     display: block;
-    width: 25px;
+    width: 20px;
     height: 3px;
     background-color: #000;
     margin: 5px 0;
@@ -94,18 +132,21 @@ a.navigation-logo.active {
 .dropdown-menu {
     z-index: 9999;
     position: absolute;
+    background-color: transparent;
 }
 
 .profile-dropdown.open {
     z-index: 9999;
     width: fit-content;
-    left: -50px;
+    height: 95px;
+    left: -40px;
 
 }
 
+
 .profile-dropdown {
     position: relative;
-    padding: 10px;
+    padding: 8px;
     border: 1px solid #4c4b4b27;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
@@ -116,6 +157,28 @@ a.navigation-logo.active {
     font-size: 14px;
     padding-bottom: 10px;
     border-bottom: 1px solid rgba(134, 134, 134, 0.425);
+}
+
+.manage-logout-btns {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 10px 2px;
+    background-color: transparent;
+}
+
+.logout-btn {
+    border: none;
+        color: #000000;
+        font-weight: bold;
+        cursor: pointer;
+        margin-bottom: 10px;
+        font-size: 14px;
+        background-color: transparent;
+        text-decoration: none;
+        list-style: none;
+        background-color: transparent;
 }
 
 .create-spot-btn {
@@ -152,6 +215,7 @@ a.navigation-logo.active {
 
 .nav-list-items.dropdown-menu {
     position: absolute;
+    background-color: transparent;
 }
 
 
@@ -171,10 +235,10 @@ button {
     font-weight: bold;
     cursor: pointer;
     transition: all 0.2s ease-in-out;
-    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
     padding: 8px 12px;
     margin-bottom: 10px;
     border-radius: 4px;
+    background-color: transparent;
 }
 
 button:focus,
