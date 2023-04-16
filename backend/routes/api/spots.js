@@ -51,7 +51,7 @@ const validateReviews = [
 const validateSpot = [
   check('address')
     .exists({ checkFalsy: true })
-    .withMessage('Street address is required'),
+    .withMessage('Address is required'),
   check('city').exists({ checkFalsy: true }).withMessage('City is required'),
   check('state').exists({ checkFalsy: true }).withMessage('State is required'),
   check('country')
@@ -77,7 +77,7 @@ const validateSpot = [
     .withMessage('Name must be less than 50 characters'),
   check('description')
     .exists({ checkFalsy: true })
-    .withMessage('Description is required'),
+    .withMessage('Description needs a minimum of 30 characters'),
   check('price')
     .exists({ checkFalsy: true })
     .withMessage('Price per day is required')

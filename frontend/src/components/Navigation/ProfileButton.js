@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
+import { NavLink } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import * as sessionActions from '../../store/session'
 
@@ -7,7 +8,7 @@ function ProfileButton () {
   const [showMenu, setShowMenu] = useState(false)
   const ulRef = useRef()
 
-  const  user  = useSelector(state => state.session.user)
+  const user = useSelector(state => state.session.user)
 
   useEffect(() => {
     if (user) {
@@ -42,20 +43,24 @@ function ProfileButton () {
 
   return (
     <>
-      <button onClick={openMenu}>
+    <button onClick={openMenu}>
         <i className='fas fa-user-circle' />
       </button>
       {showMenu && (
+        <div className='dropdown-menu'>
         <ul className='profile-dropdown open' ref={ulRef}>
+          <div className='dropdown-greeting'>
           <li>Hello, {user.firstName}</li>
-          <li>
-            {user.firstName} {user.lastName}
-          </li>
           <li>{user.email}</li>
+          </div>
+          <li>
+            <button>Manage Spots</button>
+          </li>
           <li>
             <button onClick={logout}>Log Out</button>
           </li>
         </ul>
+        </div>
       )}
     </>
   )

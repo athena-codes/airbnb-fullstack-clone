@@ -5,6 +5,10 @@
     z-index: 2;
 }
 
+.navigation-logo img {
+    z-index: 1;
+}
+
 .preview-image {
     border-radius: 4px;
     max-height: 600px;

@@ -5,11 +5,8 @@ import * as spotActions from '../../../store/spots'
 import './CreateSpot.css'
 
 export default function CreateSpotForm ({ createdSpotId, onSuccess, open }) {
-  const dispatch = useDispatch()
-  const history = useHistory()
-
   const sessionUser = useSelector(state => state.session.user)
-
+  console.log('CURRENT USER -->', sessionUser)
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
   const [price, setPrice] = useState('')
@@ -20,14 +17,18 @@ export default function CreateSpotForm ({ createdSpotId, onSuccess, open }) {
   const [lat, setLat] = useState('')
   const [lng, setLng] = useState('')
   const [previewImage, setPreviewImage] = useState('')
-  console.log('PREV IMAGE --->', previewImage)
+
   // ALL OTHER IMAGES BESIDES PREV IMAGE
   const [image1, setImage1] = useState('')
   const [image2, setImage2] = useState('')
   const [image3, setImage3] = useState('')
   const [image4, setImage4] = useState('')
+  const dispatch = useDispatch()
 
   const [errors, setErrors] = useState([])
+  console.log('ERRORS -->', errors)
+  const history = useHistory()
+
 
   if (!sessionUser) return <Redirect to={'/'} />
 
@@ -41,7 +42,7 @@ export default function CreateSpotForm ({ createdSpotId, onSuccess, open }) {
         preview: false
       }))
 
-    return dispatch(
+    const newSpot =  dispatch(
       spotActions.createSpotsThunk(
         {
           name,
@@ -69,6 +70,7 @@ export default function CreateSpotForm ({ createdSpotId, onSuccess, open }) {
       .catch(async res => {
         const data = await res.json()
         const imageErrors = {}
+        const descriptionErr = {}
 
         if (!previewImage) {
           imageErrors.previewImage = 'Preview Image is required'
@@ -78,10 +80,15 @@ export default function CreateSpotForm ({ createdSpotId, onSuccess, open }) {
           imageErrors.imageUrl = 'Image URL must end in .png, .jpg or .jpeg'
         }
 
-        const combinedErrors = { ...data.errors, ...imageErrors }
+        if (description.length < 30) {
+          errors.description = 'Please write at least 30 characters'
+        }
+
+        const combinedErrors = { ...data.errors, ...imageErrors, ...descriptionErr }
 
         setErrors(combinedErrors)
       })
+      return newSpot
   }
 
   // ** add noValidate to form/submit button to prevent browser default validation msg

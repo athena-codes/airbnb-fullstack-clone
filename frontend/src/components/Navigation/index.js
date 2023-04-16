@@ -106,26 +106,34 @@ function Navigation ({ isLoaded, createdSpotId }) {
     sessionLinks = (
       <>
         <div className='dropdown-container'>
-          <button onClick={openMenu} className='active'>MENU</button>
+          <button onClick={openMenu} className={showMenu ? 'active' : ''}>
+            <span className='hamburger'></span>
+            <span className='hamburger'></span>
+            <span className='hamburger'></span>
+          </button>
           {showMenu && (
             <ul className='profile-dropdown open' ref={ulRef}>
               <div className='navigation'>
-                <button className='login' onClick={openLoginModal}>
-                  <NavLink
-                    to='/login'
-                    style={{ textDecoration: 'none', color: 'black' }}
-                  >
-                    Log In
-                  </NavLink>
-                </button>
-                <button className='signup' onClick={openSignupModal}>
-                  <NavLink
-                    to='/signup'
-                    style={{ textDecoration: 'none', color: 'black' }}
-                  >
-                    Sign Up
-                  </NavLink>
-                </button>
+                {!isLoginOpen && !isSignupOpen && (
+                  <>
+                    <button className='login' onClick={openLoginModal}>
+                      <NavLink
+                        to='/login'
+                        style={{ textDecoration: 'none', color: 'black' }}
+                      >
+                        Log In
+                      </NavLink>
+                    </button>
+                    <button className='signup' onClick={openSignupModal}>
+                      <NavLink
+                        to='/signup'
+                        style={{ textDecoration: 'none', color: 'black' }}
+                      >
+                        Sign Up
+                      </NavLink>
+                    </button>
+                  </>
+                )}
               </div>
             </ul>
           )}
@@ -150,7 +158,7 @@ function Navigation ({ isLoaded, createdSpotId }) {
               </button>
             </li>
           )}
-          {isLoaded && sessionLinks}
+          <div className='session-links'>{isLoaded && sessionLinks}</div>
         </div>
       </ul>
 

@@ -45,7 +45,6 @@ function SignupFormPage ({ onSuccess, onClose }) {
 
             if (Array.isArray(data.errors)) {
               errorMessages = data.errors
-              console.log('ERRORS --->', errorMessages)
             } else {
               for (const key in data.errors) {
                 if (data.errors.hasOwnProperty(key)) {

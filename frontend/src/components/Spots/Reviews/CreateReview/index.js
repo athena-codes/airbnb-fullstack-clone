@@ -13,7 +13,6 @@ export default function CreateReviewForm ({
   const dispatch = useDispatch()
   const [review, setReview] = useState('')
   const [errors, setErrors] = useState([])
-  console.log('ERRORS -->', errors)
   const [stars, setStars] = useState('')
 
   useEffect(() => {
@@ -33,7 +32,9 @@ export default function CreateReviewForm ({
       setErrors(errors)
     }
     const res = await createNewReview(e, review, stars)
-    closeModal()
+    if (res !== undefined) {
+      closeModal()
+    }
   }
 
   return (

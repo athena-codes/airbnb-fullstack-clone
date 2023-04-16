@@ -14,6 +14,7 @@ function SpotDetails () {
   const [isLoading, setIsLoading] = useState(true)
   const [isLoaded, setIsLoaded] = useState(false)
 
+
   const dispatch = useDispatch()
   const reservationBoxRef = useRef(null)
 
@@ -46,10 +47,10 @@ function SpotDetails () {
 
   const createNewReview = async (e, review, stars) => {
     e.preventDefault()
-    let errors = []
 
     await dispatch(createReviewThunk({ review, stars }, id)).catch(
       async res => {
+        const errors = []
         const data = await res.json()
 
         if (data && data.errors) {

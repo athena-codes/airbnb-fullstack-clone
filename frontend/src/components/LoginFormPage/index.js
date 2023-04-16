@@ -72,7 +72,7 @@ function LoginFormPage ({ onSuccess }) {
       </div>
     )}
       <div className='login-form'>
-        <form onSubmit={handleSubmit} className='login-form'>
+        <form noValidate onSubmit={handleSubmit} className='login-form'>
           <div className='login-input'>
             <label className='label'>
               <input
@@ -103,6 +103,7 @@ function LoginFormPage ({ onSuccess }) {
               type='button'
               className='demo-btn'
               onClick={handleDemoLogin}
+              noValidate
             >
               Demo User
             </button>

@@ -6,6 +6,8 @@
     width: 95%;
     margin-top: 100px;
     padding: 10px;
+    position: absolute;
+    z-index: 1;
 }
 
 .spot {
@@ -17,6 +19,11 @@
     overflow: hidden;
     cursor: pointer;
     transition: transform 0.2s ease-in-out;
+    z-index: 2;
+}
+
+.spot.tooltip-on-hover {
+    z-index: 1;
 }
 
 .tooltip {

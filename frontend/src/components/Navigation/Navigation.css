@@ -6,17 +6,116 @@
 .navigation {
     display: flex;
     flex-direction: column;
-}
-
-.dropdown-container:active {
-    display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
+    width: 100px;
+    background-color: transparent;
 }
 
-.dropdown-container .active {
-    margin-left: 20px;
+li {
+    background-color: transparent;
+}
+
+a.navigation-logo.active {
+    background-color: transparent;
+}
+
+.dropdown-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: white;
+    width: 50px;
+}
+
+.dropdown-container button {
+    background-color: transparent;
+    border: none;
+    color: #000000;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 0;
+    font-size: 14px;
+}
+
+.dropdown-container button:focus,
+.dropdown-container button:hover {
+    outline: none;
+    /* color: #fff; */
+}
+
+.dropdown-container ul {
+    list-style: none;
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: #ffffff;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+    transform: translateY(-10px) rotateX(-90deg);
+    transform-origin: top center;
+}
+
+.dropdown-container ul.open {
+    display: block;
+    transform: translateY(0) rotateX(0);
+}
+
+.dropdown-container ul li {
+    padding: 10px;
+}
+
+.dropdown-container button .hamburger {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background-color: #000;
+    margin: 5px 0;
+    transition: transform 0.3s ease-in-out;
+}
+
+.dropdown-container button.active .hamburger:first-child {
+    transform: translateY(8px) rotate(45deg);
+}
+
+.dropdown-container button.active .hamburger:nth-child(2) {
+    opacity: 0;
+}
+
+.dropdown-container button.active .hamburger:last-child {
+    transform: translateY(-8px) rotate(-45deg);
+}
+
+.dropdown-menu {
+    z-index: 9999;
+    position: absolute;
+}
+
+.profile-dropdown.open {
+    z-index: 9999;
+    width: fit-content;
+    left: -50px;
+
+}
+
+.profile-dropdown {
+    position: relative;
+    padding: 10px;
+    border: 1px solid #4c4b4b27;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+    z-index: 9999;
+}
+
+.dropdown-greeting {
+    font-size: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(134, 134, 134, 0.425);
 }
 
 .create-spot-btn {
@@ -25,30 +124,12 @@
     margin-left: 10px;
 }
 
-.profile-dropdown {
-    display: flex;
-    flex-direction: column;
-    opacity: 0;
-    /* hide the dropdown initially */
-    transform: translateY(-10px) rotateX(-90deg);
-    /* move the dropdown up by 10px and rotate it 90 degrees backwards */
-    transform-origin: top center;
-    /* set the transform origin to the center of the top edge */
-    transition: opacity 0.3s ease-in-out, transform 0.3s cubic-bezier(0.42, 0, 0.58, 1);
-    /* add a transition effect with a custom timing function */
-}
-
-/* show the dropdown when it's open */
-.profile-dropdown.open {
-    opacity: 1;
-    transform: translateY(0) rotateX(0);
-}
-
 
 .nav-list-items {
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
+    background-color: transparent;
 }
 
 .create-spot-button {
@@ -57,21 +138,22 @@
     margin-right: 10px;
 }
 
-ul {
-    list-style: none;
+.navigation-list {
     display: flex;
-    text-decoration: none;
     justify-content: space-between;
     align-items: center;
-    background-color: #ffffff;
+    list-style: none;
+    text-decoration: none;
+    background-color: transparent;
     padding: 20px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
+    z-index: 1;
 }
 
-li {
-    margin-right: 20px;
+.nav-list-items.dropdown-menu {
+    position: absolute;
 }
+
 
 .overlay {
     position: fixed;
@@ -80,15 +162,8 @@ li {
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
-    z-index: 1000;
     backdrop-filter: blur(10px);
 }
-
-
-/* .active {
-    color: #ff5a6070;
-    text-decoration: none;
-} */
 
 button {
     border: none;
@@ -125,4 +200,6 @@ button:hover {
     width: 200px;
     height: 200px;
     cursor: pointer;
+    background-color: transparent;
+    z-index: -1;
 }
