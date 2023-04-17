@@ -12,7 +12,6 @@ import './SpotReviews.css'
 // *** add session user to detect if be first to post review should show
 function SpotReviews ({ createNewReview }) {
   const reviews = useSelector(state => state.review.allReviews)
-  console.log('ALL REVIEWS -->', reviews)
   const spotDetails = useSelector(state => state.spot.spotDetails)
   const sessionUser = useSelector(state => state.session.user)
   const [showCreateReviewModal, setShowCreateReviewModal] = useState(false)

@@ -27,7 +27,6 @@ export default function CreateReviewForm ({
     const errors = {}
     if (review.length < 10 || stars === '') {
       errors.errorMsg = 'Please write a minimum of 10 characters.'
-      console.log(errors)
       setErrors(errors)
     }
     const res = await createNewReview(e, review, stars)

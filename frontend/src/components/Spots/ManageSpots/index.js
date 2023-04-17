@@ -12,9 +12,8 @@ import './ManageSpots.css'
 
 function ManageSpots ({ createdSpotId }) {
   const spots = useSelector(state => state.spot.spots)
-  console.log('SPOTS  ', spots)
   const sessionUser = useSelector(state => state.session.user)
-  // *** use later for delete + update modals
+
   const [createSpot, setCreateSpot] = useState(false)
   const [isCreateSpotOpen, setIsCreateSpotOpen] = useState(false)
   const [spotToDelete, setSpotToDelete] = useState(null)

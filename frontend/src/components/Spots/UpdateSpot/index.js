@@ -9,7 +9,6 @@ function UpdateSpotForm () {
   const history = useHistory()
   const sessionUser = useSelector(state => state.session.user)
   const spotDetails = useSelector(state => state.spot.spotDetails)
-  console.log('SPOT DETAILS --->', spotDetails)
   const preview = spotDetails.SpotImages.find(image => image.preview === true)
   const previewUrl = preview.url
 
