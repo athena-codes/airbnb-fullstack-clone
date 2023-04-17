@@ -24,7 +24,7 @@ module.exports = {
         previewImage:
           'https://images.pexels.com/photos/1428348/pexels-photo-1428348.jpeg?auto=compress&cs=tinysrgb&w=600',
         description:
-          'A cozy, welcoming stay for couples on a lovely getaway weekend. Get away from the hustle and bustle and delve into nature at this spot.'
+          `Welcome to our cozy and stylish apartment, located in the heart of downtown! Our space features modern amenities including a fully equipped kitchen, comfortable bedding, and high-speed internet access. Relax in our spacious living room or step out onto the balcony to take in the city views. Our prime location puts you just steps away from some of the citys top attractions, including museums, restaurants, and shops. Whether youre visiting for business or pleasure, our apartment provides the perfect home base for your stay in the city. Book now and make yourself at home!`
       },
       {
         ownerId: 2,
@@ -39,7 +39,7 @@ module.exports = {
         previewImage:
           'https://images.pexels.com/photos/6077368/pexels-photo-6077368.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
         description:
-          'A minimalistic and relaxing space located right outside bean town, with walking distance to commuters routes and an enchanting view of the great city of Boston!'
+          `Stay in our spacious and chic flat, situated in the trendy district of the city! Our recently refurbished space boasts state-of-the-art facilities such as a fully fitted kitchen, plush bedding, and speedy internet access. Chill out in our large lounge or take in the panoramic vistas from our balcony. Our unbeatable location places you within easy reach of top-rated restaurants, museums, and shops. Whatever your reason for visiting, our flat is the ultimate destination for a memorable stay in the city. Reserve your spot now and settle in!`
       },
       {
         ownerId: 3,
@@ -54,7 +54,7 @@ module.exports = {
         previewImage:
           'https://images.pexels.com/photos/7902916/pexels-photo-7902916.jpeg?auto=compress&cs=tinysrgb&w=300',
         description:
-          'Lovely villa located right on the coast of the Pacific ocean. An exquisite stay.'
+          `Welcome to our comfortable and fashionable apartment, conveniently located in the heart of the city! Our newly updated space boasts all the latest conveniences, including a fully equipped kitchen, cozy bedding, and lightning-fast internet. Unwind in our roomy living room or venture out onto the balcony to soak up the sights and sounds of the city. Our prime location puts you within walking distance of some of the most popular tourist spots, such as museums, eateries, and boutiques. Whether you're in town for work or play, our apartment is the perfect choice for your stay. Book now and enjoy your stay!`
       },
       {
         ownerId: 1,
@@ -69,7 +69,7 @@ module.exports = {
         previewImage:
           'https://images.pexels.com/photos/9220877/pexels-photo-9220877.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
         description:
-          'An incredible, coniferous experience staying in the lovely woods of the Bear Mountain reservation. Hiking trails, wildlife and outdoor adventure awaits!'
+         `Enjoy a luxurious stay in our stunning apartment, nestled in the heart of downtown! Our space boasts cutting-edge amenities, including a fully furnished kitchen, soft bedding, and ultra-fast internet connectivity. Relax in our spacious living room or take in the beautiful city skyline from our balcony. Our convenient location puts you just moments away from the citys top attractions, such as art galleries, restaurants, and shopping destinations. Whether you're here for business or pleasure, our apartment is the ultimate choice for a comfortable and unforgettable stay. Reserve now and make yourself at home!`
       },
       {
         ownerId: 3,
@@ -144,7 +144,7 @@ module.exports = {
         previewImage:
           'https://images.pexels.com/photos/6903251/pexels-photo-6903251.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
         description:
-          'Located just a 10 min subway ride to Times Square. Enjoy everything the Big Apple has in store with your stay at this Upscale Loft.'
+        `Experience the ultimate in style and comfort in our beautiful apartment, located in the heart of the city! Our newly renovated space boasts all the latest amenities, including a fully equipped kitchen, plush bedding, and high-speed internet. Lounge in our expansive living room or bask in the panoramic city views from our balcony. Our central location puts you within easy reach of some of the citys top attractions, such as museums, restaurants, and boutique stores. Whether you're in town for business or leisure, our apartment is the ideal choice for your stay. Book now and immerse yourself in luxury!`
       }
     ])
   },
