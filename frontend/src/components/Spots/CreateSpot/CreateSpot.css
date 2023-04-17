@@ -11,11 +11,6 @@
     align-items: flex-start;
 }
 
-.title {
-    font-size: 36px;
-    font-weight: bold;
-    text-align: center;
-}
 
 .form {
     display: flex;
@@ -28,17 +23,24 @@
     margin-right: 30px;
 }
 
+.title {
+    font-size: 36px;
+    font-weight: bold;
+    text-align: center;
+}
+
 .create-spot {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     width: fit-content;
+    height: fit-content;
     z-index: 9909;
 }
 
 input {
-    outline: 1px 1px 1px  solid #000000;
+    outline: 1px 1px 1px solid #000000;
     margin: 10px;
 }
 

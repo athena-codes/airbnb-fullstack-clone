@@ -147,8 +147,8 @@ useEffect(() => {
   return (
     <div className='form-container-div'>
       <div className='form-container'>
-        <div className='form'>
-          <form noValidate className='create-spot' onSubmit={handleSubmit}>
+        <div className='update-spot-form'>
+          <form noValidate className='uodate-spot' onSubmit={handleSubmit}>
             <div className='location-section'>
               <h1 className='title'>Update Your Spot</h1>
               <div className='location-info'>
