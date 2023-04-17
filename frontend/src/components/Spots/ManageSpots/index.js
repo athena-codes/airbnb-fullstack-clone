@@ -4,25 +4,28 @@ import { useDispatch, useSelector } from 'react-redux'
 import { NavLink } from 'react-router-dom'
 import { getSpotsThunk } from '../../../store/spots'
 import { getSpotDetailsThunk } from '../../../store/spots'
+import { deleteSpotThunk } from '../../../store/spots'
 import CreateSpotForm from '../CreateSpot'
 import CreateSpotModal from '../CreateSpot/CreateSpotModal'
+import DeleteSpotModal from './DeleteSpotModal/DeleteSpotModal'
 import './ManageSpots.css'
 
 function ManageSpots ({ createdSpotId }) {
-  const dispatch = useDispatch()
-  const history = useHistory()
-
   const spots = useSelector(state => state.spot.spots)
   console.log('SPOTS  ', spots)
   const sessionUser = useSelector(state => state.session.user)
   // *** use later for delete + update modals
-  const [isCreateSpotOpen, setIsCreateSpotOpen] = useState(false)
-
-  const [isLoaded, setIsLoaded] = useState(false)
   const [createSpot, setCreateSpot] = useState(false)
+  const [isCreateSpotOpen, setIsCreateSpotOpen] = useState(false)
+  const [spotToDelete, setSpotToDelete] = useState(null)
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false)
+  const [isLoaded, setIsLoaded] = useState(false)
   const [showOverlay, setShowOverlay] = useState(false)
 
-  const allSpots = Object.values(spots.Spots)
+  const dispatch = useDispatch()
+  const history = useHistory()
+
+  const allSpots = spots?.Spots ? Object.values(spots.Spots) : []
 
   let currentUserSpots
   if (sessionUser) {
@@ -56,6 +59,26 @@ function ManageSpots ({ createdSpotId }) {
     setShowOverlay(false)
     history.push(`/spots/${createdSpotId}`)
   }
+
+  const handleDelete = spotId => {
+    setSpotToDelete(spotId)
+    setDeleteModalOpen(true)
+  }
+
+  const handleDeleteConfirm = () => {
+    if (spotToDelete) {
+      dispatch(deleteSpotThunk(spotToDelete))
+      setSpotToDelete(null)
+    }
+    setDeleteModalOpen(false)
+    history.push('/')
+  }
+
+  const handleDeleteCancel = () => {
+    setSpotToDelete(null)
+    setDeleteModalOpen(false)
+  }
+
   if (!spots) return null
 
   return (
@@ -145,7 +168,7 @@ function ManageSpots ({ createdSpotId }) {
 
                     <button
                       className='update-delete-btn'
-                      onClick={() => alert('Working on')}
+                      onClick={() => handleDelete(spot.id)}
                     >
                       Delete
                     </button>
@@ -154,6 +177,13 @@ function ManageSpots ({ createdSpotId }) {
               </div>
             ))}
         </div>
+        {deleteModalOpen && (
+          <DeleteSpotModal
+            isOpen={deleteModalOpen}
+            onDelete={handleDeleteConfirm}
+            onCancel={handleDeleteCancel}
+          />
+        )}
       </>
     )
   )

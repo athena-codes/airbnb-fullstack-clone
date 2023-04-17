@@ -5,6 +5,7 @@ const GET = 'spots/getSpots'
 const SPOT_DETAILS = 'spots/getSpotDetails'
 const CREATE = 'spots/createSpot'
 const UPDATE = 'spots/updateSpots'
+const DELETE = 'spots/deleteSpot'
 
 // Action Creators
 const getSpots = spots => {
@@ -34,6 +35,13 @@ const updateSpot = (spotId, spotData) => {
       id: spotId,
       ...spotData
     }
+  }
+}
+
+const deleteSpot = deleteSpot => {
+  return {
+    type: DELETE,
+    deleteSpot
   }
 }
 
@@ -125,6 +133,17 @@ export const updateSpotsThunk = (spotId, updatedSpotData) => async dispatch => {
   }
 }
 
+// DELETE SPOT
+export const deleteSpotThunk = deleteSpot => async dispatch => {
+  const response = await csrfFetch(`/api/spots/${deleteSpot}`, {
+    method: 'DELETE'
+  })
+
+  if (response.ok) {
+    dispatch(deleteSpot(deleteSpot))
+  }
+}
+
 // REDUCER
 const initialState = {}
 
@@ -143,6 +162,10 @@ const spotReducer = (state = initialState, action) => {
       return createSpot
     case UPDATE:
       return newState
+      case DELETE:
+      const deletedSpot = action.deleteSpot;
+      delete newState.userSpots[deletedSpot];
+      return newState;
     default:
       return state
   }

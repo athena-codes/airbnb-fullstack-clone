@@ -6,7 +6,7 @@ display: grid;
     width: 95%;
     padding: 10px;
     position: absolute;
-    z-index: 1;
+    z-index: -1;
 }
 
 .manage-spot {
