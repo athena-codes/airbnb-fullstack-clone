@@ -9,13 +9,14 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    backdrop-filter: blur(10px);
 }
 
 .review-modal {
     position: relative;
     width: 90%;
     max-width: 500px;
-    max-height: auto;
+    max-height: 95%;
     min-height: 250px;
     background-color: #fff;
     border-radius: 10px;

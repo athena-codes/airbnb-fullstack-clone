@@ -65,12 +65,11 @@ function SpotReviews ({ createNewReview }) {
       {sessionUser &&
         sessionUser.id !== spotDetails.Owner.id &&
         !reviews.some(review => review.userId === sessionUser.id) && (
-          <button
-            className='post-review-btn'
-            onClick={createReviewClick}
-          >
-            Post Your Review
-          </button>
+          <div>
+            <button className='post-review-btn' onClick={createReviewClick}>
+              Post Your Review
+            </button>
+          </div>
         )}
       {reviews.length > 0 ? (
         <ul className='reviews-container'>
@@ -92,7 +91,10 @@ function SpotReviews ({ createNewReview }) {
                   <div className='desc'>{review.review}</div>
                 </div>
                 {sessionUser && sessionUser.id === review.userId && (
-                  <button className='delete-review-btn' onClick={() => handleDelete(review.id)}>
+                  <button
+                    className='delete-review-btn'
+                    onClick={() => handleDelete(review.id)}
+                  >
                     Delete Review
                   </button>
                 )}

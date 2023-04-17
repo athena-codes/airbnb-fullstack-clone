@@ -50,7 +50,7 @@ export default function CreateReviewForm ({
             required
           />
           <div className='star-rating-container'>
-            <h3>Stars</h3>
+            <h3 className='star-label'>Stars (1-5):</h3>
             <div className='star-rating'>
               {[1, 2, 3, 4, 5].map(rating => (
                 <span
