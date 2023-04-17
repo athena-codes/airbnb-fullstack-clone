@@ -74,6 +74,13 @@
     flex-direction: column;
 }
 
+.spot-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
 .spot .stars-container {
     width: fit-content;
     display: flex;
@@ -81,7 +88,7 @@
 }
 
 .spot .location {
-    font-size: 18px;
+    font-size: 16px;
     color: #454444;
     position: relative;
 }
@@ -100,18 +107,19 @@
 }
 
 .spot .spot-name {
-    font-size: 18px;
+    font-size: 20px;
     font-weight: bold;
     margin-bottom: 10px;
 }
 
 .spot .spot-price {
     font-weight: bold;
-    color: #f98fa1;
+    color: #f4687f;
 }
 
 .price {
-    margin-right: 10px;
+    position: relative;
+    left: -50;
 }
 
 .stars {

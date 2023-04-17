@@ -38,15 +38,21 @@ a.navigation-logo.active {
 }
 
 .manage-spots-nav {
+    background-color: transparent;
     border: none;
     color: #000000;
     font-weight: bold;
     cursor: pointer;
-    margin-bottom: 10px;
     font-size: 14px;
     background-color: transparent;
     text-decoration: none;
     list-style: none;
+}
+
+.manage-spots-nav:hover {
+    color: #ff3385;
+    transform: scale(1.05);
+
 }
 
 .hamburger-menu {
@@ -59,7 +65,7 @@ a.navigation-logo.active {
 
 .session-links {
     background-color: transparent;
-    margin-right: 50px;
+    margin-right: 20px;
 }
 
 .dropdown-container button {
@@ -135,16 +141,33 @@ a.navigation-logo.active {
     background-color: transparent;
 }
 
-.profile-dropdown.open {
+.profile-dropdown-loggedout.open {
     z-index: 9999;
     width: fit-content;
-    height: 95px;
+    height: 68px;
     left: -40px;
-
 }
 
+.profile-dropdown-loggedin.open {
+    position: relative;
+    width: fit-content;
+    height: 110px;
+    width: 100%;
+    left: -50px;
+    z-index: 9999;
+    border-radius: 8px;
+}
 
-.profile-dropdown {
+.profile-dropdown-loggedout {
+    position: relative;
+    padding: 8px;
+    border: 1px solid #4c4b4b27;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+    z-index: 9999;
+}
+
+.profile-dropdown-loggedin.open {
     position: relative;
     padding: 8px;
     border: 1px solid #4c4b4b27;
@@ -164,21 +187,36 @@ a.navigation-logo.active {
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-start;
-    padding: 10px 2px;
+
     background-color: transparent;
 }
 
 .logout-btn {
     border: none;
-        color: #000000;
-        font-weight: bold;
-        cursor: pointer;
-        margin-bottom: 10px;
-        font-size: 14px;
-        background-color: transparent;
-        text-decoration: none;
-        list-style: none;
-        background-color: transparent;
+    color: #000000;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 4px 2px;
+    background-color: transparent;
+    text-decoration: none;
+    list-style: none;
+    background-color: transparent;
+}
+
+.logout {
+    font-weight: bold;
+    font-size: 14px;
+    box-sizing: border-box;
+    background-color: rgba(128, 128, 128, 0.729);
+    color: white;
+    border-radius: 4px;
+    margin-top: 3px;
+}
+
+.logout:hover {
+    transition: all .2s ease-in-out;
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    background-color: rgba(128, 128, 128, 0.873);
 }
 
 .create-spot-btn {
@@ -186,7 +224,6 @@ a.navigation-logo.active {
     align-items: center;
     margin-left: 10px;
 }
-
 
 .nav-list-items {
     display: flex;
@@ -251,12 +288,14 @@ button:hover {
     text-decoration: none;
     color: black;
     background-color: white;
+    font-size: 24px;
 }
 
 .signup {
     text-decoration: none;
     color: black;
     background-color: white;
+    font-size: 24px
 }
 
 .logo {

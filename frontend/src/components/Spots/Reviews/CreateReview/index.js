@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { getSpotReviewsThunk } from '../../../../store/reviews'
-
 import './CreateReviewForm.css'
 
 export default function CreateReviewForm ({
@@ -32,9 +31,8 @@ export default function CreateReviewForm ({
       setErrors(errors)
     }
     const res = await createNewReview(e, review, stars)
-    if (res !== undefined) {
-      closeModal()
-    }
+
+    closeModal()
   }
 
   return (

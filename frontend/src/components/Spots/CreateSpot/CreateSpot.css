@@ -98,7 +98,7 @@ button:hover {
 .submit-create-spot-btn:hover {
     background-color: #ff3385;
     transition: all .2s ease-in-out;
-    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.269);
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.269);
 }
 
 .errors {

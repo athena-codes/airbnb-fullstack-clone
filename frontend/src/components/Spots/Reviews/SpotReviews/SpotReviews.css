@@ -9,8 +9,8 @@
 }
 
 .reviews-container {
- display: flex;
- flex-direction: column;
+    display: flex;
+    flex-direction: column;
 }
 
 .stars-rating {
@@ -21,6 +21,8 @@
 .num-reviews {
     font-weight: bold;
     margin-left: 8px;
+    display: flex;
+    flex-direction: row;
 }
 
 .dot {
@@ -49,6 +51,21 @@
 
 .desc {
     margin-top: 16px;
+}
+
+.delete-review-btn {
+    margin-top: 10px;
+    background-color: #ff3385;
+}
+
+.delete-review-btn:hover {
+    transform: scale(1.01);
+    box-shadow: 1px 2px 3px 0px black;
+}
+
+.post-review-btn {
+    margin-top: 10px;
+    background-color: #ff3385;
 }
 
 .post-review-btn:hover {

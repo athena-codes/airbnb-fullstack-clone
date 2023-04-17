@@ -11,12 +11,11 @@
 
 .preview-image {
     border-radius: 4px;
-    max-height: 600px;
-    max-width: 500px;
-}
-
-.other-image {
-    border-radius: 4px;
+    object-fit: cover;
+    margin-right: 10px;
+    width: 18%;
+    height: 100%;
+    grid-row: 1 / span 1;
 }
 
 .spot-details {
@@ -37,37 +36,33 @@
 }
 
 .grid-container {
+    position: relative;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-template-rows: repeat(4, 1fr) auto;
-    /* add a new row for the spot description */
+    grid-template-columns: auto 1fr 1fr 1fr;
     grid-column-gap: 10px;
-    margin-bottom: 0px;
+    margin-bottom: 50px;
+    overflow: hidden;
 }
 
-.spot-images {
-    grid-column: 1 / span 2;
-    grid-row: 1 / span 5;
-    /* adjust grid row to span 5 rows instead of 4 */
-}
-
-.preview-image {
-    width: 100%;
-    height: auto;
-    grid-row: 1 / span 5;
-    /* adjust grid row to span 5 rows instead of 4 */
-    grid-column: 1 / span 2;
-}
 
 .other-images-grid {
+    position: relative;
     display: grid;
-    margin-top: 20px;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(2, 1fr);
-    grid-column-gap: 10px;
-    grid-row-gap: 10px;
-    grid-column: 3 / span 2;
-    grid-row: 1 / span 4;
+    grid-gap: 10px;
+    margin-top: 20px;
+    width: 600px;
+    height: auto;
+    margin-bottom: 20px;
+    /* increase the width of the grid and decrease the height to match the preview image */
+}
+
+.other-image {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 8px;
 }
 
 .spot-description {
@@ -80,16 +75,12 @@
     margin-top: none;
 }
 
-.other-image {
-    width: 100%;
-    height: auto;
-}
 
 .spot-stars {
     display: flex;
     flex-direction: row;
     align-items: center;
-    width: 50%;
+    width: fit-content;
     /* margin-bottom: 5px; */
 }
 
@@ -118,8 +109,9 @@
 
 .spot-images img {
     max-width: 500px;
-    max-height: 500px;
+    max-height: 510px;
     margin-bottom: 10px;
+    width: fit-content;
 }
 
 .spot-description {
@@ -173,7 +165,7 @@
 }
 
 .reservation-container {
-    width: 50%;
+    width: 60%;
     display: flex;
     flex-direction: column;
     align-items: end;
@@ -194,14 +186,15 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    width: 50%;
+    width: 80%;
+    margin-left: 70px;
 }
 
 .reservation-box {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    width: 80%;
+    width: 90%;
     max-width: 500px;
     margin-left: 40px;
     border: 2px solid rgba(0, 0, 0, 0.1);
@@ -219,38 +212,16 @@
 
 .reservation-box .reserve-btn {
     width: 100%;
+    margin-left: 20px;
 }
 
 .white-space {
     width: 1%
 }
 
-
 /* media queries */
-@media only screen and (max-width: 768px) {
-    .grid-container {
-        display: block;
-        margin-bottom: 100px;
-    }
+@media only screen and (max-width: 1000px) {
 
-    .spot-images {
-        grid-column: 1 / span 2;
-        grid-row: 1;
-        /* change grid row to 1 instead of 5 */
-    }
-
-    .preview-image {
-        width: 100%;
-        height: auto;
-        grid-row: 1;
-        /* change grid row to 1 instead of 5 */
-        grid-column: 1 / span 2;
-    }
-
-    .other-images-grid {
-        grid-column: 1 / span 2;
-        grid-row: 2;
-    }
 
     .spot-description {
         max-width: 100%;

@@ -54,7 +54,7 @@ login-form {
     margin-top: 15px;
     text-decoration: none;
     transition: all .4s ease-in-out;
-    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.26/9);
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
     width: 20%;
     margin-top: 20px;
     font-size: 18px;
@@ -118,6 +118,10 @@ button:hover {
     padding: 10px;
     text-align: center;
     background-color: #ffe5e58a;
+    width: 450px;
+    margin-left: 20px;
+    padding: 5px 5px 5px;
+    margin-bottom: 10px;
     border-radius: 4px;
     font-weight: bold;
 }

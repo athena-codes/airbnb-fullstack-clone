@@ -69,7 +69,6 @@ function SpotReviews ({ createNewReview }) {
           <button
             className='post-review-btn'
             onClick={createReviewClick}
-            type='submit'
           >
             Post Your Review
           </button>
@@ -94,7 +93,7 @@ function SpotReviews ({ createNewReview }) {
                   <div className='desc'>{review.review}</div>
                 </div>
                 {sessionUser && sessionUser.id === review.userId && (
-                  <button onClick={() => handleDelete(review.id)}>
+                  <button className='delete-review-btn' onClick={() => handleDelete(review.id)}>
                     Delete Review
                   </button>
                 )}

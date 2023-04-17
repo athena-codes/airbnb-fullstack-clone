@@ -14,7 +14,9 @@ function DeleteReviewModal ({ isOpen, onCancel, onDelete, onClose }) {
   return (
     <div className='delete-modal-overlay' onClick={handleOverlayClick}>
       <div className='delete-modal'>
-        <p>Are you sure you want to delete this review?</p>
+        <p className='delete-review-title'>
+          Are you sure you want to delete this review?
+        </p>
         <div className='delete-modal-btns'>
           <button className='yes-btn' onClick={onDelete}>
             Yes (Delete Review)
@@ -28,4 +30,4 @@ function DeleteReviewModal ({ isOpen, onCancel, onDelete, onClose }) {
   )
 }
 
-export default DeleteReviewModal;
+export default DeleteReviewModal

@@ -7,6 +7,7 @@
     padding: 10px;
     position: absolute;
     z-index: -1;
+    padding-bottom: 20px;
 }
 
 .manage-spot {
@@ -14,10 +15,12 @@
     display: flex;
     flex-direction: column;
     width: 300px;
-    border: 1px solid #e4e1e1;
+    height: 350px;
     padding: 30px;
     background-color: transparent;
     cursor: pointer;
+    border: .5px solid rgba(128, 128, 128, 0.273);
+    border-radius: 10px;
     transition: transform 0.2s ease-in-out;
     z-index: 2;
 
@@ -25,8 +28,8 @@
 
 .manage-spot:hover {
     transform: scale(1.05);
-    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-    border-color: rgba(0, 0, 0, 0.05);
+    border-radius: 10px;
+
 }
 
 .manage-spot .location {
@@ -93,16 +96,25 @@
 }
 
 .location-stars-price {
+    position: relative;
+    left: -20;
     height: 30px;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
 }
 
 .update-delete-btn {
     width: 50%;
-    margin-top: 20px;
+    margin-top: 50px;
     font-size: 18px;
     font-weight: bold;
     border-radius: 5px;
     cursor: pointer;
+    border: .5px solid rgba(128, 128, 128, 0.273);
+
 }
 
 .update-delete-btn:hover {
@@ -113,7 +125,8 @@
 
 .create-spot-btn.manage {
     width: 155px;
-    height: 50px;
+    height: 40px;
+    background-color: #ff3385;
 }
 
 .delete-modal {
@@ -146,8 +159,8 @@
 }
 
 .delete-modal-btns button {
-    width: 150px;
-    margin-left: 75px;
+    width: 170px;
+    margin-left: 70px;
 }
 
 .yes-btn {
@@ -156,6 +169,11 @@
 
 .no-btn {
     background-color: #4544447b;
+}
+
+.delete-review-title {
+    margin-left: 75px;
+    margin-bottom: 15px;
 }
 
 .yes-btn:hover {

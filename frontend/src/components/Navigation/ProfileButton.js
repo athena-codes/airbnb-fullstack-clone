@@ -47,8 +47,8 @@ function ProfileButton () {
         <i className='fas fa-user-circle hp' />
       </button>
       {showMenu && (
-        <div className='dropdown-menu'>
-          <ul className='profile-dropdown open' ref={ulRef}>
+        <div className='dropdown-menu loggedin'>
+          <ul className='profile-dropdown-loggedin open' ref={ulRef}>
             <div className='dropdown-greeting'>
               <li>Hello, {user.firstName}</li>
               <li>{user.email}</li>
@@ -61,7 +61,7 @@ function ProfileButton () {
                 </NavLink>
               </li>
               <li className='logout-btn'>
-                <button onClick={logout}>Log Out</button>
+                <button className='logout' onClick={logout}>Log Out</button>
               </li>
             </div>
           </ul>

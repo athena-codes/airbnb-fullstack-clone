@@ -113,7 +113,7 @@ function Navigation ({ isLoaded, createdSpotId }) {
 />
           </div>
           {showMenu && (
-            <ul className='profile-dropdown open login loggedin' ref={ulRef}>
+            <ul className='profile-dropdown-loggedout open' ref={ulRef}>
               <div className='navigation'>
                 {!isLoginOpen && !isSignupOpen && (
                   <>
