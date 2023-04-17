@@ -3,6 +3,7 @@ import { csrfFetch } from './csrf'
 // Action Types:
 const GET = 'reviews/getReviews'
 const CREATE = 'reviews/createReviews'
+const DELETE = 'reviews/deleteReview'
 
 // Action Creators:
 const getSpotReviews = reviews => {
@@ -19,6 +20,13 @@ const createReview = review => {
   }
 }
 
+const deleteReview = deleteReview => {
+  return {
+    type: DELETE,
+    deleteReview
+  }
+}
+
 // Thunk Action Creators:
 export const getSpotReviewsThunk = reviews => async dispatch => {
   const response = await csrfFetch(`/api/spots/${reviews}/reviews`)
@@ -30,7 +38,7 @@ export const getSpotReviewsThunk = reviews => async dispatch => {
   }
 }
 
-// **** Create a Review Thunk *******
+// ****** CREATE REVIEW *******
 export const createReviewThunk = (review, spotId) => async dispatch => {
   const response = await csrfFetch(`/api/spots/${spotId}/reviews`, {
     method: 'POST',
@@ -67,6 +75,12 @@ const reviewsReducer = (state = initialState, action) => {
     case CREATE:
       const createdReview = action.review
       return createdReview
+    case DELETE:
+      const deletedReview = action.deleteReview
+      newState.allReviews = state.allReviews.filter(
+        review => review.id === deletedReview
+      )
+      return newState
     default:
       return state
   }
