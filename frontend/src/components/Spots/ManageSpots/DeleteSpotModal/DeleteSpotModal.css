@@ -13,18 +13,20 @@
 }
 
 .delete-modal {
-    position: relative;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     background-color: #fff;
-    padding: 1rem;
+    padding: 2rem;
     width: 60%;
-    height: 90%;
+    height: auto;
     z-index: 9999;
     border-radius: 0.5rem;
     box-shadow: 0 0 1rem rgba(0, 0, 0, 0.3);
     overflow-y: scroll;
-    overflow-x: scroll;
+    overflow-x: hidden;
 }
-
 .delete-modal-close {
     position: absolute;
     top: 10px;

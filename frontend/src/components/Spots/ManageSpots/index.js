@@ -182,6 +182,10 @@ function ManageSpots ({ createdSpotId }) {
             isOpen={deleteModalOpen}
             onDelete={handleDeleteConfirm}
             onCancel={handleDeleteCancel}
+             onClose={() => {
+          setDeleteModalOpen(false)
+          setShowOverlay(false)
+        }}
           />
         )}
       </>
