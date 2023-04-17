@@ -4,104 +4,148 @@ import { Redirect, useHistory } from 'react-router-dom'
 import * as spotActions from '../../../store/spots'
 import './UpdateSpot.css'
 
-function UpdateSpotForm ({ open }) {
+function UpdateSpotForm () {
+  const dispatch = useDispatch()
+  const history = useHistory()
   const sessionUser = useSelector(state => state.session.user)
   const spotDetails = useSelector(state => state.spot.spotDetails)
   console.log('SPOT DETAILS --->', spotDetails)
-  const selectedSpot = useSelector(state => state.spot.spot)
-  const [name, setName] = useState('')
-  const [description, setDescription] = useState('')
-  const [price, setPrice] = useState('')
-  const [address, setAddress] = useState('')
-  const [city, setCity] = useState('')
-  const [state, setState] = useState('')
-  const [country, setCountry] = useState('')
-  const [lat, setLat] = useState('')
-  const [lng, setLng] = useState('')
-  const [previewImage, setPreviewImage] = useState('')
+  const preview = spotDetails.SpotImages.find(image => image.preview === true)
+  const previewUrl = preview.url
 
+  const [name, setName] = useState(spotDetails.name)
+  const [description, setDescription] = useState(spotDetails.description)
+  const [price, setPrice] = useState(spotDetails.price)
+  const [address, setAddress] = useState(spotDetails.address)
+  const [city, setCity] = useState(spotDetails.city)
+  const [state, setState] = useState(spotDetails.state)
+  const [country, setCountry] = useState(spotDetails.country)
+  const [lat, setLat] = useState(spotDetails.lat)
+  const [lng, setLng] = useState(spotDetails.lng)
+  const [previewImage, setPreviewImage] = useState(previewUrl)
   // ALL OTHER IMAGES BESIDES PREV IMAGE
-  const [image1, setImage1] = useState('')
-  const [image2, setImage2] = useState('')
-  const [image3, setImage3] = useState('')
-  const [image4, setImage4] = useState('')
+  const [image1, setImage1] = useState("")
+  const [image2, setImage2] = useState("")
+  const [image3, setImage3] = useState("")
+  const [image4, setImage4] = useState("")
+
   const [errors, setErrors] = useState([])
+  const [hasSubmitted, setHasSubmitted] = useState(false)
 
-  const dispatch = useDispatch()
-  const history = useHistory()
 
-  useEffect(() => {
-    dispatch(spotActions.getSpotDetailsThunk(selectedSpot)).then(res => {
-      setAddress(res.address)
-      setName(res.name)
-      setDescription(res.description)
-      setState(res.state)
-      setCity(res.city)
-      setCountry(res.country)
-      setPrice(res.price)
-    })
-  }, [dispatch, selectedSpot])
+useEffect(() => {
+  if (hasSubmitted) {
+    let validationErrors = {}
+
+    if (!country) validationErrors.country = 'Country is required'
+    if (!address) validationErrors.address = 'Address is required'
+    if (!city) validationErrors.city = 'City is required'
+    if (!state) validationErrors.state = 'State is required'
+    if (description.length < 30)
+      validationErrors.description =
+        'Description needs a minimum of 30 characters'
+    if (!name) validationErrors.name = 'Name is required'
+    if (!price) validationErrors.price = 'Price is required'
+    if (!previewImage.trim())
+      validationErrors.previewImage = 'Preview image is required'
+    if (
+      previewImage &&
+      !/\.(png|jpg|jpeg)$/i.test(
+        previewImage.slice(previewImage.lastIndexOf('.'))
+      )
+    )
+      validationErrors.previewImage =
+        'Image URL must end in .png, .jpg, or .jpeg'
+    if (
+      image1 &&
+      !/\.(png|jpg|jpeg)$/i.test(image1.slice(image1.lastIndexOf('.')))
+    )
+      validationErrors.image1 = 'Image URL must end in .png, .jpg, or .jpeg'
+    if (
+      image2 &&
+      !/\.(png|jpg|jpeg)$/i.test(image2.slice(image2.lastIndexOf('.')))
+    )
+      validationErrors.image2 = 'Image URL must end in .png, .jpg, or .jpeg'
+    if (
+      image3 &&
+      !/\.(png|jpg|jpeg)$/i.test(image3.slice(image3.lastIndexOf('.')))
+    )
+      validationErrors.image3 = 'Image URL must end in .png, .jpg, or .jpeg'
+    if (
+      image4 &&
+      !/\.(png|jpg|jpeg)$/i.test(image4.slice(image4.lastIndexOf('.')))
+    )
+      validationErrors.image4 = 'Image URL must end in .png, .jpg, or .jpeg'
+
+    setErrors(validationErrors)
+  }
+}, [
+  hasSubmitted,
+  country,
+  address,
+  city,
+  state,
+  description,
+  name,
+  price,
+  previewImage,
+  image1,
+  image2,
+  image3,
+  image4
+])
 
   const handleSubmit = async e => {
     e.preventDefault()
+    setHasSubmitted(true)
 
-    const newSpot = { name, description, price, address, city, state, country }
-    const { id } = spotDetails
+    if (Object.keys(errors).length > 0) return
 
     const images = [image1, image2, image3, image4]
-      .filter(Boolean)
-      .map(url => ({
-        url,
-        preview: false
-      }))
+    .filter(Boolean)
+    .map(url => ({
+      url,
+      preview: false
+    }))
 
-    return dispatch(
+
+   return await dispatch(
       spotActions.updateSpotsThunk(
-        newSpot,
-        id,
+        spotDetails.id,
+        {
+          name,
+          description,
+          price,
+          address,
+          city,
+          state,
+          country,
+          lat,
+          lng
+        },
         {
           url: previewImage,
           preview: true
         },
         images
-      )
-    )
-      .then(spot => {
-        open(false)
-        history.push(`/spots/${spot.id}`)
-      })
+        )
+        )
+        .then(updatedSpotData => {
+          history.push(`/spots/${updatedSpotData.id}`)
+        })
 
-      .catch(async res => {
-        const data = await res.json()
-        const imageErrors = {}
-        const descriptionErr = {}
+        .catch(async res => {
+         const data = await res.json();
+          if (data && data.errors) setErrors(data.errors);
 
-        if (!previewImage) {
-          imageErrors.previewImage = 'Preview Image is required'
-        }
-
-        if (!/\.(png|jpe?g)$/i.test(image1)) {
-          imageErrors.imageUrl = 'Image URL must end in .png, .jpg or .jpeg'
-        }
-
-        if (description.length < 30) {
-          errors.description = 'Please write at least 30 characters'
-        }
-
-        const combinedErrors = {
-          ...data.errors,
-          ...imageErrors,
-          ...descriptionErr
-        }
-
-        setErrors(combinedErrors)
       })
   }
 
-      if (!sessionUser) return <Redirect to={'/'} />
-      // ** add noValidate to form/submit button to prevent browser default validation msg
-      return (
-        <div className='form-container-div'>
+  if (!spotDetails) return null
+  if (!sessionUser) return <Redirect to={'/'} />
+  // ** add noValidate to form/submit button to prevent browser default validation msg
+  return (
+    <div className='form-container-div'>
       <div className='form-container'>
         <div className='form'>
           <form noValidate className='create-spot' onSubmit={handleSubmit}>
@@ -311,7 +355,11 @@ function UpdateSpotForm ({ open }) {
                 required
               ></input>
             </div>
-            <button className='submit-create-spot-btn' type='submit'>
+            <button
+              className='submit-create-spot-btn'
+              type='submit'
+              onClick={handleSubmit}
+            >
               Update
             </button>
           </form>

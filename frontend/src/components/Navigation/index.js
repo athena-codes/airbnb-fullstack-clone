@@ -31,10 +31,6 @@ function Navigation ({ isLoaded, createdSpotId }) {
     }
   }, [sessionUser])
 
-  const logout = e => {
-    e.preventDefault()
-    dispatch(sessionActions.logout())
-  }
 
   const openLoginModal = () => {
     setIsLogInOpen(true)

@@ -6,7 +6,6 @@ const SPOT_DETAILS = 'spots/getSpotDetails'
 const CREATE = 'spots/createSpot'
 const UPDATE = 'spots/updateSpots'
 
-
 // Action Creators
 const getSpots = spots => {
   return {
@@ -28,13 +27,15 @@ const createSpot = newSpot => {
   }
 }
 
-const updateSpot = updateSpot => {
+const updateSpot = (spotId, spotData) => {
   return {
     type: UPDATE,
-    updateSpot
+    spot: {
+      id: spotId,
+      ...spotData
+    }
   }
 }
-
 
 // Thunk Functions
 
@@ -109,22 +110,20 @@ export const createSpotsThunk =
     }
   }
 
-  // UPDATE SPOT
-  export const updateSpotsThunk = (updateSpot, spotId) => async dispatch => {
+// UPDATE SPOT
+export const updateSpotsThunk = (spotId, updatedSpotData) => async dispatch => {
   const response = await csrfFetch(`/api/spots/${spotId}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(updateSpot)
+    body: JSON.stringify(updatedSpotData)
   })
 
   if (response.ok) {
-    const updatedSpot = response.json()
-    const spot = { ...updateSpot, id: spotId }
-    dispatch(updateSpot(spot))
-    return updatedSpot
+    const spotData = await response.json()
+    dispatch(updateSpot(spotId, spotData))
+    return spotData
   }
 }
-
 
 // REDUCER
 const initialState = {}
@@ -142,8 +141,8 @@ const spotReducer = (state = initialState, action) => {
     case CREATE:
       const createSpot = action.newSpot
       return createSpot
-      case UPDATE:
-      return newState;
+    case UPDATE:
+      return newState
     default:
       return state
   }

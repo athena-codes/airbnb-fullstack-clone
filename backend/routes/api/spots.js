@@ -87,7 +87,6 @@ const validateSpot = [
   handleValidationErrors
 ]
 
-
 // *****************************************************
 // let { page, size, minPrice, maxPrice } = req.query
 // maxPrice = +maxPrice
