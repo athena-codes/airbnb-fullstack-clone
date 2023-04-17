@@ -1,6 +1,4 @@
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { deleteSpotThunk } from '../../../../store/spots'
 
 function DeleteSpotModal ({ isOpen, onCancel, onDelete, onClose }) {
   if (!isOpen) {

@@ -1,9 +1,10 @@
 import { useEffect, useState, useRef } from 'react'
-import { useParams } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { getSpotDetailsThunk } from '../../../store/spots'
 import { getSpotReviewsThunk } from '../../../store/reviews'
 import { createReviewThunk } from '../../../store/reviews'
+import { deleteReviewThunk } from '../../../store/reviews'
 import SpotReviews from '../Reviews/SpotReviews'
 import './SpotDetails.css'
 import reviewIcon from './images/review-icon.avif'
@@ -14,8 +15,8 @@ function SpotDetails () {
   const [isLoading, setIsLoading] = useState(true)
   const [isLoaded, setIsLoaded] = useState(false)
 
-
   const dispatch = useDispatch()
+  const history = useHistory()
   const reservationBoxRef = useRef(null)
 
   useEffect(() => {
@@ -44,6 +45,7 @@ function SpotDetails () {
 
   const previewImage = spotDetails.SpotImages.find(img => img.preview)
   const otherImages = spotDetails.SpotImages.filter(img => !img.preview)
+
 
   const createNewReview = async (e, review, stars) => {
     e.preventDefault()

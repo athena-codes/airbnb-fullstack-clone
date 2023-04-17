@@ -20,7 +20,7 @@ const createReview = review => {
   }
 }
 
-const deleteReview = deleteReview => {
+const deleteReviews = deleteReview => {
   return {
     type: DELETE,
     deleteReview
@@ -51,6 +51,7 @@ export const createReviewThunk = (review, spotId) => async dispatch => {
     return createdReview
   }
 }
+
 export const deleteReviewThunk = deleteReview => async dispatch => {
   const response = await csrfFetch(`/api/reviews/${deleteReview}`, {
     method: 'DELETE'
@@ -58,7 +59,7 @@ export const deleteReviewThunk = deleteReview => async dispatch => {
 
   if (response.ok) {
     const deleted = await response.json()
-    dispatch(deleteReview(deleteReview))
+    dispatch(deleteReviews(deleteReview))
     return deleted
   }
 }

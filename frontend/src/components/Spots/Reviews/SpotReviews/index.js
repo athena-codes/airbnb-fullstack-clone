@@ -1,23 +1,50 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { useState } from 'react'
+import { useHistory } from 'react-router-dom'
 import { getSpotDetailsThunk } from '../../../../store/spots'
 import { getSpotReviewsThunk } from '../../../../store/reviews'
-import './SpotReviews.css'
+import { deleteReviewThunk } from '../../../../store/reviews'
+import DeleteReviewModal from '../CreateReview/DeleteReviewModal/DeleteReviewModal'
 import CreateReviewForm from '../CreateReview'
 import CreateReviewModal from '../CreateReviewModal/CreateReviewModal'
+import './SpotReviews.css'
 
 // *** add session user to detect if be first to post review should show
 function SpotReviews ({ createNewReview }) {
   const reviews = useSelector(state => state.review.allReviews)
+  console.log('ALL REVIEWS -->', reviews)
   const spotDetails = useSelector(state => state.spot.spotDetails)
-  console.log('SPOT DETAILS --->', spotDetails)
   const sessionUser = useSelector(state => state.session.user)
   const [showCreateReviewModal, setShowCreateReviewModal] = useState(false)
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false)
+  const [reviewToDelete, setReviewToDelete] = useState(null)
+  const [showOverlay, setShowOverlay] = useState(false)
+  const dispatch = useDispatch()
+  const history = useHistory()
 
   const { avgStarRating } = spotDetails
 
   const createReviewClick = () => {
     setShowCreateReviewModal(true)
+  }
+
+  const handleDelete = reviewId => {
+    setReviewToDelete(reviewId)
+    setDeleteModalOpen(true)
+  }
+
+  const handleDeleteConfirm = reviewId => {
+    if (reviewToDelete) {
+      dispatch(deleteReviewThunk(reviewToDelete))
+      setReviewToDelete(null)
+    }
+    setDeleteModalOpen(false)
+    history.push('/')
+  }
+
+  const handleDeleteCancel = () => {
+    setReviewToDelete(null)
+    setDeleteModalOpen(false)
   }
 
   if (!reviews) return null
@@ -38,7 +65,7 @@ function SpotReviews ({ createNewReview }) {
       </div>
       {sessionUser &&
         sessionUser.id !== spotDetails.Owner.id &&
-         !reviews.some(review => review.userId === sessionUser.id) && (
+        !reviews.some(review => review.userId === sessionUser.id) && (
           <button
             className='post-review-btn'
             onClick={createReviewClick}
@@ -59,11 +86,18 @@ function SpotReviews ({ createNewReview }) {
             )
 
             return (
-              <div className='container' key={review.id}>
-                <h3 className='review-user'>{review.User.firstName}</h3>
-                <p className='review-date'>{date}</p>
+              <div className='review-container'>
+                <div className='container' key={review.id}>
+                  <h3 className='review-user'>{review.User.firstName}</h3>
+                  <p className='review-date'>{date}</p>
 
-                <div className='desc'>{review.review}</div>
+                  <div className='desc'>{review.review}</div>
+                </div>
+                {sessionUser && sessionUser.id === review.userId && (
+                  <button onClick={() => handleDelete(review.id)}>
+                    Delete Review
+                  </button>
+                )}
               </div>
             )
           })}
@@ -84,6 +118,18 @@ function SpotReviews ({ createNewReview }) {
           closeModal={() => setShowCreateReviewModal(false)}
         />
       </CreateReviewModal>
+
+      {deleteModalOpen && (
+        <DeleteReviewModal
+          isOpen={deleteModalOpen}
+          onDelete={handleDeleteConfirm}
+          onCancel={handleDeleteCancel}
+          onClose={() => {
+            setDeleteModalOpen(false)
+            setShowOverlay(false)
+          }}
+        />
+      )}
     </div>
   )
 }
