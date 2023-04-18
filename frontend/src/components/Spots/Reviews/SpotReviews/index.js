@@ -38,7 +38,7 @@ function SpotReviews ({ createNewReview }) {
       setReviewToDelete(null)
     }
     setDeleteModalOpen(false)
-    history.push('/')
+    history.push(`/`)
   }
 
   const handleDeleteCancel = () => {

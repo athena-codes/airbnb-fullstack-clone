@@ -131,6 +131,12 @@
     transition: background-color 0.1s ease-in-out;
 }
 
+.review-btn:disabled {
+    background-color: #454545b0;
+    transform: scale(1.02);
+    transition: background-color 0.1s ease-in-out;
+}
+
 @media screen and (max-width: 768px) {
     .create-review-form {
         width: 80%;

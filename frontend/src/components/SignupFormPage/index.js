@@ -20,6 +20,17 @@ function SignupFormPage ({ onSuccess, onClose }) {
     return <Redirect to='/' />
   }
 
+  const isDisabled =
+    !email ||
+    !username ||
+    !firstName ||
+    !lastName ||
+    !password ||
+    !confirmPassword ||
+    username.length < 4 ||
+    password.length < 6 ||
+    password !== confirmPassword
+  
   const handleSubmit = e => {
     e.preventDefault()
     if (password === confirmPassword) {
@@ -128,7 +139,13 @@ function SignupFormPage ({ onSuccess, onClose }) {
             required
           />
         </div>
-        <button type='submit' className='signup-btn' onSubmit={onSuccess} noValidate>
+        <button
+          type='submit'
+          className='signup-btn'
+          onSubmit={onSuccess}
+          noValidate
+          disabled={isDisabled}
+        >
           Sign Up
         </button>
       </form>

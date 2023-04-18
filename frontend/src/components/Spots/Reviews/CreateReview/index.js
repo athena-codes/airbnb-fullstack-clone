@@ -26,8 +26,10 @@ export default function CreateReviewForm ({
     e.preventDefault()
     const errors = {}
     if (review.length < 10 || stars === '') {
-      errors.errorMsg = 'Please write a minimum of 10 characters.'
+      errors.errorMsg =
+        'Please write a minimum of 10 characters and select stars.'
       setErrors(errors)
+      return
     }
     const res = await createNewReview(e, review, stars)
 
@@ -68,6 +70,7 @@ export default function CreateReviewForm ({
             className='review-btn'
             type='submit'
             onClick={handleSubmitReview}
+            disabled={review.length < 10 || stars === ''}
           >
             Submit Your Review
           </button>
